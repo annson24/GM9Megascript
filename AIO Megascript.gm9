@@ -1,7 +1,8 @@
 # All-in-one GM9 Megascript
 # last changed: 20180211
 # author: annson24 
-# credits: d0k3, 8bitwonder, windows_server_2003, SvenDaHacker64, MyLegGuy, emillois
+# credits: d0k3, 8bitwonder, windows_server_2003
+# credits: SvenDaHacker64, MyLegGuy, emillois
 echo ""
 set PREVIEW_MODE off
 
@@ -22,27 +23,36 @@ set PREVIEW_MODE off
 
 
 
-####################START OF SCRIPT####################
+####################Main Menu####################
 
 @Start
 
-labelsel -o -s "annson24's All-in-one GM9 Megascript\n(Page 1/2)" MainMenu_*
+labelsel -o -s "annson24's All-in-one GM9 Megascript" MainMenu_*
 goto Start
 
 
 
-###################NAND BACKUP OPTIONS###################
+####################Backup Options####################
 
-@MainMenu_NandBackupOptions
+@MainMenu_Backup_Options
 
-labelsel -o -s "Choose a backup option." Backup_*
+labelsel -o -s "Choose an Option." Backup_Options_*
 goto Start
 
 
 
-###################SYSNAND BACKUP###################
+####################NAND Backup Options####################
 
-@Backup_Sysnand
+@Backup_Options_NAND_Backup
+
+labelsel -o -s "Choose an Option." NAND_Backup_*
+goto MainMenu_Backup_Options
+
+
+
+####################SysNAND Backup####################
+
+@NAND_Backup_SysNAND
 
 if	ask "Create a SysNAND backup in $[GM9OUT]?\n \nPlease make sure you have\nenough storage space."
 	findnot $[GM9OUT]/$[DATESTAMP]_$[SERIAL]_sysnand_??.bin OUTPATH
@@ -56,16 +66,15 @@ if	ask "Create a SysNAND backup in $[GM9OUT]?\n \nPlease make sure you have\neno
 	end
 
 else
-#	echo "Operation cancelled."
 
 end
-goto MainMenu_NandBackupOptions
+goto Backup_Options_NAND_Backup
 
 
 
-###################EMUNAND BACKUP###################
+####################EmuNAND Backup####################
 
-@Backup_Emunand
+@NAND_Backup_EmuNAND
 
 if	ask "Create a EmuNAND backup in $[GM9OUT]?\n \nPlease make sure you have\nenough storage space."
 	findnot $[GM9OUT]/$[DATESTAMP]_$[SERIAL]_emunand_??.bin OUTPATH
@@ -79,25 +88,81 @@ if	ask "Create a EmuNAND backup in $[GM9OUT]?\n \nPlease make sure you have\neno
 	end
 	
 else
-#	echo "Operation cancelled."
 
 end
-goto MainMenu_NandBackupOptions
+goto Backup_Options_NAND_Backup
 
 
 
-###################NAND RESTORE OPTIONS###################
+####################Friend Save Backup####################
 
-@MainMenu_NandRestoreOptions
+@Backup_Options_FriendSave_Backup
 
-labelsel -o -s "Choose a restore option." Restore_*
+if	ask "Create friendsave backup in $[GM9OUT]?"
+	findnot $[GM9OUT]/friendsave_??? OUTPATH
+	cp 1:/data/$[SYSID0]/sysdata/00010032/00000000 $[OUTPATH]
+	echo "Backup created succesfully:\n$[OUTPATH]"
+	
+else
+	
+end
+goto MainMenu_Backup_Options
+
+
+
+####################LocalFriendCodeSeed_B Backup####################
+
+@Backup_Options_LocalFriendCodeSeedB_Backup
+
+if	ask "Create a LocalFriendCodeSeed_B backup in $[GM9OUT]?"
+	findnot $[GM9OUT]/$[SERIAL]_LocalFriendCodeSeed_B_??? OUTPATH
+	cp -w 1:/rw/sys/LocalFriendCodeSeed_B $[OUTPATH]
+	echo "Backup created successfully:\n$[OUTPATH]"
+	
+else
+	
+end
+goto MainMenu_Backup_Options
+
+
+
+####################GBA.vc Backup####################
+
+@Backup_Options_GBAVC.sav_Backup
+
+if	ask "Create a gbavc.sav backup in $[GM9OUT]?\nFor GodMode9 v.1.4.1 and below only."
+	findnot $[GM9OUT]/gbavc_???.sav OUTPATH
+	cp -w S:/gbavc.sav $[OUTPATH]
+	echo "Backup created successfully:\n$[OUTPATH]"
+	
+else
+	
+end
+goto MainMenu_Backup_Options
+
+
+
+####################Restore Options####################
+
+@MainMenu_Restore_Options
+
+labelsel -o -s "Choose an Option." Restore_Options_*
 goto Start
 
 
 
-###################SYSNAND FULL RESTORE###################
+####################NAND Restore Options####################
 
-@Restore_Sysnand(full)
+@Restore_Options_NAND_Restore
+
+labelsel -o -s "Choose an Option." NAND_Restore_*
+goto MainMenu_Restore_Options
+
+
+
+####################SysNAND (full) Restore####################
+
+@NAND_Restore_SysNAND_(full)
 
 if	chk $[HAX] "ntrboot"
 	
@@ -143,13 +208,13 @@ else
 	echo "ERROR!\nThis script requires ntrboot to run."
 	
 end
-goto MainMenu_NandRestoreOptions
+goto Restore_Options_NAND_Restore
 
 
 
-###################SYSNAND SAFE RESTORE###################
+####################SysNAND (safe) Restore####################
 
-@Restore_Sysnand(safe)
+@NAND_Restore_SysNAND_(safe)
 
 if	chk -u $[HAX] ""
 	
@@ -221,13 +286,13 @@ else
 	echo "No qualifying exploit was found.\nAborting to avoid bricking the unit."
 	
 end
-goto MainMenu_NandRestoreOptions
+goto Restore_Options_NAND_Restore
 
 
 
-###################EMUNAND RESTORE###################
+####################EmuNAND Restore####################
 
-@Restore_Emunand
+@NAND_Restore_EmuNAND
 
 if	filesel "Select NAND Backup." $[GM9OUT]/*nand_???.bin NANDBAK
 
@@ -265,27 +330,140 @@ if	filesel "Select NAND Backup." $[GM9OUT]/*nand_???.bin NANDBAK
 	end
 	
 else
-#	echo "Operation cancelled."
 	
 end
-goto MainMenu_NandRestoreOptions
+goto Restore_Options_NAND_Restore
 
 
 
-###################BOOT9STRAP INSTALL OPTIONS###################
+####################Friend Save Restore####################
 
-@MainMenu_InstallBoot9Strap
+@Restore_Options_FriendSave_Restore
 
-labelsel -o -s "Choose an option." B9SInstall_*
+if	filesel "Select the friendsave you want to restore." $[GM9OUT]/friendsave_* FRIEND
+	
+	if	ask "Restore $[FRIEND]?"
+		set OUTPATH 1:/data/$[SYSID0]/sysdata/00010032/00000000
+		cp -w $[FRIEND] $[OUTPATH]
+		echo " Friend-save restored successfully:\n$[OUTPATH]
+		
+	else
+		echo "Operation cancelled."
+		
+	end
+	
+else
+	
+end
+goto MainMenu_Restore_Options
+
+
+
+####################LocalFriendCodeSeed_B Restore####################
+
+@Restore_Options_LocalFriendCodeSeedB_Restore
+
+if	ask "Restore LocalFriendCodeSeed_B from $[GM9OUT]?\n(This will overwrite your 3DS's current\nLocalFriendCodeSeed_B!)"
+
+	if	filesel "Select the LocalFriendCodeSeed you want to restore." $[GM9OUT]/*LocalFriendCodeSeed_B_* COPYPATH 
+		set OUTPATH 1:/rw/sys/LocalFriendCodeSeed_B
+		cp -w $[COPYPATH] $[OUTPATH]
+		echo "LocalFriendCodeSeed_B restored successfully:\n$[OUTPATH]"
+		
+	else
+		echo "Operation cancelled."
+		
+	end
+	
+else
+	
+end
+goto MainMenu_Restore_Options
+
+
+
+####################GBA.vc Restore####################
+
+@Restore_Options_GBAVC.sav_Restore
+
+if	ask "Restore gbavc.sav from $[GM9OUT]?\n(This will overwrite your 3DS's current\ngbavc.sav file!\nFor GodMode9 v.1.4.1 and below only."
+	
+	if	filesel "Select the gbavc.sav you want to restore." $[GM9OUT]/gbavc_???.sav COPYPATH
+		cp -w -n $[COPYPATH] S:/gbavc.sav
+		echo "gbavc.sav restored successfully."
+		
+	else
+		echo "Operation cancelled."
+		
+	end
+	
+else
+	
+end
+goto MainMenu_Restore_Options
+
+
+
+####################Hax Options####################
+
+@MainMenu_Hax_Options
+
+labelsel -o -s "Choose an Option." Hax_Options_*
 goto Start
 
+####################Boot9Strap Install Options####################
+
+@Hax_Options_Install_Boot9Strap
+
+labelsel -o -s "Choose an Option." Install_Boot9Strap_*
+goto MainMenu_Hax_Options
 
 
-###################NORMAL BOOT9STRAP INSTALL###################
 
-@B9SInstall_NormalInstall
+####################Normal Boot9Strap Install####################
+
+@Install_Boot9Strap_Normal_Install
 
 if	ask "Install Boot9Strap Normally?\nYou should have the Boot9Strap files in the\nSD\boot9strap folder before proceeding."
+
+	if	chk $[ONTYPE] "N3DS"
+
+		if	sha S:/sector0x96.bin 82F2730D2C2DA3F30165F987FDCCAC5CBAB24B4E5F65C981CD7BE6F438E6D9D3
+			
+		else
+		
+			if	ask	"Sector 0x96 is not genuine.\nAttempt to fix sector 0x96 and proceed\nwith B9S Installation?\nYou must have the secret_sector.bin file\nin SDMC/boot9strap folder."
+				
+				if	find 0:/boot9strap/secret_sector.bin SECRET
+				
+					if	allow -a S:
+					
+						cp -n -w SECRET S:/sector0x96.bin
+						echo "sector 0x96 successfully fixed.\nProceeding with B9S Install."
+						
+					else
+						echo "Permissions denied. Aborting."
+						goto Hax_Options_Install_Boot9Strap
+						
+					end
+					
+				else
+					echo "secret_sector.bin not found. Aborting."
+					goto Hax_Options_Install_Boot9Strap
+				
+				end
+				
+			else
+				echo "Aborting."
+				goto Hax_Options_Install_Boot9Strap
+				
+			end
+			
+		end
+		
+	else
+		
+	end
 	
 	if	find 0:/boot9strap/boot9stra*.firm B9S
 		
@@ -315,26 +493,50 @@ if	ask "Install Boot9Strap Normally?\nYou should have the Boot9Strap files in th
 	end
 
 else
-#	echo "Operation cancelled."
 
 end
-goto MainMenu_InstallBoot9Strap
+goto Hax_Options_Install_Boot9Strap
 
 
 
-###################BOOT9STRAP PC-LESS INSTALL###################
+####################PC-Less Boot9Strap Install####################
 
-@B9SInstall_PCLessInstall
+@Install_Boot9Strap_PC-Less_Install
 
-if	ask "Install Boot9Strap PCLess?\nYou should have the proper files in\n0:/annson24 folder before proceeding."
+if	ask "Proceed with PC-Less B9S Installation?\nYou should have the proper files in\nSDMC/annson24 folder before proceeding."
 	
-	if	chk $[HAX] "a9lh"
-	
-		if	chk $[ONTYPE] "N3DS"
-			echo "$[HAX] on $[ONTYPE] Detected!\n \nUninstall Hax first\nbefore installing boot9strap.\n \nAborting!"
-			goto MainMenu_InstallBoot9Strap
+	if	chk $[ONTYPE] "N3DS"
+
+		if	sha S:/sector0x96.bin 82F2730D2C2DA3F30165F987FDCCAC5CBAB24B4E5F65C981CD7BE6F438E6D9D3
 			
 		else
+		
+			if	ask	"Sector 0x96 is not genuine.\nAttempt to fix sector 0x96 and proceed\nwith B9S Installation?\nYou must have the secret_sector.bin file\nin SDMC/boot9strap folder."
+				
+				if	find 0:/boot9strap/secret_sector.bin SECRET
+				
+					if	allow -a S:
+					
+						cp -n -w SECRET S:/sector0x96.bin
+						echo "sector 0x96 successfully fixed.\nProceeding with B9S Install."
+						
+					else
+						echo "Permissions denied. Aborting."
+						goto Hax_Options_Install_Boot9Strap
+						
+					end
+					
+				else
+					echo "secret_sector.bin not found. Aborting."
+					goto Hax_Options_Install_Boot9Strap
+				
+				end
+				
+			else
+				echo "Aborting."
+				goto Hax_Options_Install_Boot9Strap
+				
+			end
 			
 		end
 		
@@ -443,48 +645,15 @@ if	ask "Install Boot9Strap PCLess?\nYou should have the proper files in\n0:/anns
 	end
 
 else
-#	echo "Operation cancelled."
 
 end
-goto MainMenu_InstallBoot9Strap
+goto Hax_Options_Install_Boot9Strap
 
 
 
-@SwapSD
-if	switchsd "Swap SD card now."
-	
-	if	find 0:/gm9/scripts/*Megascript.gm9 NULL
-	
-		if	ask "Seems like SD cards are not swapped, continue anyway?"
-			echo "Moving compiled files from RAM to target SD."
-			mv -w -n 9:/sdcompiled 0:/
-			echo "Boot9Strap Successfully installed."
-			
-		else
-			goto SwapSD
-		
-		end
-		
-	else
+####################Hax Uninstall####################
 
-	echo "Moving compiled files from RAM to target SD."
-	mv -w -n 9:/sdcompiled 0:/
-	echo "Boot9Strap Successfully installed."
-		
-	end
-	
-else
-	echo "SD read error!\nPlease try again."
-	goto SwapSD
-	
-end
-goto Start
-
-
-
-###################CFW UNINSTALL OPTIONS###################
-
-@MainMenu_UninstallCFW
+@Hax_Options_Uninstall_Hax
 
 if	ask "Uninstall CFW?"
 	
@@ -499,54 +668,79 @@ if	ask "Uninstall CFW?"
 	end
 
 else
-#	echo "Operation cancelled."
 
 end
-goto Start
+goto MainMenu_Hax_Options
 
 
 
 @Unhax_New
 
 if	sha S:/sector0x96.bin 82F2730D2C2DA3F30165F987FDCCAC5CBAB24B4E5F65C981CD7BE6F438E6D9D3
-	
-	if	find 1:/title/00040138/20000002/content/????????.app NATIVE_NCCH
-		imgmount $[NATIVE_NCCH]
-		verify G:/exefs/.firm
-		set NATIVE_FIRM $[GM9OUT]/NATIVE_FIRM.firm
-		cp -w G:/exefs/.firm $[NATIVE_FIRM]
-		imgumount
+
+else
+
+	if	ask	"Sector 0x96 is not genuine.\nAttempt to fix sector 0x96 and proceed\nwith Hax Uninstall?\nYou must have the secret_sector.bin file\nin SDMC/boot9strap folder."
 		
-		if	ask "!!WARNING!!\nThis will remove CFW and\nrevert your system to stock.\n \nProceed?"
+		if	find 0:/boot9strap/secret_sector.bin SECRET
+		
+			if	allow -a S:
 			
-			if	allow S:/firm0.bin
-				allow 1:/
-				rm -o -s 1:/boot.firm
-				rm -o -s 1:/rw/luma
-				cp -n $[NATIVE_FIRM] S:/firm0.bin
-				cp -n $[NATIVE_FIRM] S:/firm1.bin
-				echo "CFW uninstalled successfully"
+				cp -n -w SECRET S:/sector0x96.bin
+				echo "sector 0x96 successfully fixed.\nProceeding with B9S Install."
 				
 			else
 				echo "Permissions denied. Aborting."
+				goto MainMenu_Hax_Options
 				
 			end
 			
 		else
-			echo "CFW uninstall declined."
+			echo "secret_sector.bin not found. Aborting."
+			goto MainMenu_Hax_Options
+		
+		end
+		
+	else
+		echo "Aborting."
+		goto MainMenu_Hax_Options
+		
+	end
+	
+end
+
+if	find 1:/title/00040138/20000002/content/????????.app NATIVE_NCCH
+	imgmount $[NATIVE_NCCH]
+	verify G:/exefs/.firm
+	set NATIVE_FIRM $[GM9OUT]/NATIVE_FIRM.firm
+	cp -w G:/exefs/.firm $[NATIVE_FIRM]
+	imgumount
+	
+	if	ask "!!WARNING!!\nThis will remove CFW and\nrevert your system to stock.\n \nProceed?"
+		
+		if	allow S:/firm0.bin
+			allow 1:/
+			rm -o -s 1:/boot.firm
+			rm -o -s 1:/rw/luma
+			cp -n $[NATIVE_FIRM] S:/firm0.bin
+			cp -n $[NATIVE_FIRM] S:/firm1.bin
+			echo "CFW uninstalled successfully"
+			
+		else
+			echo "Permissions denied. Aborting."
 			
 		end
 		
 	else
-		echo "NATIVE_FIRM not found.\nIs this a N3DS?"
+		echo "CFW uninstall declined."
 		
 	end
 	
 else
-	echo "Sector 0x96 is not genuine.\nCan't continue. Aborting."
+	echo "NATIVE_FIRM not found.\nIs this a N3DS?"
 	
 end
-goto Start
+goto MainMenu_Hax_Options
 
 
 
@@ -584,31 +778,31 @@ else
 	echo "NATIVE_FIRM not found.\nIs this a O3DS?"
 
 end
+goto MainMenu_Hax_Options
+
+
+
+####################Dump Options####################
+
+@MainMenu_Dump_Options
+
+labelsel -o -s "Choose an Option." Dump_Options_*
 goto Start
 
 
 
-###################MAIN MENU PAGE 2###################
+####################Cart Dump Options####################
 
-@MainMenu_More...
+@Dump_Options_Cartridge_Dump_Options
 
-labelsel -o -s "annson24's All-in-one GM9 Megascript\n(Page 2/2)" Misc_*
-goto Start
-
-
-
-###################CARTRIDGE DUMP OPTIONS###################
-
-@Misc_CartridgeDumpOptions
-
-labelsel -o -s "Choose an Option." CartDump_*
-goto MainMenu_Miscellaneous
+labelsel -o -s "Choose an Option." Cartridge_Dump_Options_*
+goto MainMenu_Dump_Options
 
 
 
-###################CARTRIDGE P.HEADER DUMP###################
+####################Private Header Dump####################
 
-@CartDump_DumpCTRPrivateHeader
+@Cartridge_Dump_Options_Dump_PrivateHeader
 
 if	ask "Dump private header in $[GM9OUT]?"
 	
@@ -623,16 +817,15 @@ if	ask "Dump private header in $[GM9OUT]?"
 	end
 	
 else
-#	echo "Operation cancelled.
 	
 end
-goto Misc_CartridgeDumpOptions
+goto Dump_Options_Cartridge_Dump_Options
 
 
 
-###################CARTRIDGE DUMP TO .3DS###################
+####################Cart to .3ds####################
 
-@CartDump_DumpCTRto3DS
+@Cartridge_Dump_Options_Dump_Cart_to_.3ds
 
 if	ask "Dump CTR cartridge to .3ds in $[GM9OUT]?\n \nPlease make sure you have\nenough storage space."
 	find C:/*.3ds CARTPATH
@@ -655,16 +848,15 @@ if	ask "Dump CTR cartridge to .3ds in $[GM9OUT]?\n \nPlease make sure you have\n
 	end
 	
 else
-#	echo "Operation cancelled."
 	
 end
-goto Misc_CartridgeDumpOptions
+goto Dump_Options_Cartridge_Dump_Options
 
 
 
-###################CARTRIDGE DUMP TO .CIA###################
+####################Cart to .cia####################
 
-@CartDump_DumpCTRtoCIA
+@Cartridge_Dump_Options_Dump_Cart_to_.cia
 
 if	ask "Dump CTR cartridge as a .cia in $[GM9OUT]?\n \nPlease make sure you have\nenough storage space."
 	find C:/*.3ds CARTPATH
@@ -678,16 +870,15 @@ if	ask "Dump CTR cartridge as a .cia in $[GM9OUT]?\n \nPlease make sure you have
 	end
 	
 else
-#	echo "Operation cancelled."
 
 end
-goto Misc_CartridgeDumpOptions
+goto Dump_Options_Cartridge_Dump_Options
 
 
 
-###################CARTRIDGE DUMP TO .NDS###################
+####################Cart to .nds####################
 
-@CartDump_DumpNTRtoNDS
+@Cartridge_Dump_Options_Dump_Cart_to_.nds
 
 if	ask "Dump NTR cartridge as a .nds in $[GM9OUT]?\n \nPlease make sure you have\nenough storage space."
 	find C:/*.nds CARTPATH
@@ -702,61 +893,24 @@ if	ask "Dump NTR cartridge as a .nds in $[GM9OUT]?\n \nPlease make sure you have
 	end
 	
 else
-#	echo "Operation cancelled."
 
 end
-goto Misc_CartridgeDumpOptions
+goto Dump_Options_Cartridge_Dump_Options
 
 
 
-###################.3DS TO .CIA CONVERTER###################
+####################Title Dump Options####################
 
-@Misc_Convert3DStoCIA
+@Dump_Options_Title_Dump_Options
 
-if	ask "Convert .3ds to .cia in $[GM9OUT]?"
-	
-	if	filesel "Select the .3ds file to convert." $[GM9OUT]/*.3ds 3DSCIA
-		
-		if	ask "Convert\n \n$[3DSCIA]\n \nto .cia?\n \nPlease make sure you have\nenough storage space."
-			
-			if	buildcia $[3DSCIA]
-				echo "$[3DSCIA]\nconverted to .cia successfully in $[GM9OUT]"
-				
-			else
-				echo "Operation failed."
-				
-			end
-			
-		else
-			echo "Cancelled."
-			
-		end
-		
-	else
-		echo "Cancelled."
-		
-	end
-
-else
-#	echo "Operation cancelled."
-	
-end
-goto MainMenu_Miscellaneous
+labelsel -o -s "Choose an Option." Title_Dump_Options_*
+goto MainMenu_Dump_Options
 
 
 
-###################TITLE DUMP OPTIONS###################
+####################Dump CTRNAND Titles####################
 
-@Misc_DumpTitletoCIAOptions
-
-labelsel -o -s "Dump Installed Title to CIA" CIADump_*
-goto MainMenu_Miscellaneous
-
-
-
-###################DUMP CTRNAND TITLES###################
-
-@CIADump_CTRNandTitles
+@Title_Dump_Options_CTRNAND_Titles
 
 if	ask "Dump CTRNAND title to .cia in $[GM9OUT]?\n \nPlease make sure you have\nenough storage space."
 	
@@ -776,16 +930,15 @@ if	ask "Dump CTRNAND title to .cia in $[GM9OUT]?\n \nPlease make sure you have\n
 	end
 	
 else
-#	echo "Operation cancelled."
 	
 end
-goto Misc_DumpTitletoCIAOptions
+goto Dump_Options_Title_Dump_Options
 
 
 
-###################DUMP USER INSTALLED TITLES###################
+####################Dump User Titles####################
 
-@CIADump_UserInstalledTitles
+@Title_Dump_Options_User_Installed_Titles
 
 if	ask "Dump user installed title to .cia in $[GM9OUT]?\n \nPlease make sure you have\nenough storage space."
 	
@@ -805,16 +958,15 @@ if	ask "Dump user installed title to .cia in $[GM9OUT]?\n \nPlease make sure you
 	end
 	
 else
-#	echo "Operation cancelled."
 	
 end
-goto Misc_DumpTitletoCIAOptions
+goto Dump_Options_Title_Dump_Options
 
 
 
-###################DUMP TWLNAND TITLES###################
+####################Dump TWLNAND Titles####################
 
-@CIADump_TWLNandTitles
+@Title_Dump_Options_TWLNAND_Titles
 
 if	ask "Dump TWLNAND title to .cia in $[GM9OUT]?\n \nPlease make sure you have\nenough storage space."
 	
@@ -834,16 +986,15 @@ if	ask "Dump TWLNAND title to .cia in $[GM9OUT]?\n \nPlease make sure you have\n
 	end
 	
 else
-#	echo "Operation cancelled."
 	
 end
-goto Misc_DumpTitletoCIAOptions
+goto Dump_Options_Title_Dump_Options
 
 
 
-###################DUMP BOOT9 AND BOOT11###################
+####################Dump Boot9.bin and Boot11.bin####################
 
-@Misc_DumpBoot9&Boot11
+@Dump_Options_Dump_Boot9.bin_&_Boot11.bin
 
 if	ask "Create boot9 & boot11 dumps in $[GM9OUT]?"
 	if	find $[GM9OUT]/boot9.bin OLDBOOT9
@@ -860,21 +1011,20 @@ if	ask "Create boot9 & boot11 dumps in $[GM9OUT]?"
 		
 	end
 
-	cp -w -n M:/boot9.bin $[OLDBOOT9]
-	cp -w -n M:/boot11.bin $[OLDBOOT11]
+	cp -w -n M:/boot9.bin $[GM9OUT]/boot9.bin
+	cp -w -n M:/boot11.bin $[GM9OUT]/boot11.bin
 	echo "Boot9 & Boot11 successfully dumped in\n$[GM9OUT]"
 	
 else
-#	echo "Operation cancelled."
 
 end
-goto MainMenu_Miscellaneous
+goto MainMenu_Dump_Options
 
 
 
-###################DUMP OTP###################
+####################Dump OTP.bin####################
 
-@Misc_DumpOTP
+@Dump_Options_Dump_OTP.bin
 
 if	ask "Dump otp.bin in $[GM9OUT]? \n(This will overwrite any existing otp.bin!)"
 	set OUTPATH $[GM9OUT]/$[SERIAL]_otp.bin
@@ -882,16 +1032,15 @@ if	ask "Dump otp.bin in $[GM9OUT]? \n(This will overwrite any existing otp.bin!)
 	echo "Dump created successfully:\n$[OUTPATH]"
 	
 else
-#	echo "Operation cancelled."
 	
 end
-goto MainMenu_Miscellaneous
+goto MainMenu_Dump_Options
 
 
 
-###################DUMP CITRA FILES###################
+####################Dump CITRA Files####################
 
-@Misc_DumpCITRAFiles
+@Dump_Options_Dump_CITRA_Files
 
 if	ask "Create dump of Citra files in $[GM9OUT]/Citra? \n(This will overwrite any existing Citra files!)\n(May fail if you use a custom font!)\n(This will dump System Archives)\n(This will dump Shared Fonts)\n(This will dump config)"
 	
@@ -943,16 +1092,15 @@ if	ask "Create dump of Citra files in $[GM9OUT]/Citra? \n(This will overwrite an
 	echo "Dump created succesfully:\n$[GM9OUT]/Citra"
 	
 else
-#	echo "Operation cancelled."
 	
 end
-goto MainMenu_Miscellaneous
+goto MainMenu_Dump_Options
 
 
 
-###################DUMP HOMEMENU TO CIA###################
+####################Dump Home Menu to .cia####################
 
-@Misc_DumpHomeMenutoCIA
+@Dump_Options_Dump_HomeMenu_to_.cia
 
 if ask "Dump HomeMenu to .cia?\n \nPlease make sure you have\nenough storage space."
 	set CIA2 "$[OUTPATH]/homemenu.cia"
@@ -965,7 +1113,7 @@ if ask "Dump HomeMenu to .cia?\n \nPlease make sure you have\nenough storage spa
 			
 		else
 			echo "Operation failed."
-			goto MainMenu_Miscellaneous
+			goto MainMenu_Dump_Options
 			
 		end
 		
@@ -977,7 +1125,7 @@ if ask "Dump HomeMenu to .cia?\n \nPlease make sure you have\nenough storage spa
 			
 		else
 			echo "Operation failed."
-			goto MainMenu_Miscellaneous
+			goto MainMenu_Dump_Options
 			
 		end
 		
@@ -989,7 +1137,7 @@ if ask "Dump HomeMenu to .cia?\n \nPlease make sure you have\nenough storage spa
 			
 		else
 			echo "Operation failed."
-			goto MainMenu_Miscellaneous
+			goto MainMenu_Dump_Options
 			
 		end
 		
@@ -1001,7 +1149,7 @@ if ask "Dump HomeMenu to .cia?\n \nPlease make sure you have\nenough storage spa
 			
 		else
 			echo "Operation failed."
-			goto MainMenu_Miscellaneous
+			goto MainMenu_Dump_Options
 			
 		end
 		
@@ -1013,7 +1161,7 @@ if ask "Dump HomeMenu to .cia?\n \nPlease make sure you have\nenough storage spa
 			
 		else
 			echo "Operation failed."
-			goto MainMenu_Miscellaneous
+			goto MainMenu_Dump_Options
 			
 		end
 		
@@ -1025,13 +1173,13 @@ if ask "Dump HomeMenu to .cia?\n \nPlease make sure you have\nenough storage spa
 			
 		else
 			echo "Operation failed."
-			goto MainMenu_Miscellaneous
+			goto MainMenu_Dump_Options
 			
 		end
 			
 	else
 		echo "Unknown Region.\nPlease contact the script author.\Aborting."
-		goto MainMenu_Miscellaneous
+		goto MainMenu_Dump_Options
 	
 	end
 	
@@ -1039,8 +1187,7 @@ if ask "Dump HomeMenu to .cia?\n \nPlease make sure you have\nenough storage spa
 	echo "HomeMenu Dumped in:\n$[OUTPATH]"
 	
 else
-#	echo "Operation cancelled."
-	goto MainMenu_Miscellaneous
+	goto MainMenu_Dump_Options
 	
 end
 
@@ -1052,165 +1199,54 @@ else
 	echo "Decrypt declined."
 	
 end
-goto MainMenu_Miscellaneous
+goto MainMenu_Dump_Options
 
 
 
-###################FRIENDSAVE BACKUP AND RESTORE OPTIONS###################
+####################Miscellaneous####################
 
-@Misc_FriendSaveBackup&Restore
+@MainMenu_Miscellaneous
 
-labelsel -o -s "Friend Save Options" FSave_*
-goto MainMenu_Miscellaneous
+labelsel -o -s "Choose an Option." Miscellaneous_*
+goto Start
 
 
-###################FRIENDSAVE BACKUP###################
 
-@FSave_Backup
+####################.3ds to .cia Converter####################
 
-if	ask "Create friendsave in $[GM9OUT]?"
-	findnot $[GM9OUT]/friendsave_??? OUTPATH
-	cp 1:/data/$[SYSID0]/sysdata/00010032/00000000 $[OUTPATH]
-	echo "Backup created succesfully:\n$[OUTPATH]"
+@Miscellaneous_.3ds_to_.cia_Converter
+
+if	filesel "Select the .3ds file to convert." $[GM9OUT]/*.3ds 3DSCIA
 	
-else
-#	echo "Operation cancelled."
-	
-end
-goto Misc_FriendSaveBackup&Restore
-
-
-
-###################FRIENDSAVE RESTORE###################
-
-@FSave_Restore
-
-if	filesel "Select the friendsave you want to restore." $[GM9OUT]/friendsave_* FRIEND
-	
-	if	ask "Restore $[FRIEND]?"
-		set OUTPATH 1:/data/$[SYSID0]/sysdata/00010032/00000000
-		cp -w $[FRIEND] $[OUTPATH]
-		echo " Friend-save restored successfully:\n$[OUTPATH]
+	if	ask "Convert\n \n$[3DSCIA]\n \nto .cia?\n \nPlease make sure you have\nenough storage space."
+		
+		if	buildcia $[3DSCIA]
+			echo "$[3DSCIA]\nconverted to .cia successfully in $[GM9OUT]"
+			
+		else
+			echo "Operation failed."
+			
+		end
 		
 	else
-		echo "Operation cancelled."
+		echo "Cancelled."
 		
 	end
 	
 else
-#	echo "Operation cancelled."
+	echo "Cancelled."
 	
 end
-goto Misc_FriendSaveBackup&Restore
-
-
-
-###################LOCALFRIENDCODESEED BACKUP AND RESTORE OPTIONS###################
-
-@Misc_LocalFriendCodeBackup&Restore
-
-labelsel -o -s "LocalFriendCodeSeed Options" LFCS_*
 goto MainMenu_Miscellaneous
 
 
 
-###################LOCALFRIENDCODESEED BACKUP###################
+####################Nintendo3DS Folder Swap####################
 
-@LFCS_Backup
-
-if	ask "Create a LocalFriendCodeSeed_B backup in $[GM9OUT]?"
-	findnot $[GM9OUT]/$[SERIAL]_LocalFriendCodeSeed_B_??? OUTPATH
-	cp -w 1:/rw/sys/LocalFriendCodeSeed_B $[OUTPATH]
-	echo "Backup created successfully:\n$[OUTPATH]"
-	
-else
-#	echo "Operation cancelled."
-	
-end
-goto Misc_LocalFriendCodeBackup&Restore
-
-
-
-###################LOCALFRIENDCODESEED RESTORE###################
-
-@LFCS_Restore
-
-if	ask "Restore LocalFriendCodeSeed_B from $[GM9OUT]?\n(This will overwrite your 3DS's current\nLocalFriendCodeSeed_B!)"
-
-	if	filesel "Select the LocalFriendCodeSeed you want to restore." $[GM9OUT]/*LocalFriendCodeSeed_B_* COPYPATH 
-		set OUTPATH 1:/rw/sys/LocalFriendCodeSeed_B
-		cp -w $[COPYPATH] $[OUTPATH]
-		echo "LocalFriendCodeSeed_B restored successfully:\n$[OUTPATH]"
-		
-	else
-		echo "Operation cancelled."
-		
-	end
-	
-else
-#	echo "Operation cancelled."
-	
-end
-goto Misc_LocalFriendCodeBackup&Restore
-
-
-
-###################GBAVC BACKUP AND RESTORE OPTIONS###################
-
-@Misc_GBAVCSaveBackup&Restore
-
-labelsel -o -s "gbavc.sav Options\nFor GodMode9 v.1.4.1 and below only." GBAVC_*
-goto MainMenu_Miscellaneous
-
-
-
-###################GBAVC BACKUP###################
-
-@GBAVC_Backup
-
-if	ask "Create a gbavc.sav backup in $[GM9OUT]?"
-	findnot $[GM9OUT]/gbavc_???.sav OUTPATH
-	cp -w S:/gbavc.sav $[OUTPATH]
-	echo "Backup created successfully:\n$[OUTPATH]"
-	
-else
-#	echo "Operation cancelled."
-	
-end
-goto Misc_GBAVCSaveBackup&Restore
-
-
-
-###################GBAVC RESTORE###################
-
-@GBAVC_Restore
-
-if	ask "Restore gbavc.sav from $[GM9OUT]?\n(This will overwrite your 3DS's current\ngbavc.sav file!)
-	
-	if	filesel "Select the gbavc.sav you want to restore." $[GM9OUT]/gbavc_???.sav COPYPATH
-		cp -w -n $[COPYPATH] S:/gbavc.sav
-		echo "gbavc.sav restored successfully."
-		
-	else
-		echo "Operation cancelled."
-		
-	end
-	
-else
-#	echo "Operation cancelled."
-	
-end
-goto Misc_GBAVCSaveBackup&Restore
-
-
-
-###################NNTENDO 3DS FOLDER SWAP###################
-
-@Misc_Nintendo3DSFolderSwap
+@Miscellaneous_Nintendo3DS_Folder_Swap
 
 if	ask "Swap your current Nintendo 3DS folder with another?"
 	
-	@SwapStart
 	if	dirsel "Swap with which folder?\nYour current folder will be renamed as\nthe folder you swapped with." 0: DESIREDPATH
 		
 		if	ask "Use $[DESIREDPATH]?"
@@ -1221,29 +1257,51 @@ if	ask "Swap your current Nintendo 3DS folder with another?"
 			echo "Folders successfully swapped."
 			
 		else
-			goto SwapStart
+			goto Miscellaneous_Nintendo3DS_Folder_Swap
 			
 		end
 		
 	else
-		"Operation Cancelled."
+		echo "Operation Cancelled."
 		
 	end
 	
 else
-#	echo "Operation cancelled."
 	
 end
 goto MainMenu_Miscellaneous
 
 
 
-###################REBOOT###################
+####################Setup Luma3DS to CTRNAND####################
+
+@Miscellaneous_Setup_Luma3DS_to_CTRNAND
+
+if	ask "This will copy Luma3DS to your CTRNAND,\nallowing for the system to work without\nan SD card.\n\nContinue?"
+	
+	if	allow -a 1:/
+		cp -w 0:/boot.firm 1:/boot.firm
+		cp -w 0:/luma 1:/rw/luma
+		echo "Luma3DS copied successfully."
+		
+	else
+		echo "Permissions denied. Aborting."
+		
+	end
+	
+else
+
+end
+goto MainMenu_Miscellaneous
+
+
+
+####################Reboot####################
 
 @MainMenu_Reboot
 
 if	ask "Reboot?"
-	echo "##############################\n###########Script by annson24###########\n##############################"
+	echo "Script by annson24"
 	reboot
 else
 	goto Start
@@ -1251,26 +1309,24 @@ end
 
 
 
-###################SHUTDOWN###################
+####################Shut Down####################
 
 @MainMenu_ShutDown
 
 if	ask "Shut Down?"
-	echo "##############################\n###########Script by annson24###########\n##############################"
+	echo "Script by annson24"
 	poweroff
 else
 	goto Start
 end
 
-
-
-###################QUIT###################
+####################Quit####################
 
 @MainMenu_Quit
 
 if	ask "NANI!?"
 	echo "OMAE WA MOU SHINDEIRU!!"
-	echo "##############################\n###########Script by annson24###########\n##############################"
+	echo "Script by annson24"
 	goto WAKAS
 	
 else
