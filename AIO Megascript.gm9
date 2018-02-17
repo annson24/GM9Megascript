@@ -835,7 +835,7 @@ goto Dump_Options_Title_Dump_Options
 @Dump_Options_Dump_Boot9.bin_&_Boot11.bin
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>boot9.bin & boot11.bin Dump"
 
-if	not find S:/boot9.bin
+if	not find M:/boot9.bin
 	echo "Boot9.bin and/or Boot11.bin not present.\nAborting."
 	goto MainMenu_Dump_Options
 end
