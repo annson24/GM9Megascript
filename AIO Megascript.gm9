@@ -1,4 +1,4 @@
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCredits:\nd0k3\n8bitwonder\nwindows_server_2003\nSvenDaHacker64\nMyLegGuy\nemillois"
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCredits:\nd0k3\n8bitwonder\nwindows_server_2003\nSvenDaHacker64\nMyLegGuy\nemillois\nAnalogMan151"
 
 # All-in-one GM9 Megascript
 # last changed: 20180215
@@ -9,7 +9,7 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCredits:\nd0k3
 ####################Main Menu####################
 
 @Start
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCredits:\nd0k3\n8bitwonder\nwindows_server_2003\nSvenDaHacker64\nMyLegGuy\nemillois"
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCredits:\nd0k3\n8bitwonder\nwindows_server_2003\nSvenDaHacker64\nMyLegGuy\nemillois\nAnalogMan151"
 
 labelsel -o -s "Choose an Option." MainMenu_*
 goto Start
@@ -1041,7 +1041,7 @@ goto MainMenu_Dump_Options
 ####################Miscellaneous####################
 
 @MainMenu_Miscellaneous
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCredits:\nd0k3\n8bitwonder\nwindows_server_2003\nSvenDaHacker64\nMyLegGuy\nemillois"
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCredits:\nd0k3\n8bitwonder\nwindows_server_2003\nSvenDaHacker64\nMyLegGuy\nemillois\nAnalogMan151"
 
 labelsel -o -s "Choose an Option." Miscellaneous_*
 goto Start
@@ -1116,6 +1116,339 @@ else
 	echo "Permissions denied. Aborting."
 end
 goto MainMenu_Miscellaneous
+
+
+
+####################Lazarus3DS Options####################
+
+@Miscellaneous_Lazarus3DS_Options
+
+labelsel -o -s "Choose an Option." Lazarus3DS_*
+goto MainMenu_Miscellaneous
+
+
+
+####################Lazarus3DS Donor Prep####################
+
+@Lazarus3DS_Options_Donor_Prep
+
+if	not ask "This script prepares a 3DS for\nuse with the Lazarus3DS scripts.\n \nContinue?"
+	goto Miscellaneous_Lazarus3DS
+end
+
+echo "Checking if Proper Files Exists."
+if	not find 0:/donor/ticket_combo.db TICKETDB
+	echo "Combo ticket.db not found!"
+	goto Miscellaneous_Lazarus3DS
+end
+
+find 0:/donor/serial.bin NULL
+	echo "Blank serial.bin not found!"
+	goto Miscellaneous_Lazarus3DS
+end
+
+find 0:/donor/movable.sed NULL
+	echo "0-key movable.sed not found!"
+	goto Miscellaneous_Lazarus3DS
+end
+
+echo "Creating donor files.\nDo not interrupt!"
+if	not cp -w S:/ctrnand_full.bin 0:/donor/ctrnand_full.bin
+	echo "Interrupted. Aborting."
+	goto Miscellaneous_Lazarus3DS
+end
+
+if	not cp -w -h S:/nand_hdr.bin 0:/donor/nand_hdr.bin
+	echo "Interrupted. Aborting."
+	rm -o -s 0:/donor/ctrnand_full.bin
+	goto Miscellaneous_Lazarus3DS
+end
+
+if	not cp -w -h S:/twlmbr.bin 0:/donor/twlmbr.bin
+	echo "Interrupted. Aborting."
+	rm -o -s 0:/donor/ctrnand_full.bin
+	rm -o -s 0:/donor/nand_hdr.bin
+	goto Miscellaneous_Lazarus3DS
+end
+
+if	not cp -w S:/twln.bin 0:/donor/twln.bin
+	echo "Interrupted. Aborting."
+	rm -o -s 0:/donor/ctrnand_full.bin
+	rm -o -s 0:/donor/nand_hdr.bin
+	rm -o -s 0:/donor/twlmbr.bin
+	goto Miscellaneous_Lazarus3DS
+end
+
+if	not cp -w S:/twlp.bin 0:/donor/twlp.bin
+	echo "Interrupted. Aborting."
+	rm -o -s 0:/donor/ctrnand_full.bin
+	rm -o -s 0:/donor/nand_hdr.bin
+	rm -o -s 0:/donor/twlmbr.bin
+	rm -o -s 0:/donor/twln.bin
+	goto Miscellaneous_Lazarus3DS
+end
+
+if	not cp -w -h S:/sector0x96.bin 0:/donor/sector0x96.bin
+	echo "Interrupted. Aborting."
+	rm -o -s 0:/donor/ctrnand_full.bin
+	rm -o -s 0:/donor/nand_hdr.bin
+	rm -o -s 0:/donor/twlmbr.bin
+	rm -o -s 0:/donor/twln.bin
+	rm -o -s 0:/donor/twlp.bin
+	goto Miscellaneous_Lazarus3DS
+end
+
+echo "Setting up Donated CTRNAND."
+imgmount 0:/donor/ctrnand_full.bin
+
+rm -o -s 7:/data/$[SYSID0]
+rm -o -s 7:/rw/luma
+rm -o -s 7:/boot.firm
+rm -o -s 7:/boot.firm.bak
+rm -o -s 7:/rw/sys/LocalFriendCodeSeed_A
+rm -o -s 7:/rw/sys/LocalFriendCodeSeed_B
+rm -o -s 7:/rw/sys/SecureInfo_C
+
+find 7:/rw/sys/SecureInfo_? SECUREINFO
+inject 0:/donor/serial.bin@ $[SECUREINFO]@102
+
+cp -w -n 0:/donor/movable.sed 7:/private/movable.sed
+
+rm -o -s 7:/ro/sys/HWCAL0.dat
+rm -o -s 7:/ro/sys/HWCAL1.dat
+
+cp -w -n $[TICKETDB] 7:/dbs/ticket.db
+imgumount
+
+echo "Setting up Donated TWLN."
+imgmount 0:/donor/twln.bin
+
+rm -o -s 7:/title/00030004
+rm -o -s 7:/shared2/0000
+imgumount
+
+echo "Setting up Donated TWLP."
+imgmount 0:/donor/twlp.bin
+
+rm -o -s 7:/photo/DCIM
+imgumount
+
+echo "Calculating Missing Hashes."
+shaget 0:/donor/ctrnand_full.bin 0:/donor/ctrnand_full.bin.sha
+shaget 0:/donor/twln.bin 0:/donor/twln.bin.sha
+shaget 0:/donor/twlp.bin 0:/donor/twlp.bin.sha
+
+echo "Wrapping Things up."
+rm -o -s 0:/gm9/scripts/Lazarus-Prep.gm9
+rm -o -s $[TICKETDB]
+rm -o -s 0:/donor/serial.bin
+rm -o -s 0:/donor/movable.sed
+echo "All done! Files located in 0:/donor/"
+goto Miscellaneous_Lazarus3DS
+
+
+
+
+
+
+
+####################Lazarus3DS####################
+
+@Lazarus3DS_Options_Lazarus3DS
+
+if	not ask "This script revives bricked consoles and\nattempts to recover what data it can.\n \nOnly use this script on consoles\nthat will not boot.\n \nContinue?"
+	echo "Aborted by user."
+	goto Miscellaneous_Lazarus3DS
+end
+
+echo "Checking if Proper Files Exists."
+if	not find 0:/pit/ctrnand_?3ds_???_*.bin CTRNAND
+	echo "CTRNAND file not found!"
+	goto Miscellaneous_Lazarus3DS
+end
+
+if	not find 0:/pit/hdr_?3ds_all_*.bin HDR
+	echo "NAND_HDR not found!"
+	goto Miscellaneous_Lazarus3DS
+end
+
+if	not find 0:/pit/twlmbr.bin TWLMBR
+	echo "TWLMBR not found!"
+	goto Miscellaneous_Lazarus3DS
+end
+
+if	not find 0:/pit/twln_*.bin TWLN
+	echo "TWLN not found!"
+	goto Miscellaneous_Lazarus3DS
+end
+
+if	not find 0:/pit/twlp.bin TWLP
+	echo "TWLP not found!"
+	goto Miscellaneous_Lazarus3DS
+end
+
+if	not find 0:/pit/sighax_hdr_*.bin SIGHAX
+	echo "SIGHAX_HDR not found!"
+	goto Miscellaneous_Lazarus3DS
+end
+
+if	not find 0:/pit/boot9stra*.firm B9S
+	echo "Boot9strap file not found!"
+	goto Miscellaneous_Lazarus3DS
+end
+
+if	not find 0:/pit/sector0x9*.bin SECRET
+	echo "sector0x96.bin not found!"
+	goto Miscellaneous_Lazarus3DS
+end
+
+if	not allow -a S:
+	echo "Permission Denied. Aborting."
+	goto Miscellaneous_Lazarus3DS
+end
+
+if	not sha $[CTRNAND] $[CTRNAND].sha
+	echo "Hash Check Failed on CTRNAND. Aborting."
+	goto Miscellaneous_Lazarus3DS
+end
+
+if	not sha $[HDR] $[HDR].sha
+	echo "Hash Check Failed on NAND_HDR. Aborting."
+	goto Miscellaneous_Lazarus3DS
+end
+
+if	not sha $[TWLMBR] $[TWLMBR].sha
+	echo "Hash Check Failed on TWLMBR. Aborting."
+	goto Miscellaneous_Lazarus3DS
+end
+
+if	not sha $[TWLN] $[TWLN].sha
+	echo "Hash Check Failed on TWLN. Aborting."
+	goto Miscellaneous_Lazarus3DS
+end
+
+if	not sha $[TWLP] $[TWLP].sha
+	echo "Hash Check Failed on TWLP. Aborting."
+	goto Miscellaneous_Lazarus3DS
+end
+
+if	not sha $[SIGHAX] $[SIGHAX].sha
+	echo "Hash Check Failed on SIGHAX. Aborting."
+	goto Miscellaneous_Lazarus3DS
+end
+
+if	not sha $[B9S] $[B9S].sha
+	echo "Hash Check Failed on Boot9strap file. Aborting."
+	goto Miscellaneous_Lazarus3DS
+end
+
+if	not sha $[SECRET] $[SECRET].sha
+	echo "Hash Check Failed on sector0x96.bin. Aborting."
+	goto Miscellaneous_Lazarus3DS
+end
+
+echo "Attempting to salvage what can be\nfrom bricked device."
+cp -w -o -s -n 1:/private/movable.sed 0:/pit/movable.sed
+cp -w -o -s -n 1:/dbs/ticket.db 0:/pit/ticket.db
+
+cp -w -o -s -n 1:/rw/sys/SecureInfo_A 0:/pit/SecureInfo_A
+cp -w -o -s -n 1:/rw/sys/SecureInfo_B 0:/pit/SecureInfo_B
+cp -w -o -s -n 1:/rw/sys/SecureInfo_C 0:/pit/SecureInfo_C
+
+cp -w -o -s -n 1:/data/$[SYSID0]/sysdata/00010017/00000000 0:/pit/configsave.bin
+cp -w -o -s -n 1:/data/$[SYSID0]/sysdata/00010032/00000000 0:/pit/friendsave.bin
+cp -w -o -s -n 1:/data/$[SYSID0]/sysdata/0001000f/00000000 0:/pit/seedsave.bin
+cp -w -o -s -n 1:/data/$[SYSID0]/sysdata/00010022/00000000 0:/pit/activitylog.bin
+
+find -o -s 1:/data/$[SYSID0]/sysdata/000202?8 MIIPLAZA
+set MIIPLAZA $[MIIPLAZA]/00000000
+cp -w -o -s -n $[MIIPLAZA] 0:/pit/miiplaza.bin
+find -o -s 1:/data/$[SYSID0]/sysdata/000202?d FACERAIDERS
+set FACERAIDERS $[FACERAIDERS]/00000000
+cp -w -o -s -n $[FACERAIDERS] 0:/pit/faceraiders.bin
+find -o -s 1:/data/$[SYSID0]/sysdata/000202?e ARGAMES
+set ARGAMES $[ARGAMES]/00000000
+cp -w -o -s -n $[ARGAMES] 0:/pit/argames.bin
+
+cp -w -o -s -n 1:/data/$[SYSID0]/extdata/00048000/f0000001 0:/pit/01 # Photos
+cp -w -o -s -n 1:/data/$[SYSID0]/extdata/00048000/f0000002 0:/pit/02 # Sounds
+cp -w -o -s -n 1:/data/$[SYSID0]/extdata/00048000/f000000b 0:/pit/0b # MiiMaker, Game Coins, etc.
+
+cp -w -o -s -n 1:/ro/sys/HWCAL0.dat 0:/pit/HWCAL0.dat
+cp -w -o -s -n 1:/ro/sys/HWCAL1.dat 0:/pit/HWCAL1.dat
+
+cp -w -o -s -n 2:/title/00030004 0:/pit/00030004
+
+cp -w -o -s -n 2:/shared2/0000 0:/pit/sounds.bin
+
+cp -w -o -s -n 3:/photo/DCIM 0:/pit/DCIM
+
+echo "Fixing System Files. Do not Interrupt!"
+cp -w -n $[HDR] S:/nand.bin
+
+cp -w -n $[SIGHAX] S:/nand_hdr.bin
+
+cp -w -n $[TWLMBR] S:/twlmbr.bin
+
+cp -w -n $[TWLN] S:/twln.bin
+
+cp -w -n $[TWLP] S:/twlp.bin
+
+cp -w -n $[CTRNAND] S:/ctrnand_full.bin
+
+cp -w -o -s -n 0:/pit/movable.sed 1:/private/movable.sed
+cp -w -o -s -n 0:/pit/ticket.db 1:/dbs/ticket.db
+cp -w -o -s -n 0:/pit/SecureInfo_A 1:/rw/sys/SecureInfo_A
+cp -w -o -s -n 0:/pit/SecureInfo_B 1:/rw/sys/SecureInfo_B
+cp -w -o -s -n 0:/pit/SecureInfo_C 1:/rw/sys/SecureInfo_C
+cp -w -o -s -n 0:/pit/seedsave.bin 1:/data/$[SYSID0]/sysdata/0001000f/00000000
+cp -w -o -s -n 0:/pit/configsave.bin 1:/data/$[SYSID0]/sysdata/00010017/00000000
+cp -w -o -s -n 0:/pit/friendsave.bin 1:/data/$[SYSID0]/sysdata/00010032/00000000
+cp -w -o -s -n 0:/pit/activitylog.bin 1:/data/$[SYSID0]/sysdata/00010022/00000000
+
+cp -w -o -s -n 0:/pit/miiplaza.bin 1:/data/$[SYSID0]/sysdata/00020208/00000000
+cp -w -o -s -n 0:/pit/miiplaza.bin 1:/data/$[SYSID0]/sysdata/00020218/00000000
+cp -w -o -s -n 0:/pit/miiplaza.bin 1:/data/$[SYSID0]/sysdata/00020228/00000000
+cp -w -o -s -n 0:/pit/faceraiders.bin 1:/data/$[SYSID0]/sysdata/0002020d/00000000
+cp -w -o -s -n 0:/pit/faceraiders.bin 1:/data/$[SYSID0]/sysdata/0002021d/00000000
+cp -w -o -s -n 0:/pit/faceraiders.bin 1:/data/$[SYSID0]/sysdata/0002022d/00000000
+cp -w -o -s -n 0:/pit/argames.bin 1:/data/$[SYSID0]/sysdata/0002020e/00000000
+cp -w -o -s -n 0:/pit/argames.bin 1:/data/$[SYSID0]/sysdata/0002021e/00000000
+cp -w -o -s -n 0:/pit/argames.bin 1:/data/$[SYSID0]/sysdata/0002022e/00000000
+
+cp -w -o -s -n 0:/pit/01 1:/data/$[SYSID0]/extdata/00048000/f0000001 # Photos
+cp -w -o -s -n 0:/pit/02 1:/data/$[SYSID0]/extdata/00048000/f0000002 # Sounds
+cp -w -o -s -n 0:/pit/0b 1:/data/$[SYSID0]/extdata/00048000/f000000b # MiiMaker, Game Coins, etc.
+
+cp -w -o -s -n 0:/pit/HWCAL0.dat 1:/ro/sys/HWCAL0.dat
+cp -w -o -s -n 0:/pit/HWCAL1.dat 1:/ro/sys/HWCAL1.dat
+
+cp -w -o -s -n 0:/pit/00030004 2:/title/00030004
+
+cp -w -o -s -n 0:/pit/sounds.bin 2:/shared2/0000
+
+cp -w -o -s -n 0:/pit/DCIM 3:/photo/DCIM
+
+fixcmac 1:/dbs
+fixcmac 1:/data
+fixcmac 1:/private
+
+set ERRORMSG "Unable to inject boot9strap!\n \nRun SafeB9SInstaller after."
+cp -w -o -n $[B9S] S:/firm0.bin
+cp -w -o -n $[B9S] S:/firm1.bin
+
+cp -w $[SECRET] S:/sector0x96.bin
+
+echo "Wrapping Things Up."
+cp -w -o -s 0:/boot.firm 0:/luma/payloads/GodMode9.firm
+mv -w -o -s 0:/boot.firm 1:/rw/luma/payloads/GodMode9.firm
+cp -w -o -s 0:/luma.firm 0:/boot.firm
+mv -w -o -s 0:/luma.firm 1:/boot.firm
+
+if	ask "Revive complete. Remove Lazarus3DS files?"
+	rm -o -s 0:/pit
+end
+goto Miscellaneous_Lazarus3DS
 
 
 
