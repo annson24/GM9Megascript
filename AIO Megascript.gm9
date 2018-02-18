@@ -1,22 +1,16 @@
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCredits:\nd0k3\n8bitwonder\nwindows_server_2003\nSvenDaHacker64\nMyLegGuy\nemillois\nAnalogMan151"
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCredits:\nd0k3\n8bitwonder\nwindows_server_2003\nSvenDaHacker64\nMyLegGuy\nemillois\nAnalogMan151\nTurdPooCharger"
 
-# All-in-one GM9 Megascript
-# last changed: 20180215
-# author: annson24 
-# credits: d0k3, 8bitwonder, windows_server_2003
-# credits: SvenDaHacker64, MyLegGuy, emillois
-
-####################Main Menu####################
+#####################Main Menu####################
 
 @Start
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCredits:\nd0k3\n8bitwonder\nwindows_server_2003\nSvenDaHacker64\nMyLegGuy\nemillois\nAnalogMan151"
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCredits:\nd0k3\n8bitwonder\nwindows_server_2003\nSvenDaHacker64\nMyLegGuy\nemillois\nAnalogMan151\nTurdPooCharger"
 
 labelsel -o -s "Choose an Option." MainMenu_*
 goto Start
 
 
 
-####################Backup Options###############
+##################Backup Options##################
 
 @MainMenu_Backup_Options
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nBackup Options"
@@ -26,7 +20,7 @@ goto Start
 
 
 
-####################NAND Backup Options##########
+################NAND Backup Options###############
 
 @Backup_Options_NAND_Backup
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nBackup Options\n>NAND Backup Options"
@@ -36,7 +30,7 @@ goto MainMenu_Backup_Options
 
 
 
-####################SysNAND Backup###############
+##################SysNAND Backup##################
 
 @NAND_Backup_SysNAND
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nBackup Options\n>NAND Backup Options\n>>SysNAND Backup"
@@ -56,7 +50,7 @@ goto Backup_Options_NAND_Backup
 
 
 
-####################EmuNAND Backup###############
+##################EmuNAND Backup##################
 
 @NAND_Backup_EmuNAND
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nBackup Options\n>NAND Backup Options\n>>EmuNAND Backup"
@@ -76,7 +70,7 @@ goto Backup_Options_NAND_Backup
 
 
 
-####################Friend Save Backup###########
+################Friend Save Backup################
 
 @Backup_Options_FriendSave_Backup
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nBackup Options\n>Friend Save Backup"
@@ -90,7 +84,7 @@ goto MainMenu_Backup_Options
 
 
 
-#############LocalFriendCodeSeed_B Backup########
+###########LocalFriendCodeSeed_B Backup###########
 
 @Backup_Options_LocalFriendCodeSeedB_Backup
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nBackup Options\n>LocalFriendCodeSeed_B Backup"
@@ -104,7 +98,7 @@ goto MainMenu_Backup_Options
 
 
 
-####################GBAVC.sav Backup####################
+#################GBAVC.sav Backup#################
 
 @Backup_Options_GBAVC.sav_Backup
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nBackup Options\n>GBAVC.sav Backup"
@@ -118,7 +112,7 @@ goto MainMenu_Backup_Options
 
 
 
-####################Restore Options####################
+##################Restore Options#################
 
 @MainMenu_Restore_Options
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nRestore Options"
@@ -128,7 +122,7 @@ goto Start
 
 
 
-####################NAND Restore Options####################
+###############NAND Restore Options###############
 
 @Restore_Options_NAND_Restore
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nRestore Options\n>NAND Restore Options"
@@ -138,7 +132,7 @@ goto MainMenu_Restore_Options
 
 
 
-####################SysNAND (full) Restore####################
+##############SysNAND (full) Restore##############
 
 @NAND_Restore_SysNAND_(full)
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nRestore Options\n>NAND Restore Options\n>>SysNAND (full) Restore"
@@ -179,7 +173,7 @@ goto Restore_Options_NAND_Restore
 
 
 
-####################SysNAND (safe) Restore####################
+##############SysNAND (safe) Restore##############
 
 @NAND_Restore_SysNAND_(safe)
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nRestore Options\n>NAND Restore Options\n>>SysNAND (safe) Restore"
@@ -223,7 +217,7 @@ goto Restore_Options_NAND_Restore
 
 
 
-####################EmuNAND Restore####################
+##################EmuNAND Restore#################
 
 @NAND_Restore_EmuNAND
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nRestore Options\n>NAND Restore Options\n>>EmuNAND Restore"
@@ -259,7 +253,7 @@ goto Restore_Options_NAND_Restore
 
 
 
-####################Friend Save Restore####################
+################Friend Save Restore###############
 
 @Restore_Options_FriendSave_Restore
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nRestore Options\n>Friend Save Restore"
@@ -279,7 +273,7 @@ goto MainMenu_Restore_Options
 
 
 
-####################LocalFriendCodeSeed_B Restore####################
+###########LocalFriendCodeSeed_B Restore##########
 
 @Restore_Options_LocalFriendCodeSeedB_Restore
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nRestore Options\n>LocalFriendCodeSeed_B Restore"
@@ -299,7 +293,7 @@ goto MainMenu_Restore_Options
 
 
 
-####################GBAVC.sav Restore####################
+#################GBAVC.sav Restore###############
 
 @Restore_Options_GBAVC.sav_Restore
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nRestore Options\n>GBA.sav Restore"
@@ -318,7 +312,7 @@ goto MainMenu_Restore_Options
 
 
 
-####################Hax Options####################
+####################Hax Options###################
 
 @MainMenu_Hax_Options
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nHax Options"
@@ -326,7 +320,7 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nHax Options"
 labelsel -o -s "Choose an Option." Hax_Options_*
 goto Start
 
-####################Boot9Strap Install Options####################
+############Boot9Strap Install Options############
 
 @Hax_Options_Install_Boot9Strap
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nHax Options\n>Boot9strap Install Options"
@@ -336,7 +330,7 @@ goto MainMenu_Hax_Options
 
 
 
-####################Normal Boot9Strap Install####################
+#############Normal Boot9Strap Install############
 
 @Install_Boot9Strap_Normal_Install
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nHax Options\n>Boot9strap Install Options\n>>Normal Boot9strap Install"
@@ -390,7 +384,7 @@ goto Hax_Options_Install_Boot9Strap
 
 
 
-####################PC-Less Boot9Strap Install####################
+############PC-Less Boot9Strap Install############
 
 @Install_Boot9Strap_PC-Less_Install
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nHax Options\n>Boot9strap Install Options\n>>PC-Less Boot9strap Install"
@@ -459,42 +453,31 @@ cp -w -o -s -n S:/firm0.bin 9:/sdcompiled/gm9/out/$[SERIAL]_firm0.bin
 cp -w -o -s -n S:/firm1.bin 9:/sdcompiled/gm9/out/$[SERIAL]_firm1.bin
 
 if	ask "(Optional)Inject FBI to H&S?"
-	
 	if	find 0:/annson24/FBI FBISRC
-		
 		if	find 1:/title/00040010/20021300/content/00000004.app FBIPATH	#New US
 			mv -w -n $[FBIPATH] $[FBIPATH].bak
 			cp -w -n $[FBISRC]/NewUS.app $[FBIPATH]
 			echo "FBI injected to H&S successfully."
-			
 		elif find 1:/title/00040010/00021300/content/00000005.app FBIPATH	#Old US
 			mv -w -n $[FBIPATH] $[FBIPATH].bak
 			cp -w -n $[FBISRC]/OldUS.app $[FBIPATH]
 			echo "FBI injected to H&S successfully."
-			
 		elif find 1:/title/00040010/20022300/content/00000002.app FBIPATH	#New EU
 			mv -w -n $[FBIPATH] $[FBIPATH].bak
 			cp -w -n $[FBISRC]/NewEU.app $[FBIPATH]
 			echo "FBI injected to H&S successfully."
-			
 		elif find 1:/title/00040010/00022300/content/00000008.app FBIPATH	#Old EU
 			mv -w -n $[FBIPATH] $[FBIPATH].bak
 			cp -w -n $[FBISRC]/OldEU.app $[FBIPATH]
 			echo "FBI injected to H&S successfully."
-			
 		else
 			echo "Sorry, $[REGION] $[ONTYPE] not yet supported.\nInject FBI manually.\nPlease contact the script author for support."
-			
 		end
-		
 	else
 		echo "FBI not found.\nProceeding with B9S installation\nwithout FBI injection."
-		
 	end
-	
 else
 	echo "FBI inject declined.\nProceeding with B9S installation."
-	
 end
 
 cp -w -n $[B9S] S:/firm0.bin
@@ -512,39 +495,30 @@ cp -w -n $[LUMA] 9:/sdcompiled
 
 @SwapSD
 if	switchsd "Swap SD card now."
-	
 	if	find 0:/gm9/scripts/*Megascript.gm9 NULL
-	
 		if	ask "Seems like SD cards are not swapped, continue anyway?"
 			echo "Moving compiled files from RAM to target SD."
 			mv -w -n 9:/sdcompiled 0:/
 			echo "Boot9Strap Successfully installed."
-			
 		else
 			goto SwapSD
-		
 		end
-		
 	else
-
-	echo "Moving compiled files from RAM to target SD."
-	mv -w -n 9:/sdcompiled 0:/
-	echo "Boot9Strap Successfully installed."
-		
+		echo "Moving compiled files from RAM to target SD."
+		mv -w -n 9:/sdcompiled 0:/
+		echo "Boot9Strap Successfully installed."
 	end
-	
 else
 	echo "SD read error!\nPlease try again."
 	goto SwapSD
-	
 end
 goto Hax_Options_Install_Boot9Strap
 
 
 
-####################Hax Uninstall####################
+###################Hax Uninstall##################
 
-@Hax_Options_Uninstall_Hax
+@Hax_Options_Un-install_Hax
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nHax Options\n>Hax Un-install"
 
 if	not ask "!!WARNING!!\nThis will remove CFW and\nrevert your system to stock.\n \nProceed?"
@@ -595,7 +569,7 @@ if	allow -a S:
 	rm -o -s 1:/rw/luma
 	cp -n $[NATIVE_FIRM] S:/firm0.bin
 	cp -n $[NATIVE_FIRM] S:/firm1.bin
-	echo "CFW uninstalled successfully"
+	echo "CFW un-installed successfully"
 else
 	echo "Permissions denied. Aborting."
 end
@@ -623,16 +597,14 @@ if	allow S:/nand.bin
 	cp -n $[NATIVE_FIRM] S:/firm0.bin
 	cp -n $[NATIVE_FIRM] S:/firm1.bin
 	echo "CFW uninstalled successfully"
-	
 else
 	echo "Permissions denied. Aborting."
-	
 end
 goto MainMenu_Hax_Options
 
 
 
-####################Dump Options####################
+###################Dump Options###################
 
 @MainMenu_Dump_Options
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options"
@@ -642,7 +614,7 @@ goto Start
 
 
 
-####################Cart Dump Options####################
+#################Cart Dump Options################
 
 @Dump_Options_Cartridge_Dump_Options
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Cart Dump Options"
@@ -652,7 +624,7 @@ goto MainMenu_Dump_Options
 
 
 
-####################Private Header Dump####################
+################Private Header Dump###############
 
 @Cartridge_Dump_Options_Dump_PrivateHeader
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Cart Dump Options\n>>Private Header Dump"
@@ -672,7 +644,7 @@ goto Dump_Options_Cartridge_Dump_Options
 
 
 
-####################Cart to .3ds####################
+###################Cart to .3ds###################
 
 @Cartridge_Dump_Options_Dump_Cart_to_.3ds
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Cart Dump Options\n>>Cart to .3ds Dump"
@@ -701,7 +673,7 @@ goto Dump_Options_Cartridge_Dump_Options
 
 
 
-####################Cart to .cia####################
+###################Cart to .cia###################
 
 @Cartridge_Dump_Options_Dump_Cart_to_.cia
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Cart Dump Options\n>>Cart to .cia Dump"
@@ -724,7 +696,7 @@ goto Dump_Options_Cartridge_Dump_Options
 
 
 
-####################Cart to .nds####################
+###################Cart to .nds###################
 
 @Cartridge_Dump_Options_Dump_Cart_to_.nds
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Cart Dump Options\n>>Cart to .nds Dump"
@@ -749,7 +721,7 @@ goto Dump_Options_Cartridge_Dump_Options
 
 
 
-####################Title Dump Options####################
+################Title Dump Options################
 
 @Dump_Options_Title_Dump_Options
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Title Dump Options"
@@ -759,7 +731,7 @@ goto MainMenu_Dump_Options
 
 
 
-####################Dump CTRNAND Titles####################
+################Dump CTRNAND Titles###############
 
 @Title_Dump_Options_CTRNAND_Titles
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Title Dump Options\n>>CTRNAND Titles Dump"
@@ -782,7 +754,7 @@ goto Dump_Options_Title_Dump_Options
 
 
 
-####################Dump User Titles####################
+#################Dump User Titles#################
 
 @Title_Dump_Options_User_Installed_Titles
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Title Dump Options\n>>User Installed Titles Dump"
@@ -805,7 +777,7 @@ goto Dump_Options_Title_Dump_Options
 
 
 
-####################Dump TWLNAND Titles####################
+################Dump TWLNAND Titles###############
 
 @Title_Dump_Options_TWLNAND_Titles
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Title Dump Options\n>>TWLNAND Titles Dump"
@@ -830,7 +802,7 @@ goto Dump_Options_Title_Dump_Options
 
 
 
-####################Dump Boot9.bin and Boot11.bin####################
+###########Dump Boot9.bin and Boot11.bin##########
 
 @Dump_Options_Dump_Boot9.bin_&_Boot11.bin
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>boot9.bin & boot11.bin Dump"
@@ -859,7 +831,7 @@ goto MainMenu_Dump_Options
 
 
 
-####################Dump OTP.bin####################
+###################Dump OTP.bin###################
 
 @Dump_Options_Dump_OTP.bin
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>OTP.bin Dump"
@@ -875,7 +847,7 @@ goto MainMenu_Dump_Options
 
 
 
-####################Dump CITRA Files####################
+#################Dump CITRA Files#################
 
 @Dump_Options_Dump_CITRA_Files
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>CITRA Files Dump"
@@ -934,7 +906,7 @@ goto MainMenu_Dump_Options
 
 
 
-####################Dump Home Menu to .cia####################
+##############Dump Home Menu to .cia##############
 
 @Dump_Options_Dump_HomeMenu_to_.cia
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>HomeMenu to .cia Dump"
@@ -943,84 +915,44 @@ if	not ask "Dump HomeMenu to .cia?\n \nPlease make sure you have\nenough storage
 	goto MainMenu_Dump_Options
 end
 
-set CIA2 "$[OUTPATH]/homemenu.cia"
+set CIA2 "$[GM9OUT]/homemenu.cia"
 
-if	find 1:/title/00040030/00008202/content/*.tmd TMD
-	echo "JPN region detected."
+echo "$[REGION] region detected."
 
-	if	buildcia $[TMD]
-		find $[OUTPATH]/0004003000008202* CIA1
-		
-	else
-		echo "Operation failed."
-		goto MainMenu_Dump_Options
-		
-	end
-	
-elif find 1:/title/00040030/00008F02/content/*.tmd TMD
-	echo "USA region detected."
-	
-	if	buildcia $[TMD]
-		find $[OUTPATH]/0004003000008F02* CIA1
-		
-	else
-		echo "Operation failed."
-		goto MainMenu_Dump_Options
-		
-	end
-	
-elif find 1:/title/00040030/00009802/content/*.tmd TMD
-	echo "EUR region detected."
-	
-	if	buildcia $[TMD]
-		find $[OUTPATH]/0004003000009802* CIA1
-		
-	else
-		echo "Operation failed."
-		goto MainMenu_Dump_Options
-		
-	end
-	
-elif find 1:/title/00040030/0000A102/content/*.tmd TMD
-	echo "CHN region detected."
-	
-	if	buildcia $[TMD]
-		find $[OUTPATH]/000400300000A102* CIA1
-		
-	else
-		echo "Operation failed."
-		goto MainMenu_Dump_Options
-		
-	end
-	
-elif find 1:/title/00040030/0000A902/content/*.tmd TMD
-	echo "KOR region detected."
-	
-	if	buildcia $[TMD]
-		find $[OUTPATH]/000400300000A902* CIA1
-		
-	else
-		echo "Operation failed."
-		goto MainMenu_Dump_Options
-		
-	end
-	
-elif find 1:/title/00040030/0000B102/content/*.tmd TMD
-	echo "TWN region detected."
-	
-	if	buildcia $[TMD]
-		find $[OUTPATH]/000400300000B102* CIA1
-		
-	else
-		echo "Operation failed."
-		goto MainMenu_Dump_Options
-		
-	end
-	
+if	chk $[REGION] "JPN"
+	find 1:/title/00040030/00008202/content/*.tmd TMD
+elif chk $[REGION] "USA"
+	find 1:/title/00040030/00008F02/content/*.tmd TMD
+elif chk $[REGION] "EUR"
+	find 1:/title/00040030/00009802/content/*.tmd TMD
+elif chk $[REGION] "CHN"
+	find 1:/title/00040030/0000A102/content/*.tmd TMD
+elif chk $[REGION] "KOR"
+	find 1:/title/00040030/0000A902/content/*.tmd TMD
+elif chk $[REGION] "TWN"
+	find 1:/title/00040030/0000B102/content/*.tmd TMD
 else
 	echo "Unknown Region.\nPlease contact the script author.\Aborting."
 	goto MainMenu_Dump_Options
+end
 
+if buildcia $[TMD]
+	if chk $[REGION] "JPN"
+		find $[GM9OUT]/0004003000008202* CIA1
+	elif chk $[REGION] "USA"
+		find $[GM9OUT]/0004003000008F02* CIA1
+	elif chk $[REGION] "EUR"
+		find $[GM9OUT]/0004003000009802* CIA1
+	elif chk $[REGION] "CHN"
+		find $[GM9OUT]/000400300000A102* CIA1
+	elif chk $[REGION] "KOR"
+		find $[GM9OUT]/000400300000A902* CIA1
+	elif chk $[REGION] "TWN"
+		find $[GM9OUT]/000400300000B102* CIA1
+	end
+else
+	echo "Operation failed."
+	goto MainMenu_Dump_Options
 end
 
 mv -w -n $[CIA1] $[CIA2]
@@ -1029,26 +961,24 @@ echo "HomeMenu Dumped in:\n$[OUTPATH]"
 if	ask "Decrypt $[CIA2]?"
 	decrypt $[CIA2]
 	echo "$[CIA2] decrypted"
-	
 else
-	echo "Decrypt declined."
-	
+    echo "Decrypt declined."
 end
 goto MainMenu_Dump_Options
 
 
 
-####################Miscellaneous####################
+###################Miscellaneous##################
 
 @MainMenu_Miscellaneous
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCredits:\nd0k3\n8bitwonder\nwindows_server_2003\nSvenDaHacker64\nMyLegGuy\nemillois\nAnalogMan151"
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCredits:\nd0k3\n8bitwonder\nwindows_server_2003\nSvenDaHacker64\nMyLegGuy\nemillois\nAnalogMan151\nTurdPooCharger"
 
 labelsel -o -s "Choose an Option." Miscellaneous_*
 goto Start
 
 
 
-####################.3ds to .cia Converter####################
+##############.3ds to .cia Converter##############
 
 @Miscellaneous_.3ds_to_.cia_Converter
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \n.3ds to .cia Converter"
@@ -1072,7 +1002,7 @@ goto MainMenu_Miscellaneous
 
 
 
-####################Nintendo3DS Folder Swap####################
+##############Nintendo3DS Folder Swap#############
 
 @Miscellaneous_Nintendo3DS_Folder_Swap
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nNintendo3DS Folder Swap"
@@ -1099,7 +1029,7 @@ goto MainMenu_Miscellaneous
 
 
 
-####################Setup Luma3DS to CTRNAND####################
+#############Setup Luma3DS to CTRNAND#############
 
 @Miscellaneous_Setup_Luma3DS_to_CTRNAND
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nLuma3DS to CTRNAND Setup"
@@ -1119,18 +1049,92 @@ goto MainMenu_Miscellaneous
 
 
 
-####################Lazarus3DS Options####################
+##################Incognito Mode##################
+
+@Miscellaneous_Incognito_Mode
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nIncognito Mode"
+
+labelsel -o -s "Choose an Option." Incognito_Mode_*
+goto MainMenu_Miscellaneous
+
+
+
+#################Incognito Mode On################
+
+@Incognito_Mode_Incognito_Mode_ON
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nIncognito Mode\n>Incognito Mode ON"
+
+if	not ask "Initiate Incognito Mode?"
+	goto Miscellaneous_Incognito_Mode
+end
+
+if	find 1:/data/$[SYSID0]/sysdata/00010022/00000001 NULL
+	if	not ask "!!WARNING!!\nSeems like you've already gone Incognito.\nOriginal activity log might get replaced.\nContinue anyway?"
+		goto Miscellaneous_Incognito_Mode
+	end
+end
+
+if	ask "Do a backup of activity log first in\n$[GM9OUT]?"
+	findnot $[GM9OUT]/$[DATESTAMP]_$[SERIAL]_00000000_??? OUTPATH
+	if	cp 1:/data/$[SYSID0]/sysdata/00010022/00000000 $[OUTPATH]
+		echo "Activity log backup created successfully in\n$[OUTPATH]"
+	else
+		if	not ask "Backup failed. Continue anyway?"
+			goto Miscellaneous_Incognito_Mode
+		end
+	end
+end
+
+if	not allow -a 1:
+	echo "Permissions denied. Aborting."
+	goto Miscellaneous_Incognito_Mode
+end
+
+mv -w -k -n 1:/data/$[SYSID0]/sysdata/00010022/00000000 1:/data/$[SYSID0]/sysdata/00010022/00000001
+echo "You have now gone incognito."
+goto Miscellaneous_Incognito_Mode
+
+
+
+################Incognito Mode Off################
+
+@Incognito_Mode_Incognito_Mode_OFF
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nIncognito Mode\n>Incognito Mode OFF"
+
+if	not find 1:/data/$[SYSID0]/sysdata/00010022/00000001 NULL
+	echo "You are not in Incognito Mode. Aborting."
+	goto Miscellaneous_Incognito_Mode
+end
+
+if	not ask "Exit Incognito Mode?"
+	goto Miscellaneous_Incognito_Mode
+end
+
+if	not allow -a 1:
+	echo "Permissions denied. Aborting."
+	goto Miscellaneous_Incognito_Mode
+end
+
+mv -w -k -n 1:/data/$[SYSID0]/sysdata/00010022/00000001 1:/data/$[SYSID0]/sysdata/00010022/00000000
+echo "You have now left incognito mode."
+goto Miscellaneous_Incognito_Mode
+
+
+
+################Lazarus3DS Options################
 
 @Miscellaneous_Lazarus3DS_Options
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nLazarus3DS Options"
 
 labelsel -o -s "Choose an Option." Lazarus3DS_*
 goto MainMenu_Miscellaneous
 
 
 
-####################Lazarus3DS Donor Prep####################
+###############Lazarus3DS Donor Prep##############
 
 @Lazarus3DS_Options_Donor_Prep
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nLazarus3DS Options\n>Donor Prep"
 
 if	not ask "This script prepares a 3DS for\nuse with the Lazarus3DS scripts.\n \nContinue?"
 	goto Miscellaneous_Lazarus3DS
@@ -1248,13 +1252,10 @@ goto Miscellaneous_Lazarus3DS
 
 
 
-
-
-
-
 ####################Lazarus3DS####################
 
 @Lazarus3DS_Options_Lazarus3DS
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nLazarus3DS Options\n>Lazarus3DS"
 
 if	not ask "This script revives bricked consoles and\nattempts to recover what data it can.\n \nOnly use this script on consoles\nthat will not boot.\n \nContinue?"
 	echo "Aborted by user."
@@ -1452,7 +1453,7 @@ goto Miscellaneous_Lazarus3DS
 
 
 
-####################Reboot####################
+######################Reboot######################
 
 @MainMenu_Reboot
 
@@ -1464,7 +1465,7 @@ end
 
 
 
-####################Shut Down####################
+#####################Shut Down####################
 
 @MainMenu_ShutDown
 
@@ -1474,7 +1475,7 @@ else
 	goto Start
 end
 
-####################Quit####################
+#######################Quit#######################
 
 @MainMenu_Quit
 
