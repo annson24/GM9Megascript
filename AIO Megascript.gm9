@@ -245,7 +245,8 @@ if	chk $[ONTYPE] "N3DS"
 			goto Hax_Options_Install_Boot9Strap
 		end
 		
-		cp -n -w SECRET S:/sector0x96.bin
+		cp -n -w S:/sector0x96.bin $[SECRET].bak
+		cp -n -w $[SECRET] S:/sector0x96.bin
 		echo "sector 0x96 successfully fixed.\nProceeding with B9S Install."
 	end
 end
@@ -314,7 +315,8 @@ if	chk $[ONTYPE] "N3DS"
 			goto Hax_Options_Install_Boot9Strap
 		end
 		
-		cp -n -w SECRET S:/sector0x96.bin
+		cp -n -w S:/sector0x96.bin $[SECRET].bak
+		cp -n -w $[SECRET] S:/sector0x96.bin
 		echo "sector 0x96 successfully fixed.\nProceeding with B9S Install."
 	end
 end
@@ -427,7 +429,8 @@ if	not sha S:/sector0x96.bin 82F2730D2C2DA3F30165F987FDCCAC5CBAB24B4E5F65C981CD7
 		goto MainMenu_Hax_Options
 	end
 	
-	cp -n -w SECRET S:/sector0x96.bin
+	cp -n -w S:/sector0x96.bin $[SECRET].bak
+	cp -n -w $[SECRET] S:/sector0x96.bin
 	echo "sector 0x96 successfully fixed.\nProceeding with B9S Un-install."
 end
 
@@ -596,8 +599,8 @@ goto MainMenu_Backup_Options
 @Dump_Options_Dump_Boot9.bin_&_Boot11.bin
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Dump boot9.bin & boot11.bin"
 
-if	not find M:/boot9.bin
-	echo "Boot9.bin and/or Boot11.bin not present.\nAborting."
+if	not find M:/boot*.bin NULL
+	echo "Boot9.bin and Boot11.bin not present.\nAborting."
 	goto MainMenu_Dump_Options
 end
 
