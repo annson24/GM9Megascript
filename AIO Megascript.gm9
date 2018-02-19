@@ -20,23 +20,13 @@ goto Start
 
 
 
-################NAND Backup Options###############
-
-@Backup_Options_NAND_Backup
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nBackup Options\n>NAND Backup Options"
-
-labelsel -o -s "Choose an Option." NAND_Backup_*
-goto MainMenu_Backup_Options
-
-
-
 ##################SysNAND Backup##################
 
-@NAND_Backup_SysNAND
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nBackup Options\n>NAND Backup Options\n>>SysNAND Backup"
+@Backup_Options_SysNAND_Backup
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nBackup Options\n>SysNAND Backup"
 
 if	not ask "Create a SysNAND backup in $[GM9OUT]?\n \nPlease make sure you have\nenough storage space."
-	goto Backup_Options_NAND_Backup
+	goto MainMenu_Backup_Options
 end
 
 findnot $[GM9OUT]/$[DATESTAMP]_$[SERIAL]_sysnand_??.bin OUTPATH
@@ -46,17 +36,17 @@ if	cp -h S:/nand_minsize.bin $[OUTPATH]
 else
 	echo "Backup failed."
 end
-goto Backup_Options_NAND_Backup
+goto MainMenu_Backup_Options
 
 
 
 ##################EmuNAND Backup##################
 
-@NAND_Backup_EmuNAND
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nBackup Options\n>NAND Backup Options\n>>EmuNAND Backup"
+@Backup_Options_EmuNAND_Backup
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nBackup Options\n>EmuNAND Backup"
 
 if	not ask "Create a EmuNAND backup in $[GM9OUT]?\n \nPlease make sure you have\nenough storage space."
-	goto Backup_Options_NAND_Backup
+	goto MainMenu_Backup_Options
 end
 
 findnot $[GM9OUT]/$[DATESTAMP]_$[SERIAL]_emunand_??.bin OUTPATH
@@ -65,48 +55,6 @@ if	cp -h E:/nand_minsize.bin $[OUTPATH]
 	echo "Backup created successfully:\n$[OUTPATH]"
 else
 	echo "Backup failed."
-end
-goto Backup_Options_NAND_Backup
-
-
-
-################Friend Save Backup################
-
-@Backup_Options_FriendSave_Backup
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nBackup Options\n>Friend Save Backup"
-
-if	ask "Create friendsave backup in $[GM9OUT]?"
-	findnot $[GM9OUT]/friendsave_??? OUTPATH
-	cp -n 1:/data/$[SYSID0]/sysdata/00010032/00000000 $[OUTPATH]
-	echo "Backup created succesfully:\n$[OUTPATH]"
-end
-goto MainMenu_Backup_Options
-
-
-
-###########LocalFriendCodeSeed_B Backup###########
-
-@Backup_Options_LocalFriendCodeSeedB_Backup
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nBackup Options\n>LocalFriendCodeSeed_B Backup"
-
-if	ask "Create a LocalFriendCodeSeed_B backup in $[GM9OUT]?"
-	findnot $[GM9OUT]/$[SERIAL]_LocalFriendCodeSeed_B_??? OUTPATH
-	cp -w 1:/rw/sys/LocalFriendCodeSeed_B $[OUTPATH]
-	echo "Backup created successfully:\n$[OUTPATH]"
-end
-goto MainMenu_Backup_Options
-
-
-
-#################GBAVC.sav Backup#################
-
-@Backup_Options_GBAVC.sav_Backup
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nBackup Options\n>GBAVC.sav Backup"
-
-if	ask "Create a gbavc.sav backup in $[GM9OUT]?\nFor GodMode9 v.1.4.1 and below only."
-	findnot $[GM9OUT]/gbavc_???.sav OUTPATH
-	cp -w S:/gbavc.sav $[OUTPATH]
-	echo "Backup created successfully:\n$[OUTPATH]"
 end
 goto MainMenu_Backup_Options
 
@@ -122,45 +70,35 @@ goto Start
 
 
 
-###############NAND Restore Options###############
+##############SysNAND Restore (full)##############
 
-@Restore_Options_NAND_Restore
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nRestore Options\n>NAND Restore Options"
-
-labelsel -o -s "Choose an Option." NAND_Restore_*
-goto MainMenu_Restore_Options
-
-
-
-##############SysNAND (full) Restore##############
-
-@NAND_Restore_SysNAND_(full)
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nRestore Options\n>NAND Restore Options\n>>SysNAND (full) Restore"
+@Restore_Options_SysNAND_Restore_(full)
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nRestore Options\n>SysNAND Restore (full)"
 
 if	not ask "WARNING:\nSystem exploit will not be protected!\nOnly do a full restore\nif you know what you're doing!\n \nContinue anyway?"
-	goto Restore_Options_NAND_Restore
+	goto MainMenu_Restore_Options
 end
 
 if	not filesel "Select NAND Backup." $[GM9OUT]/*nand_???.bin NANDBAK
 	echo "Operation cancelled."
-	goto Restore_Options_NAND_Restore
+	goto MainMenu_Restore_Options
 end
 
 if	not ask "Full Restore $[NANDBAK]?"
 	echo "Operation cancelled."
-	goto Restore_Options_NAND_Restore
+	goto MainMenu_Restore_Options
 end
 
 if	not allow -a S:
 	echo "Permissions denied. Aborting"
-	goto Restore_Options_NAND_Restore
+	goto MainMenu_Restore_Options
 end
 
 imgmount $[NANDBAK]
 
 if	not verify I:/nand_minsize.bin
 	echo "Not a valid NAND backup. Aborting."
-	goto Restore_Options_NAND_Restore
+	goto MainMenu_Restore_Options
 end
 
 if	inject -n I:/nand_minsize.bin S:/nand.bin@0
@@ -169,33 +107,33 @@ if	inject -n I:/nand_minsize.bin S:/nand.bin@0
 else
 	echo "An error occurred during the transfer\nPlease try again."
 end
-goto Restore_Options_NAND_Restore
+goto MainMenu_Restore_Options
 
 
 
-##############SysNAND (safe) Restore##############
+##############SysNAND Restore (safe)##############
 
-@NAND_Restore_SysNAND_(safe)
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nRestore Options\n>NAND Restore Options\n>>SysNAND (safe) Restore"
+@Restore_Options_SysNAND_Restore_(safe)
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nRestore Options\n>SysNAND Restore (safe)"
 
 if	not chk -u $[HAX] ""
 	echo "No qualifying exploit was found.\nAborting to avoid bricking the unit."
-	goto Restore_Options_NAND_Restore
+	goto MainMenu_Restore_Options
 end
 
 if	not chk -u $[HAX] "ntrboot"
 	echo "Safe restore is not available on\nntrboot. Aborting to avoid a brick."
-	goto Restore_Options_NAND_Restore
+	goto MainMenu_Restore_Options
 end
 
 if	not filesel "Select NAND Backup." $[GM9OUT]/*nand_???.bin NANDBAK
 	echo "Operation cancelled."
-	goto Restore_Options_NAND_Restore
+	goto MainMenu_Restore_Options
 end
 
 if	not allow -a S:
 	echo "Permissions denied. Aborting"
-	goto Restore_Options_NAND_Restore
+	goto MainMenu_Restore_Options
 end
 
 imgmount $[NANDBAK]
@@ -205,7 +143,7 @@ find I:/twlp.bin NULL
 
 if	not verify I:/nand_minsize.bin
 	echo "Not a valid NAND backup. Aborting."
-	goto Restore_Options_NAND_Restore
+	goto MainMenu_Restore_Options
 end
 
 cp -w -n I:/ctrnand_full.bin S:/ctrnand_full.bin
@@ -213,101 +151,42 @@ cp -w -n I:/twln.bin S:/twln.bin
 cp -w -n I:/twlp.bin S:/twlp.bin
 imgumount
 echo "$[NANDBAK]\nsuccessfully restored to SysNAND."
-goto Restore_Options_NAND_Restore
+goto MainMenu_Restore_Options
 
 
 
 ##################EmuNAND Restore#################
 
-@NAND_Restore_EmuNAND
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nRestore Options\n>NAND Restore Options\n>>EmuNAND Restore"
+@Restore_Options_EmuNAND_Restore
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nRestore Options\n>EmuNAND Restore"
 
 if	findnot E:/ NULL
 	echo "No EmuNAND detected. Aborting."
-	goto Restore_Options_NAND_Restore
+	goto MainMenu_Restore_Options
 end
 
 if	not filesel "Select NAND Backup." $[GM9OUT]/*nand_???.bin NANDBAK
-	goto Restore_Options_NAND_Restore
+	goto MainMenu_Restore_Options
 end
 
 if	not ask "Restore\n$[NANDBAK]\nto EmuNAND?"
 	echo "Operation cancelled."
-	goto Restore_Options_NAND_Restore
+	goto MainMenu_Restore_Options
 end
 
 if	not allow -a E:
 	echo "Permissions denied. Aborting."
-	goto Restore_Options_NAND_Restore
+	goto MainMenu_Restore_Options
 end
 
 if	not verify I:/nand_minsize.bin
 	echo "Not a valid NAND backup. Aborting."
-	goto Restore_Options_NAND_Restore
+	goto MainMenu_Restore_Options
 end
 
 inject -n I:/nand_minsize.bin E:/nand.bin@0
 imgumount
 echo "$[NANDBAK] successfully restored to EmuNAND."
-goto Restore_Options_NAND_Restore
-
-
-
-################Friend Save Restore###############
-
-@Restore_Options_FriendSave_Restore
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nRestore Options\n>Friend Save Restore"
-
-if	not filesel "Select the friendsave you want to restore." $[GM9OUT]/friendsave_* FRIEND
-	goto MainMenu_Restore_Options
-end
-
-if	ask "Restore $[FRIEND]?"
-	set OUTPATH 1:/data/$[SYSID0]/sysdata/00010032/00000000
-	cp -w -n $[FRIEND] $[OUTPATH]
-	echo " Friend-save restored successfully:\n$[OUTPATH]
-else
-	echo "Operation cancelled."
-end
-goto MainMenu_Restore_Options
-
-
-
-###########LocalFriendCodeSeed_B Restore##########
-
-@Restore_Options_LocalFriendCodeSeedB_Restore
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nRestore Options\n>LocalFriendCodeSeed_B Restore"
-
-if	not ask "Restore LocalFriendCodeSeed_B from $[GM9OUT]?\n(This will overwrite your 3DS's current\nLocalFriendCodeSeed_B!)"
-	goto MainMenu_Restore_Options
-end
-
-if	filesel "Select the LocalFriendCodeSeed you want to restore." $[GM9OUT]/*LocalFriendCodeSeed_B_* COPYPATH 
-	set OUTPATH 1:/rw/sys/LocalFriendCodeSeed_B
-	cp -w $[COPYPATH] $[OUTPATH]
-	echo "LocalFriendCodeSeed_B restored successfully:\n$[OUTPATH]"
-else
-	echo "Operation cancelled."
-end
-goto MainMenu_Restore_Options
-
-
-
-#################GBAVC.sav Restore###############
-
-@Restore_Options_GBAVC.sav_Restore
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nRestore Options\n>GBA.sav Restore"
-
-if	not ask "Restore gbavc.sav from $[GM9OUT]?\n(This will overwrite your 3DS's current\ngbavc.sav file!)\nFor GodMode9 v.1.4.1 and below only."
-	goto MainMenu_Restore_Options
-end
-
-if	filesel "Select the gbavc.sav you want to restore." $[GM9OUT]/gbavc_???.sav COPYPATH
-	cp -w -n $[COPYPATH] S:/gbavc.sav
-	echo "gbavc.sav restored successfully."
-else
-	echo "Operation cancelled."
-end
 goto MainMenu_Restore_Options
 
 
@@ -614,198 +493,108 @@ goto Start
 
 
 
-#################Cart Dump Options################
+#################Dump Friend Save#################
 
-@Dump_Options_Cartridge_Dump_Options
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Cart Dump Options"
+@Dump_Options_Dump_FriendSave
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Dump Friend Save"
 
-labelsel -o -s "Choose an Option." Cartridge_Dump_Options_*
+if	ask "Dump friendsave in $[GM9OUT]?"
+	findnot $[GM9OUT]/friendsave_??? OUTPATH
+	cp -n 1:/data/$[SYSID0]/sysdata/00010032/00000000 $[OUTPATH]
+	echo "Dump created successfully:\n$[OUTPATH]"
+end
 goto MainMenu_Dump_Options
 
 
 
-################Private Header Dump###############
+############Dump LocalFriendCodeSeed_B############
 
-@Cartridge_Dump_Options_Dump_PrivateHeader
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Cart Dump Options\n>>Private Header Dump"
+@Dump_Options_Dump_LocalFriendCodeSeedB
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Dump LocalFriendCodeSeed_B"
 
-if	not ask "Dump private header in $[GM9OUT]?"
-	goto Dump_Options_Cartridge_Dump_Options
+if	ask "Dump LocalFriendCodeSeed_B in $[GM9OUT]?"
+	findnot $[GM9OUT]/$[SERIAL]_LocalFriendCodeSeed_B_??? OUTPATH
+	cp -w 1:/rw/sys/LocalFriendCodeSeed_B $[OUTPATH]
+	echo "Dump created successfully:\n$[OUTPATH]"
 end
-
-if	find C:/*priv.bin CARTPATH
-	findnot $[GM9OUT]/Private-Header_???.bin OUTPATH
-	cp -n $[CARTPATH] $[OUTPATH]
-	echo "Private header successfully dumped:\n$[OUTPATH]"
-else
-	echo "CTR Cart not detected. Aborting."
-end
-goto Dump_Options_Cartridge_Dump_Options
-
-
-
-###################Cart to .3ds###################
-
-@Cartridge_Dump_Options_Dump_Cart_to_.3ds
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Cart Dump Options\n>>Cart to .3ds Dump"
-
-if	not ask "Dump CTR cartridge to .3ds in $[GM9OUT]?\n \nPlease make sure you have\nenough storage space."
-	goto Dump_Options_Cartridge_Dump_Options
-end
-
-if	not find C:/*.3ds CARTPATH
-	echo "CTR Cart not detected. Aborting."
-	goto Dump_Options_Cartridge_Dump_Options
-end
-
-findnot $[GM9OUT]/$[DATESTAMP]_CTR_CARTDUMP_???.3ds OUTPATH
-
-if	cp $[CARTPATH] $[OUTPATH]
-	echo "CTR cartridge successfully dumped:\n$[OUTPATH]"
-	if	ask "Decrypt the dumped .3ds?"
-		decrypt $[OUTPATH]
-		echo "Dumped .3ds decrypted."
-	end
-else
-	echo "Operation failed."
-end
-goto Dump_Options_Cartridge_Dump_Options
-
-
-
-###################Cart to .cia###################
-
-@Cartridge_Dump_Options_Dump_Cart_to_.cia
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Cart Dump Options\n>>Cart to .cia Dump"
-
-if	not ask "Dump CTR cartridge as a .cia in $[GM9OUT]?\n \nPlease make sure you have\nenough storage space."
-	goto Dump_Options_Cartridge_Dump_Options
-end
-
-if	not find C:/*.3ds CARTPATH
-	echo "CTR Cart not detected. Aborting."
-	goto Dump_Options_Cartridge_Dump_Options
-end
-
-if	buildcia $[CARTPATH]
-	echo "CTR cartridge successfully dumped:\n$[GM9OUT]"
-else
-	echo "Operation failed."
-end
-goto Dump_Options_Cartridge_Dump_Options
-
-
-
-###################Cart to .nds###################
-
-@Cartridge_Dump_Options_Dump_Cart_to_.nds
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Cart Dump Options\n>>Cart to .nds Dump"
-
-if	not ask "Dump NTR cartridge as a .nds in $[GM9OUT]?\n \nPlease make sure you have\nenough storage space."
-	goto Dump_Options_Cartridge_Dump_Options
-end
-
-if	not find C:/*.nds CARTPATH
-	echo "NTR Cart not detected. Aborting."
-	goto Dump_Options_Cartridge_Dump_Options
-end
-
-findnot $[GM9OUT]/$[DATESTAMP]_NTR_CARTDUMP_???.nds OUTPATH
-
-if	cp $[CARTPATH] $[OUTPATH]
-	echo "NTR cartridge successfully dumped:\n$[OUTPATH]"
-else
-	echo "Operation failed."
-end
-goto Dump_Options_Cartridge_Dump_Options
-
-
-
-################Title Dump Options################
-
-@Dump_Options_Title_Dump_Options
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Title Dump Options"
-
-labelsel -o -s "Choose an Option." Title_Dump_Options_*
 goto MainMenu_Dump_Options
 
 
 
-################Dump CTRNAND Titles###############
+#################Dump SecureInfo_A################
 
-@Title_Dump_Options_CTRNAND_Titles
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Title Dump Options\n>>CTRNAND Titles Dump"
+@Dump_Options_Dump_SecureInfoA
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Dump SecureInfo_A"
 
-if	not ask "Dump CTRNAND title to .cia in $[GM9OUT]?\n \nPlease make sure you have\nenough storage space."
-	goto Dump_Options_Title_Dump_Options
+if	ask "Dump SecureInfo_A in $[GM9OUT]?"
+	findnot $[GM9OUT]/$[SERIAL]_SecureInfo_A_??? OUTPATH
+	cp -w 1:/rw/sys/SecureInfo_A $[OUTPATH]
+	echo "Dump created successfully:\n$[OUTPATH]"
 end
+goto MainMenu_Dump_Options
 
-if	not filesel -d "Select the .tmd file of the title you want to dump." 1:/title/*.tmd TITLEPATH
-	echo "Cancelled."
-	goto Dump_Options_Title_Dump_Options
+
+
+#################Dump movable.sed#################
+
+@Dump_Options_Dump_movable.sed
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Dump movable.sed"
+
+if	ask "Dump movable.sed in $[GM9OUT]?"
+	findnot $[GM9OUT]/$[SERIAL]_movable_???.sed OUTPATH
+	cp -w 1:/private/movable.sed $[OUTPATH]
+	echo "Dump created successfully:\n$[OUTPATH]"
 end
+goto MainMenu_Dump_Options
 
-if	buildcia $[TITLEPATH]
-	echo "Title dump successful in $[GM9OUT]
-else
-	echo "Operation failed."
+
+
+##################Dump ticket.db##################
+
+@Dump_Options_Dump_ticket.db
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Dump ticket.db"
+
+if	ask "Dump ticket.db in $[GM9OUT]?"
+	findnot $[GM9OUT]/$[SERIAL]_ticket_???.db OUTPATH
+	cp -w 1:/dbs/ticket.db $[OUTPATH]
+	echo "Dump created successfully:\n$[OUTPATH]"
 end
-goto Dump_Options_Title_Dump_Options
+goto MainMenu_Dump_Options
 
 
 
-#################Dump User Titles#################
+###################Dump title.db##################
 
-@Title_Dump_Options_User_Installed_Titles
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Title Dump Options\n>>User Installed Titles Dump"
+@Dump_Options_Dump_ticket.db
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Dump title.db"
 
-if	not ask "Dump user installed title to .cia in $[GM9OUT]?\n \nPlease make sure you have\nenough storage space."
-	goto Dump_Options_Title_Dump_Options
+if	ask "Dump title.db in $[GM9OUT]?"
+	findnot $[GM9OUT]/$[SERIAL]_title_???.db OUTPATH
+	cp -w 1:/dbs/title.db $[OUTPATH]
+	echo "Dump created successfully:\n$[OUTPATH]"
 end
+goto MainMenu_Dump_Options
 
-if	not filesel -d "Select the .tmd file of the title you want to dump." A:/title/*.tmd TITLEPATH
-	echo "Cancelled."
-	goto Dump_Options_Title_Dump_Options
+
+
+##################Dump GBAVC.sav##################
+
+@Dump_Options_Dump_GBAVC.sav
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Dump GBAVC.sav"
+
+if	ask "Dump gbavc.sav in $[GM9OUT]?\nFor GodMode9 v.1.4.1 and below only."
+	findnot $[GM9OUT]/gbavc_???.sav OUTPATH
+	cp -w S:/gbavc.sav $[OUTPATH]
+	echo "Dump created successfully:\n$[OUTPATH]"
 end
-
-if	buildcia $[TITLEPATH]
-	echo "Title dump successful in $[GM9OUT]
-else
-	echo "Operation failed."
-end
-goto Dump_Options_Title_Dump_Options
-
-
-
-################Dump TWLNAND Titles###############
-
-@Title_Dump_Options_TWLNAND_Titles
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Title Dump Options\n>>TWLNAND Titles Dump"
-
-if	not ask "Dump TWLNAND title to .cia in $[GM9OUT]?\n \nPlease make sure you have\nenough storage space."
-	goto Dump_Options_Title_Dump_Options
-end
-
-if	not filesel -d "Select the .tmd file of the title you want to dump." 2:/title/*.tmd TITLEPATH
-	echo "Cancelled."
-	goto Dump_Options_Title_Dump_Options
-end
-
-if	buildcia $[TITLEPATH]
-	echo "Title dump successful in $[GM9OUT]"
-	
-else
-	echo "Operation failed."
-	
-end
-goto Dump_Options_Title_Dump_Options
+goto MainMenu_Backup_Options
 
 
 
 ###########Dump Boot9.bin and Boot11.bin##########
 
 @Dump_Options_Dump_Boot9.bin_&_Boot11.bin
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>boot9.bin & boot11.bin Dump"
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Dump boot9.bin & boot11.bin"
 
 if	not find M:/boot9.bin
 	echo "Boot9.bin and/or Boot11.bin not present.\nAborting."
@@ -834,7 +623,7 @@ goto MainMenu_Dump_Options
 ###################Dump OTP.bin###################
 
 @Dump_Options_Dump_OTP.bin
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>OTP.bin Dump"
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Dump OTP.bin"
 
 if	not ask "Dump otp.bin in $[GM9OUT]? \n(This will overwrite any existing otp.bin!)"
 	goto MainMenu_Dump_Options
@@ -850,7 +639,7 @@ goto MainMenu_Dump_Options
 #################Dump CITRA Files#################
 
 @Dump_Options_Dump_CITRA_Files
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>CITRA Files Dump"
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Dump CITRA Files"
 
 if	not ask "Create dump of Citra files in $[GM9OUT]/Citra? \n(This will overwrite any existing Citra files!)\n(May fail if you use a custom font!)\n(This will dump System Archives)\n(This will dump Shared Fonts)\n(This will dump config)"
 	goto MainMenu_Dump_Options
@@ -906,13 +695,350 @@ goto MainMenu_Dump_Options
 
 
 
+##################Inject Options##################
+
+@MainMenu_Inject_Options
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nInject Options"
+
+labelsel -o -s "Choose an Option." Inject_Options_*
+goto Start
+
+
+
+################Inject Friend Save################
+
+@Inject_Options_Inject_FriendSave
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nInject Options\n>Inject Friend Save"
+
+if	not filesel "Select the friendsave you want to inject." $[GM9OUT]/friendsave_* FRIEND
+	goto MainMenu_Inject_Options
+end
+
+if	ask "Inject $[FRIEND]?"
+	set OUTPATH 1:/data/$[SYSID0]/sysdata/00010032/00000000
+	cp -w -n $[FRIEND] $[OUTPATH]
+	echo " Friend-save injected successfully:\n$[OUTPATH]
+else
+	echo "Operation cancelled."
+end
+goto MainMenu_Inject_Options
+
+
+
+###########Inject LocalFriendCodeSeed_B###########
+
+@Inject_Options_Inject_LocalFriendCodeSeedB
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nInject Options\n>Inject LocalFriendCodeSeed_B"
+
+if	not ask "Inject LocalFriendCodeSeed_B from $[GM9OUT]?\n(This will overwrite your 3DS's current\nLocalFriendCodeSeed_B!)"
+	goto MainMenu_Inject_Options
+end
+
+if	filesel "Select the LocalFriendCodeSeed you want to inject." $[GM9OUT]/*LocalFriendCodeSeed_B_* COPYPATH 
+	set OUTPATH 1:/rw/sys/LocalFriendCodeSeed_B
+	cp -w $[COPYPATH] $[OUTPATH]
+	echo "LocalFriendCodeSeed_B injected successfully:\n$[OUTPATH]"
+else
+	echo "Operation cancelled."
+end
+goto MainMenu_Inject_Options
+
+
+
+################Inject SecureInfo_A###############
+
+@Inject_Options_Inject_SecureInfoA
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nInject Options\n>Inject SecureInfo_A"
+
+if	not ask "Inject SecureInfo_A from $[GM9OUT]?\n(This will overwrite your 3DS's current\nSecureInfo_A!)"
+	goto MainMenu_Inject_Options
+end
+
+if	filesel "Select the LocalFriendCodeSeed you want to inject." $[GM9OUT]/*SecureInfo_A_* COPYPATH 
+	set OUTPATH 1:/rw/sys/SecureInfo_A
+	cp -w $[COPYPATH] $[OUTPATH]
+	echo "SecureInfo_A injected successfully:\n$[OUTPATH]"
+else
+	echo "Operation cancelled."
+end
+goto MainMenu_Inject_Options
+
+
+
+################Inject movable.sed################
+
+@Inject_Options_Inject_movable.sed
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nInject Options\n>Inject movable.sed"
+
+if	not ask "Inject movable.sed from $[GM9OUT]?\n(This will overwrite your 3DS's current\nmovable.sed!)"
+	goto MainMenu_Inject_Options
+end
+
+if	filesel "Select the movable.sed you want to inject." $[GM9OUT]/*movable_*.sed COPYPATH 
+	set OUTPATH 1:/private/movable.sed
+	cp -w $[COPYPATH] $[OUTPATH]
+	echo "movable.sed injected successfully:\n$[OUTPATH]"
+else
+	echo "Operation cancelled."
+end
+goto MainMenu_Inject_Options
+
+
+
+#################Inject ticket.db#################
+
+@Inject_Options_Inject_ticket.db
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nInject Options\n>Inject ticket.db"
+
+if	not ask "Inject ticket.db from $[GM9OUT]?\n(This will overwrite your 3DS's current\nticket.db!)"
+	goto MainMenu_Inject_Options
+end
+
+if	filesel "Select the ticket.db you want to inject." $[GM9OUT]/*ticket_*.db COPYPATH 
+	set OUTPATH 1:/dbs/ticket.db
+	cp -w $[COPYPATH] $[OUTPATH]
+	echo "ticket.db injected successfully:\n$[OUTPATH]"
+else
+	echo "Operation cancelled."
+end
+goto MainMenu_Inject_Options
+
+
+
+##################Inject title.db#################
+
+@Inject_Options_Inject_title.db
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nInject Options\n>Inject title.db"
+
+if	not ask "Inject title.db from $[GM9OUT]?\n(This will overwrite your 3DS's current\ntitle.db!)"
+	goto MainMenu_Inject_Options
+end
+
+if	filesel "Select the title.db you want to inject." $[GM9OUT]/*title_*.db COPYPATH 
+	set OUTPATH 1:/dbs/title.db
+	cp -w $[COPYPATH] $[OUTPATH]
+	echo "title.db injected successfully:\n$[OUTPATH]"
+else
+	echo "Operation cancelled."
+end
+goto MainMenu_Inject_Options
+
+
+
+#################Inject GBAVC.sav#################
+
+@Inject_Options_Inject_GBAVC.sav
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nInject Options\n>Inject GBA.sav"
+
+if	not ask "Inject gbavc.sav from $[GM9OUT]?\n(This will overwrite your 3DS's current\ngbavc.sav file!)\nFor GodMode9 v.1.4.1 and below only."
+	goto MainMenu_Inject_Options
+end
+
+if	filesel "Select the gbavc.sav you want to inject." $[GM9OUT]/gbavc_???.sav COPYPATH
+	cp -w -n $[COPYPATH] S:/gbavc.sav
+	echo "gbavc.sav injected successfully."
+else
+	echo "Operation cancelled."
+end
+goto MainMenu_Inject_Options
+
+
+
+#################Cartridge Options################
+
+@MainMenu_Cartridge_Options
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCartridge Options"
+
+labelsel -o -s "Choose an Option." Cartridge_Options_*
+goto Start
+
+
+
+################Dump Private Header###############
+
+@Cartridge_Options_Dump_Private_Header
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCartridge Options\n>Dump Private Header"
+
+if	not ask "Dump private header in $[GM9OUT]?"
+	goto MainMenu_Cartridge_Options
+end
+
+if	find C:/*priv.bin CARTPATH
+	findnot $[GM9OUT]/Private-Header_???.bin OUTPATH
+	cp -n $[CARTPATH] $[OUTPATH]
+	echo "Private header successfully dumped:\n$[OUTPATH]"
+else
+	echo "CTR Cart not detected. Aborting."
+end
+goto MainMenu_Cartridge_Options
+
+
+
+#################Dump Cart to .3ds################
+
+@Cartridge_Options_Dump_Cart_to_.3ds
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCartridge Options\n>Dump Cart to .3ds"
+
+if	not ask "Dump CTR cartridge to .3ds in $[GM9OUT]?\n \nPlease make sure you have\nenough storage space."
+	goto MainMenu_Cartridge_Options
+end
+
+if	not find C:/*.3ds CARTPATH
+	echo "CTR Cart not detected. Aborting."
+	goto MainMenu_Cartridge_Options
+end
+
+findnot $[GM9OUT]/$[DATESTAMP]_CTR_CARTDUMP_???.3ds OUTPATH
+
+if	cp $[CARTPATH] $[OUTPATH]
+	echo "CTR cartridge successfully dumped:\n$[OUTPATH]"
+	if	ask "Decrypt the dumped .3ds?"
+		decrypt $[OUTPATH]
+		echo "Dumped .3ds decrypted."
+	end
+else
+	echo "Operation failed."
+end
+goto MainMenu_Cartridge_Options
+
+
+
+#################Dump Cart to .cia################
+
+@Cartridge_Options_Dump_Cart_to_.cia
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCartridge Options\n>Dump Cart to .cia"
+
+if	not ask "Dump CTR cartridge as a .cia in $[GM9OUT]?\n \nPlease make sure you have\nenough storage space."
+	goto MainMenu_Cartridge_Options
+end
+
+if	not find C:/*.3ds CARTPATH
+	echo "CTR Cart not detected. Aborting."
+	goto MainMenu_Cartridge_Options
+end
+
+if	buildcia $[CARTPATH]
+	echo "CTR cartridge successfully dumped:\n$[GM9OUT]"
+else
+	echo "Operation failed."
+end
+goto MainMenu_Cartridge_Options
+
+
+
+#################Dump Cart to .nds################
+
+@Cartridge_Options_Dump_Cart_to_.nds
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCartridge Options\n>Dump Cart to .nds"
+
+if	not ask "Dump NTR cartridge as a .nds in $[GM9OUT]?\n \nPlease make sure you have\nenough storage space."
+	goto MainMenu_Cartridge_Options
+end
+
+if	not find C:/*.nds CARTPATH
+	echo "NTR Cart not detected. Aborting."
+	goto MainMenu_Cartridge_Options
+end
+
+findnot $[GM9OUT]/$[DATESTAMP]_NTR_CARTDUMP_???.nds OUTPATH
+
+if	cp $[CARTPATH] $[OUTPATH]
+	echo "NTR cartridge successfully dumped:\n$[OUTPATH]"
+else
+	echo "Operation failed."
+end
+goto MainMenu_Cartridge_Options
+
+
+
+###################Title Options##################
+
+@MainMenu_Title_Options
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nTitle Options"
+
+labelsel -o -s "Choose an Option." Title_Options_*
+goto Start
+
+
+
+################Dump CTRNAND Titles###############
+
+@Title_Options_Dump_CTRNAND_Titles
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nTitle Options\n>Dump CTRNAND Titles"
+
+if	not ask "Dump CTRNAND title to .cia in $[GM9OUT]?\n \nPlease make sure you have\nenough storage space."
+	goto MainMenu_Title_Options
+end
+
+if	not filesel -d "Select the .tmd file of the title you want to dump." 1:/title/*.tmd TITLEPATH
+	echo "Cancelled."
+	goto MainMenu_Title_Options
+end
+
+if	buildcia $[TITLEPATH]
+	echo "Title dump successful in $[GM9OUT]
+else
+	echo "Operation failed."
+end
+goto MainMenu_Title_Options
+
+
+
+#################Dump User Titles#################
+
+@Title_Options_Dump_User_Installed_Titles
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nTitle Options\n>Dump User Installed Titles"
+
+if	not ask "Dump user installed title to .cia in $[GM9OUT]?\n \nPlease make sure you have\nenough storage space."
+	goto MainMenu_Title_Options
+end
+
+if	not filesel -d "Select the .tmd file of the title you want to dump." A:/title/*.tmd TITLEPATH
+	echo "Cancelled."
+	goto MainMenu_Title_Options
+end
+
+if	buildcia $[TITLEPATH]
+	echo "Title dump successful in $[GM9OUT]
+else
+	echo "Operation failed."
+end
+goto MainMenu_Title_Options
+
+
+
+################Dump TWLNAND Titles###############
+
+@Title_Options_Dump_TWLNAND_Titles
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nTitle Options\n>Dump TWLNAND Titles"
+
+if	not ask "Dump TWLNAND title to .cia in $[GM9OUT]?\n \nPlease make sure you have\nenough storage space."
+	goto MainMenu_Title_Options
+end
+
+if	not filesel -d "Select the .tmd file of the title you want to dump." 2:/title/*.tmd TITLEPATH
+	echo "Cancelled."
+	goto MainMenu_Title_Options
+end
+
+if	buildcia $[TITLEPATH]
+	echo "Title dump successful in $[GM9OUT]"
+	
+else
+	echo "Operation failed."
+	
+end
+goto MainMenu_Title_Options
+
+
+
 ##############Dump Home Menu to .cia##############
 
-@Dump_Options_Dump_HomeMenu_to_.cia
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>HomeMenu to .cia Dump"
+@Title_Options_Dump_HomeMenu_to_.cia
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nTitle Options\n>Dump HomeMenu to .cia"
 
 if	not ask "Dump HomeMenu to .cia?\n \nPlease make sure you have\nenough storage space."
-	goto MainMenu_Dump_Options
+	goto MainMenu_Title_Options
 end
 
 set CIA2 "$[GM9OUT]/homemenu.cia"
@@ -933,7 +1059,7 @@ elif chk $[REGION] "TWN"
 	find 1:/title/00040030/0000B102/content/*.tmd TMD
 else
 	echo "Unknown Region.\nPlease contact the script author.\Aborting."
-	goto MainMenu_Dump_Options
+	goto MainMenu_Title_Options
 end
 
 if buildcia $[TMD]
@@ -952,7 +1078,7 @@ if buildcia $[TMD]
 	end
 else
 	echo "Operation failed."
-	goto MainMenu_Dump_Options
+	goto MainMenu_Title_Options
 end
 
 mv -w -n $[CIA1] $[CIA2]
@@ -964,7 +1090,7 @@ if	ask "Decrypt $[CIA2]?"
 else
     echo "Decrypt declined."
 end
-goto MainMenu_Dump_Options
+goto MainMenu_Title_Options
 
 
 
