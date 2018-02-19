@@ -1586,7 +1586,7 @@ goto Miscellaneous_Lazarus3DS
 
 @MainMenu_Exit
 
-set EXITINPUT "Show me da wae"
+set EXITINPUT "A"
 if	not input "Input the LETTER of your choice.\n \nA. Quit\nB. Reboot\nC. Shut Down\n \n" EXITINPUT
 	goto Start
 end
