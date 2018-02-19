@@ -1582,38 +1582,23 @@ goto Miscellaneous_Lazarus3DS
 
 
 
-######################Reboot######################
+######################Exit######################
 
-@MainMenu_Reboot
+@MainMenu_Exit
 
-if	ask "Reboot?"
-	reboot
-else
+set EXITINPUT "Show me da wae"
+if	not input "Input the LETTER of your choice.\n \nA. Quit\nB. Reboot\nC. Shut Down\n \n" EXITINPUT
 	goto Start
 end
-
-
-
-#####################Shut Down####################
-
-@MainMenu_ShutDown
-
-if	ask "Shut Down?"
+if	chk $[EXITINPUT] "A"
+	goto WAKAS
+elif chk $[EXITINPUT] "B"
+	reboot
+elif chk $[EXITINPUT] "C"
 	poweroff
 else
-	goto Start
+	echo "ERROR! Failed to choose correctly.\nDefaulting to Quit.\n \nLet me show you da wae."
 end
-
-#######################Quit#######################
-
-@MainMenu_Quit
-
-if	ask "NANI!?"
-	echo "OMAE WA MOU SHINDEIRU!!"
-else
-	goto Start
-end
-
 
 
 @WAKAS
