@@ -496,87 +496,209 @@ goto Start
 
 
 
-#################Dump Friend Save#################
+###################System Save Dump Options###################
 
-@Dump_Options_Dump_FriendSave
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Dump Friend Save"
+@Dump_Options_System_Save_Dump_Options
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>System Save Dump Options"
 
-if	ask "Dump friendsave in $[GM9OUT]?"
-	findnot $[GM9OUT]/friendsave_??? OUTPATH
+labelsel -o -s "Choose an Option." SysSave_Options_*
+goto MainMenu_Dump_Options
+
+
+
+#################Dump nnidsave.bin################
+
+@SysSave_Options_Dump_nnidsave.bin
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>>System Save Dump Options\n>>Dump nnidsave.bin"
+
+if	ask "Dump nnidsave.bin in $[GM9OUT]?"
+	findnot $[GM9OUT]/nnidsave_??.bin OUTPATH
+	cp -n 1:/data/$[SYSID0]/sysdata/00010038/00000000 $[OUTPATH]
+	echo "Dump created successfully:\n$[OUTPATH]"
+end
+goto Dump_Options_System_Save_Dump_Options
+
+
+
+################Dump friendsave.bin###############
+
+@SysSave_Options_Dump_friendsave.bin
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>>System Save Dump Options\n>>Dump friendsave.bin"
+
+if	ask "Dump friendsave.bin in $[GM9OUT]?"
+	findnot $[GM9OUT]/friendsave_??.bin OUTPATH
 	cp -n 1:/data/$[SYSID0]/sysdata/00010032/00000000 $[OUTPATH]
 	echo "Dump created successfully:\n$[OUTPATH]"
 end
+goto Dump_Options_System_Save_Dump_Options
+
+
+
+#################Dump seedsave.bin################
+
+@SysSave_Options_Dump_seedsave.bin
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>>System Save Dump Options\n>>Dump seedsave.bin"
+
+if	ask "Dump seedsave.bin in $[GM9OUT]?"
+	findnot $[GM9OUT]/seedsave_??.bin OUTPATH
+	cp -n 1:/data/$[SYSID0]/sysdata/0001000f/00000000 $[OUTPATH]
+	echo "Dump created successfully:\n$[OUTPATH]"
+end
+goto Dump_Options_System_Save_Dump_Options
+
+
+
+#################Dump nagsave.bin#################
+
+@SysSave_Options_Dump_nagsave.bin
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>>System Save Dump Options\n>>Dump nagsave.bin"
+
+if	ask "Dump nagsave.bin in $[GM9OUT]?"
+	findnot $[GM9OUT]/nagsave_??.bin OUTPATH
+	cp -n 1:/data/$[SYSID0]/sysdata/0001002c/00000000 $[OUTPATH]
+	echo "Dump created successfully:\n$[OUTPATH]"
+end
+goto Dump_Options_System_Save_Dump_Options
+
+
+
+################Dump configsave.bin###############
+
+@SysSave_Options_Dump_configsave.bin
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>>System Save Dump Options\n>>Dump configsave.bin"
+
+if	ask "Dump configsave.bin in $[GM9OUT]?"
+	findnot $[GM9OUT]/configsave_??.bin OUTPATH
+	cp -n 1:/data/$[SYSID0]/sysdata/00010017/00000000 $[OUTPATH]
+	echo "Dump created successfully:\n$[OUTPATH]"
+end
+goto Dump_Options_System_Save_Dump_Options
+
+
+
+#############System File Dump Options#############
+
+@Dump_Options_System_File_Dump_Options
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>System File Dump Options"
+
+labelsel -o -s "Choose an Option." SysFile_Options_*
 goto MainMenu_Dump_Options
 
 
 
 ############Dump LocalFriendCodeSeed_B############
 
-@Dump_Options_Dump_LocalFriendCodeSeedB
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Dump LocalFriendCodeSeed_B"
+@SysFile_Options_Dump_LocalFriendCodeSeedB
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>System File Dump Options\n>>Dump LocalFriendCodeSeed_B"
 
 if	ask "Dump LocalFriendCodeSeed_B in $[GM9OUT]?"
-	findnot $[GM9OUT]/$[SERIAL]_LocalFriendCodeSeed_B_??? OUTPATH
+	findnot $[GM9OUT]/$[SERIAL]_LocalFriendCodeSeed_B_?? OUTPATH
 	cp -w 1:/rw/sys/LocalFriendCodeSeed_B $[OUTPATH]
 	echo "Dump created successfully:\n$[OUTPATH]"
 end
-goto MainMenu_Dump_Options
+goto Dump_Options_System_File_Dump_Options
 
 
 
 #################Dump SecureInfo_A################
 
-@Dump_Options_Dump_SecureInfoA
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Dump SecureInfo_A"
+@SysFile_Options_Dump_SecureInfoA
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>System File Dump Options\n>>Dump SecureInfo_A"
 
-if	ask "Dump SecureInfo_A in $[GM9OUT]?"
-	findnot $[GM9OUT]/$[SERIAL]_SecureInfo_A_??? OUTPATH
-	cp -w 1:/rw/sys/SecureInfo_A $[OUTPATH]
-	echo "Dump created successfully:\n$[OUTPATH]"
+if	find 1:/rw/sys/SecureInfo_A NULL
+	if	ask "Dump SecureInfo_A in $[GM9OUT]?"
+		findnot $[GM9OUT]/$[SERIAL]_SecureInfo_A_?? OUTPATH
+		cp -w 1:/rw/sys/SecureInfo_A $[OUTPATH]
+		echo "Dump created successfully:\n$[OUTPATH]"
+	end
+else
+	echo "No SecureInfo_A found.\nLooking for SecureInfo_B/C"
 end
-goto MainMenu_Dump_Options
+if	find 1:/rw/sys/SecureInfo_B NULL
+	if	ask "SecureInfo_B found.\nDump SecureInfo_B in $[GM9OUT]?"
+		findnot $[GM9OUT]/$[SERIAL]_SecureInfo_B_?? OUTPATH
+		cp -w 1:/rw/sys/SecureInfo_B $[OUTPATH]
+		echo "Dump created successfully:\n$[OUTPATH]"
+	end
+end
+if	find 1:/rw/sys/SecureInfo_C NULL
+	if	ask "SecureInfo_C found.\nDump SecureInfo_C in $[GM9OUT]?"
+		findnot $[GM9OUT]/$[SERIAL]_SecureInfo_C_?? OUTPATH
+		cp -w 1:/rw/sys/SecureInfo_C $[OUTPATH]
+		echo "Dump created successfully:\n$[OUTPATH]"
+	end
+end
+goto Dump_Options_System_File_Dump_Options
 
 
 
 #################Dump movable.sed#################
 
-@Dump_Options_Dump_movable.sed
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Dump movable.sed"
+@SysFile_Options_Dump_movable.sed
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>System File Dump Options\n>>Dump movable.sed"
 
 if	ask "Dump movable.sed in $[GM9OUT]?"
-	findnot $[GM9OUT]/$[SERIAL]_movable_???.sed OUTPATH
+	findnot $[GM9OUT]/$[SERIAL]_movable_??.sed OUTPATH
 	cp -w 1:/private/movable.sed $[OUTPATH]
 	echo "Dump created successfully:\n$[OUTPATH]"
 end
-goto MainMenu_Dump_Options
+goto Dump_Options_System_File_Dump_Options
 
 
 
 ##################Dump ticket.db##################
 
-@Dump_Options_Dump_ticket.db
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Dump ticket.db"
+@SysFile_Options_Dump_ticket.db
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>System File Dump Options\n>>Dump ticket.db"
 
 if	ask "Dump ticket.db in $[GM9OUT]?"
-	findnot $[GM9OUT]/$[SERIAL]_ticket_???.db OUTPATH
+	findnot $[GM9OUT]/$[SERIAL]_ticket_??.db OUTPATH
 	cp -w 1:/dbs/ticket.db $[OUTPATH]
 	echo "Dump created successfully:\n$[OUTPATH]"
 end
-goto MainMenu_Dump_Options
+goto Dump_Options_System_File_Dump_Options
 
 
 
 ###################Dump title.db##################
 
-@Dump_Options_Dump_title.db
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Dump title.db"
+@SysFile_Options_Dump_title.db
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>System File Dump Options\n>>Dump title.db"
 
 if	ask "Dump title.db in $[GM9OUT]?"
-	findnot $[GM9OUT]/$[SERIAL]_title_???.db OUTPATH
+	findnot $[GM9OUT]/$[SERIAL]_title_??.db OUTPATH
 	cp -w 1:/dbs/title.db $[OUTPATH]
 	echo "Dump created successfully:\n$[OUTPATH]"
 end
-goto MainMenu_Dump_Options
+goto Dump_Options_System_File_Dump_Options
+
+
+
+##################Dump import.db##################
+
+@SysFile_Options_Dump_import.db
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>System File Dump Options\n>>Dump import.db"
+
+if	ask "Dump import.db in $[GM9OUT]?"
+	findnot $[GM9OUT]/$[SERIAL]_import_??.db OUTPATH
+	cp -w 1:/dbs/import.db $[OUTPATH]
+	echo "Dump created successfully:\n$[OUTPATH]"
+end
+goto Dump_Options_System_File_Dump_Options
+
+
+
+###################Dump certs.db##################
+
+@SysFile_Options_Dump_certs.db
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>System File Dump Options\n>>Dump certs.db"
+
+if	ask "Dump certs.db in $[GM9OUT]?"
+	findnot $[GM9OUT]/$[SERIAL]_certs_??.db OUTPATH
+	cp -w 1:/dbs/certs.db $[OUTPATH]
+	echo "Dump created successfully:\n$[OUTPATH]"
+end
+goto Dump_Options_System_File_Dump_Options
 
 
 
