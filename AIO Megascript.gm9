@@ -568,7 +568,7 @@ goto MainMenu_Dump_Options
 
 ###################Dump title.db##################
 
-@Dump_Options_Dump_title.db
+@Dump_Options_Dump_ticket.db
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Dump title.db"
 
 if	ask "Dump title.db in $[GM9OUT]?"
@@ -590,7 +590,7 @@ if	ask "Dump gbavc.sav in $[GM9OUT]?\nFor GodMode9 v.1.4.1 and below only."
 	cp -w S:/gbavc.sav $[OUTPATH]
 	echo "Dump created successfully:\n$[OUTPATH]"
 end
-goto MainMenu_Dump_Options
+goto MainMenu_Backup_Options
 
 
 
