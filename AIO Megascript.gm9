@@ -79,7 +79,7 @@ if	not ask "WARNING:\nSystem exploit will not be protected!\nOnly do a full rest
 	goto MainMenu_Restore_Options
 end
 
-if	not filesel "Select NAND Backup." $[GM9OUT]/*nand_???.bin NANDBAK
+if	not filesel "Select NAND Backup." $[GM9OUT]/*nand_??.bin NANDBAK
 	echo "Operation cancelled."
 	goto MainMenu_Restore_Options
 end
@@ -126,7 +126,7 @@ if	not chk -u $[HAX] "ntrboot"
 	goto MainMenu_Restore_Options
 end
 
-if	not filesel "Select NAND Backup." $[GM9OUT]/*nand_???.bin NANDBAK
+if	not filesel "Select NAND Backup." $[GM9OUT]/*nand_??.bin NANDBAK
 	echo "Operation cancelled."
 	goto MainMenu_Restore_Options
 end
@@ -165,7 +165,7 @@ if	findnot E:/ NULL
 	goto MainMenu_Restore_Options
 end
 
-if	not filesel "Select NAND Backup." $[GM9OUT]/*nand_???.bin NANDBAK
+if	not filesel "Select NAND Backup." $[GM9OUT]/*nand_??.bin NANDBAK
 	goto MainMenu_Restore_Options
 end
 
@@ -509,7 +509,7 @@ goto MainMenu_Dump_Options
 #################Dump nnidsave.bin################
 
 @SysSave_Options_Dump_nnidsave.bin
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>>System Save Dump Options\n>>Dump nnidsave.bin"
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>System Save Dump Options\n>>Dump nnidsave.bin"
 
 if	ask "Dump nnidsave.bin in $[GM9OUT]?"
 	findnot $[GM9OUT]/nnidsave_??.bin OUTPATH
@@ -523,7 +523,7 @@ goto Dump_Options_System_Save_Dump_Options
 ################Dump friendsave.bin###############
 
 @SysSave_Options_Dump_friendsave.bin
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>>System Save Dump Options\n>>Dump friendsave.bin"
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>System Save Dump Options\n>>Dump friendsave.bin"
 
 if	ask "Dump friendsave.bin in $[GM9OUT]?"
 	findnot $[GM9OUT]/friendsave_??.bin OUTPATH
@@ -537,7 +537,7 @@ goto Dump_Options_System_Save_Dump_Options
 #################Dump seedsave.bin################
 
 @SysSave_Options_Dump_seedsave.bin
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>>System Save Dump Options\n>>Dump seedsave.bin"
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>System Save Dump Options\n>>Dump seedsave.bin"
 
 if	ask "Dump seedsave.bin in $[GM9OUT]?"
 	findnot $[GM9OUT]/seedsave_??.bin OUTPATH
@@ -551,7 +551,7 @@ goto Dump_Options_System_Save_Dump_Options
 #################Dump nagsave.bin#################
 
 @SysSave_Options_Dump_nagsave.bin
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>>System Save Dump Options\n>>Dump nagsave.bin"
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>System Save Dump Options\n>>Dump nagsave.bin"
 
 if	ask "Dump nagsave.bin in $[GM9OUT]?"
 	findnot $[GM9OUT]/nagsave_??.bin OUTPATH
@@ -565,7 +565,7 @@ goto Dump_Options_System_Save_Dump_Options
 ################Dump configsave.bin###############
 
 @SysSave_Options_Dump_configsave.bin
-set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>>System Save Dump Options\n>>Dump configsave.bin"
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>System Save Dump Options\n>>Dump configsave.bin"
 
 if	ask "Dump configsave.bin in $[GM9OUT]?"
 	findnot $[GM9OUT]/configsave_??.bin OUTPATH
@@ -593,7 +593,7 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n
 
 if	ask "Dump LocalFriendCodeSeed_B in $[GM9OUT]?"
 	findnot $[GM9OUT]/$[SERIAL]_LocalFriendCodeSeed_B_?? OUTPATH
-	cp -w 1:/rw/sys/LocalFriendCodeSeed_B $[OUTPATH]
+	cp -n 1:/rw/sys/LocalFriendCodeSeed_B $[OUTPATH]
 	echo "Dump created successfully:\n$[OUTPATH]"
 end
 goto Dump_Options_System_File_Dump_Options
@@ -608,7 +608,7 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n
 if	find 1:/rw/sys/SecureInfo_A NULL
 	if	ask "Dump SecureInfo_A in $[GM9OUT]?"
 		findnot $[GM9OUT]/$[SERIAL]_SecureInfo_A_?? OUTPATH
-		cp -w 1:/rw/sys/SecureInfo_A $[OUTPATH]
+		cp -n 1:/rw/sys/SecureInfo_A $[OUTPATH]
 		echo "Dump created successfully:\n$[OUTPATH]"
 	end
 else
@@ -617,14 +617,14 @@ end
 if	find 1:/rw/sys/SecureInfo_B NULL
 	if	ask "SecureInfo_B found.\nDump SecureInfo_B in $[GM9OUT]?"
 		findnot $[GM9OUT]/$[SERIAL]_SecureInfo_B_?? OUTPATH
-		cp -w 1:/rw/sys/SecureInfo_B $[OUTPATH]
+		cp -n 1:/rw/sys/SecureInfo_B $[OUTPATH]
 		echo "Dump created successfully:\n$[OUTPATH]"
 	end
 end
 if	find 1:/rw/sys/SecureInfo_C NULL
 	if	ask "SecureInfo_C found.\nDump SecureInfo_C in $[GM9OUT]?"
 		findnot $[GM9OUT]/$[SERIAL]_SecureInfo_C_?? OUTPATH
-		cp -w 1:/rw/sys/SecureInfo_C $[OUTPATH]
+		cp -n 1:/rw/sys/SecureInfo_C $[OUTPATH]
 		echo "Dump created successfully:\n$[OUTPATH]"
 	end
 end
@@ -639,7 +639,7 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n
 
 if	ask "Dump movable.sed in $[GM9OUT]?"
 	findnot $[GM9OUT]/$[SERIAL]_movable_??.sed OUTPATH
-	cp -w 1:/private/movable.sed $[OUTPATH]
+	cp -n 1:/private/movable.sed $[OUTPATH]
 	echo "Dump created successfully:\n$[OUTPATH]"
 end
 goto Dump_Options_System_File_Dump_Options
@@ -653,7 +653,7 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n
 
 if	ask "Dump ticket.db in $[GM9OUT]?"
 	findnot $[GM9OUT]/$[SERIAL]_ticket_??.db OUTPATH
-	cp -w 1:/dbs/ticket.db $[OUTPATH]
+	cp -n 1:/dbs/ticket.db $[OUTPATH]
 	echo "Dump created successfully:\n$[OUTPATH]"
 end
 goto Dump_Options_System_File_Dump_Options
@@ -667,7 +667,7 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n
 
 if	ask "Dump title.db in $[GM9OUT]?"
 	findnot $[GM9OUT]/$[SERIAL]_title_??.db OUTPATH
-	cp -w 1:/dbs/title.db $[OUTPATH]
+	cp -n 1:/dbs/title.db $[OUTPATH]
 	echo "Dump created successfully:\n$[OUTPATH]"
 end
 goto Dump_Options_System_File_Dump_Options
@@ -681,7 +681,7 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n
 
 if	ask "Dump import.db in $[GM9OUT]?"
 	findnot $[GM9OUT]/$[SERIAL]_import_??.db OUTPATH
-	cp -w 1:/dbs/import.db $[OUTPATH]
+	cp -n 1:/dbs/import.db $[OUTPATH]
 	echo "Dump created successfully:\n$[OUTPATH]"
 end
 goto Dump_Options_System_File_Dump_Options
@@ -695,7 +695,7 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n
 
 if	ask "Dump certs.db in $[GM9OUT]?"
 	findnot $[GM9OUT]/$[SERIAL]_certs_??.db OUTPATH
-	cp -w 1:/dbs/certs.db $[OUTPATH]
+	cp -n 1:/dbs/certs.db $[OUTPATH]
 	echo "Dump created successfully:\n$[OUTPATH]"
 end
 goto Dump_Options_System_File_Dump_Options
@@ -708,8 +708,8 @@ goto Dump_Options_System_File_Dump_Options
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Dump GBAVC.sav"
 
 if	ask "Dump gbavc.sav in $[GM9OUT]?\nFor GodMode9 v.1.4.1 and below only."
-	findnot $[GM9OUT]/gbavc_???.sav OUTPATH
-	cp -w S:/gbavc.sav $[OUTPATH]
+	findnot $[GM9OUT]/gbavc_??.sav OUTPATH
+	cp -n S:/gbavc.sav $[OUTPATH]
 	echo "Dump created successfully:\n$[OUTPATH]"
 end
 goto MainMenu_Dump_Options
@@ -861,7 +861,7 @@ end
 
 if	filesel "Select the LocalFriendCodeSeed you want to inject." $[GM9OUT]/*LocalFriendCodeSeed_B_* COPYPATH 
 	set OUTPATH 1:/rw/sys/LocalFriendCodeSeed_B
-	cp -w $[COPYPATH] $[OUTPATH]
+	cp -w -n $[COPYPATH] $[OUTPATH]
 	echo "LocalFriendCodeSeed_B injected successfully:\n$[OUTPATH]"
 else
 	echo "Operation cancelled."
@@ -881,7 +881,7 @@ end
 
 if	filesel "Select the LocalFriendCodeSeed you want to inject." $[GM9OUT]/*SecureInfo_A_* COPYPATH 
 	set OUTPATH 1:/rw/sys/SecureInfo_A
-	cp -w $[COPYPATH] $[OUTPATH]
+	cp -w -n $[COPYPATH] $[OUTPATH]
 	echo "SecureInfo_A injected successfully:\n$[OUTPATH]"
 else
 	echo "Operation cancelled."
@@ -901,7 +901,7 @@ end
 
 if	filesel "Select the movable.sed you want to inject." $[GM9OUT]/*movable_*.sed COPYPATH 
 	set OUTPATH 1:/private/movable.sed
-	cp -w $[COPYPATH] $[OUTPATH]
+	cp -w -n $[COPYPATH] $[OUTPATH]
 	echo "movable.sed injected successfully:\n$[OUTPATH]"
 else
 	echo "Operation cancelled."
@@ -921,7 +921,7 @@ end
 
 if	filesel "Select the ticket.db you want to inject." $[GM9OUT]/*ticket_*.db COPYPATH 
 	set OUTPATH 1:/dbs/ticket.db
-	cp -w $[COPYPATH] $[OUTPATH]
+	cp -w -n $[COPYPATH] $[OUTPATH]
 	echo "ticket.db injected successfully:\n$[OUTPATH]"
 else
 	echo "Operation cancelled."
@@ -941,7 +941,7 @@ end
 
 if	filesel "Select the title.db you want to inject." $[GM9OUT]/*title_*.db COPYPATH 
 	set OUTPATH 1:/dbs/title.db
-	cp -w $[COPYPATH] $[OUTPATH]
+	cp -w -n $[COPYPATH] $[OUTPATH]
 	echo "title.db injected successfully:\n$[OUTPATH]"
 else
 	echo "Operation cancelled."
@@ -959,7 +959,7 @@ if	not ask "Inject gbavc.sav from $[GM9OUT]?\n(This will overwrite your 3DS's cu
 	goto MainMenu_Inject_Options
 end
 
-if	filesel "Select the gbavc.sav you want to inject." $[GM9OUT]/gbavc_???.sav COPYPATH
+if	filesel "Select the gbavc.sav you want to inject." $[GM9OUT]/gbavc_??.sav COPYPATH
 	cp -w -n $[COPYPATH] S:/gbavc.sav
 	echo "gbavc.sav injected successfully."
 else
@@ -989,7 +989,7 @@ if	not ask "Dump private header in $[GM9OUT]?"
 end
 
 if	find C:/*priv.bin CARTPATH
-	findnot $[GM9OUT]/Private-Header_???.bin OUTPATH
+	findnot $[GM9OUT]/Private-Header_??.bin OUTPATH
 	cp -n $[CARTPATH] $[OUTPATH]
 	echo "Private header successfully dumped:\n$[OUTPATH]"
 else
@@ -1013,7 +1013,7 @@ if	not find C:/*.3ds CARTPATH
 	goto MainMenu_Cartridge_Options
 end
 
-findnot $[GM9OUT]/$[DATESTAMP]_CTR_CARTDUMP_???.3ds OUTPATH
+findnot $[GM9OUT]/$[DATESTAMP]_CTR_CARTDUMP_??.3ds OUTPATH
 
 if	cp $[CARTPATH] $[OUTPATH]
 	echo "CTR cartridge successfully dumped:\n$[OUTPATH]"
@@ -1065,7 +1065,7 @@ if	not find C:/*.nds CARTPATH
 	goto MainMenu_Cartridge_Options
 end
 
-findnot $[GM9OUT]/$[DATESTAMP]_NTR_CARTDUMP_???.nds OUTPATH
+findnot $[GM9OUT]/$[DATESTAMP]_NTR_CARTDUMP_??.nds OUTPATH
 
 if	cp $[CARTPATH] $[OUTPATH]
 	echo "NTR cartridge successfully dumped:\n$[OUTPATH]"
@@ -1326,7 +1326,7 @@ if	find 1:/data/$[SYSID0]/sysdata/00010022/00000001 NULL
 end
 
 if	ask "Do a backup of activity log first in\n$[GM9OUT]?"
-	findnot $[GM9OUT]/$[DATESTAMP]_$[SERIAL]_00000000_??? OUTPATH
+	findnot $[GM9OUT]/$[DATESTAMP]_$[SERIAL]_00000000_?? OUTPATH
 	if	cp 1:/data/$[SYSID0]/sysdata/00010022/00000000 $[OUTPATH]
 		echo "Activity log backup created successfully in\n$[OUTPATH]"
 	else
@@ -1514,7 +1514,7 @@ if	not ask "This script revives bricked consoles and\nattempts to recover what d
 end
 
 echo "Checking if Proper Files Exists."
-if	not find 0:/pit/ctrnand_?3ds_???_*.bin CTRNAND
+if	not find 0:/pit/ctrnand_?3ds_??_*.bin CTRNAND
 	echo "CTRNAND file not found!"
 	goto Miscellaneous_Lazarus3DS
 end
