@@ -335,7 +335,7 @@ cp -w -o -s -n S:/firm1.bin 9:/sdcompiled/gm9/out/$[SERIAL]_firm1.bin
 
 if	ask "(Optional)Inject FBI to H&S?"
 	if	find 0:/annson24/FBI FBISRC
-		if	find 1:/title/00040010/20021300/content/00000004.app FBIPATH	#New US
+		if	find 1:/title/00040010/20021300/content/00000002.app FBIPATH	#New US
 			mv -w -n $[FBIPATH] $[FBIPATH].bak
 			cp -w -n $[FBISRC]/NewUS.app $[FBIPATH]
 			echo "FBI injected to H&S successfully."
