@@ -898,7 +898,7 @@ end
 if	ask "Inject $[FRIEND]?"
 	set OUTPATH 1:/data/$[SYSID0]/sysdata/00010032/00000000
 	cp -w -n $[FRIEND] $[OUTPATH]
-	echo " Friend-save injected successfully:\n$[OUTPATH]
+	echo "Friend-save injected successfully:\n$[OUTPATH]"
 else
 	echo "Operation cancelled."
 end
@@ -1325,7 +1325,7 @@ if	not filesel -d "Select the .tmd file of the title you want to dump." 1:/title
 end
 
 if	buildcia $[TITLEPATH]
-	echo "Title dump successful in $[GM9OUT]
+	echo "Title dump successful in $[GM9OUT]"
 else
 	echo "Operation failed."
 end
@@ -1348,7 +1348,7 @@ if	not filesel -d "Select the .tmd file of the title you want to dump." A:/title
 end
 
 if	buildcia $[TITLEPATH]
-	echo "Title dump successful in $[GM9OUT]
+	echo "Title dump successful in $[GM9OUT]"
 else
 	echo "Operation failed."
 end
