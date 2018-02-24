@@ -60,6 +60,7 @@ d0k3
 emillois
 TurdPooCharger
 Plailect
+AnalogMan
 windows_server_2003
 SvenDaHacker64
 MyLegGuy
