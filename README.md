@@ -51,4 +51,18 @@ SDMC
 
 7. now within the annson24 folder, there is another folder named 'sdcompiled' inside this are all the necessary files we need to have on our sd card after we install boot9strap. Think of this as the finalization proccess on plailect's guide. But since this is a 'PCless' installation, this is done purely on the 3ds.
 
-7.1 the script will copy all the files from 'sdcompiled' folder to the RAM of the 3DS, then it'll prompt the user to swap the sd card to whichever sd card the user wants to use. Once sd cards are swapped, the script will then move the files from the RAM to the newly inserted sdcard.
+8. the script will copy all the files from 'sdcompiled' folder to the RAM of the 3DS, then it'll prompt the user to swap the sd card to whichever sd card the user wants to use. Once sd cards are swapped, the script will then move the files from the RAM to the newly inserted sdcard.
+
+
+Credits:
+d0k3
+8bitwonder
+emillois
+TurdPooCharger
+Plailect
+windows_server_2003
+SvenDaHacker64
+MyLegGuy
+Some1CP
+figgyc
+ihaveamac
