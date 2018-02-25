@@ -196,7 +196,7 @@ goto MainMenu_Restore_Options
 @MainMenu_CTRNAND_Transfer
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCTRNAND Transfer"
 
-if	not filesel "Select a CTRNAND transfer file." $[GM9OUT]/*ctrtransfer*.bin CTRNAND
+if	not filesel -d "Select a CTRNAND transfer file." 0:/*ctrtransfer*.bin CTRNAND
 	goto Start
 end
 if	not ask "CTRTransfer\n$[CTRNAND]\nto sysNAND?"
