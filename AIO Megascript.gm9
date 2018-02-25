@@ -1,4 +1,8 @@
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCredits:\nd0k3\n8bitwonder\nwindows_server_2003\nSvenDaHacker64\nMyLegGuy\nemillois\nAnalogMan151\nTurdPooCharger\netc."
+if	not find 0:/gm9/in NULL
+	mkdir 0:/gm9/in
+end
+set GM9IN "0:/gm9/in"
 
 #####################Main Menu####################
 
@@ -196,7 +200,7 @@ goto MainMenu_Restore_Options
 @MainMenu_CTRNAND_Transfer
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCTRNAND Transfer"
 
-if	not filesel -d "Select a CTRNAND transfer file." 0:/*ctrtransfer*.bin CTRNAND
+if	not filesel "Select a CTRNAND transfer file." $[GM9IN]/*ctrtransfer*.bin CTRNAND
 	goto Start
 end
 if	not ask "CTRTransfer\n$[CTRNAND]\nto sysNAND?"
@@ -270,11 +274,11 @@ goto MainMenu_Hax_Options
 @Install_Boot9Strap_Normal_Install
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nHax Options\n>Boot9strap Install Options\n>>Normal Boot9strap Install"
 
-if	not ask "Install Boot9Strap Normally?\nYou should have the Boot9Strap files in the\nSD\boot9strap folder before proceeding."
+if	not ask "Install Boot9Strap Normally?\nYou should have the Boot9Strap files in the\nSDMC/gm9/in/boot9strap folder before proceeding."
 	goto Hax_Options_Install_Boot9Strap
 end
 
-if	not find 0:/boot9strap/boot9stra*.firm B9S
+if	not find $[GM9IN]/boot9strap/boot9stra*.firm B9S
 	echo "Boot9Strap file not found! Aborting."
 	goto Hax_Options_Install_Boot9Strap
 end
@@ -286,12 +290,12 @@ end
 
 if	chk $[ONTYPE] "N3DS"
 	if	not sha S:/sector0x96.bin 82F2730D2C2DA3F30165F987FDCCAC5CBAB24B4E5F65C981CD7BE6F438E6D9D3
-		if	not ask	"Sector 0x96 is not genuine.\nAttempt to fix sector 0x96 and proceed\nwith B9S Installation?\nYou must have the secret_sector.bin file\nin SDMC/boot9strap folder."
+		if	not ask	"Sector 0x96 is not genuine.\nAttempt to fix sector 0x96 and proceed\nwith B9S Installation?\nYou must have the secret_sector.bin file\nin SDMC/gm9/in/boot9strap folder."
 			echo "Aborting."
 			goto Hax_Options_Install_Boot9Strap
 		end
 		
-		if	not find 0:/boot9strap/secret_sector.bin SECRET
+		if	not find $[GM9IN]/boot9strap/secret_sector.bin SECRET
 			echo "secret_sector.bin not found. Aborting."
 			goto Hax_Options_Install_Boot9Strap
 		end
@@ -325,21 +329,21 @@ goto Hax_Options_Install_Boot9Strap
 @Install_Boot9Strap_PC-Less_Install
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nHax Options\n>Boot9strap Install Options\n>>PC-Less Boot9strap Install"
 
-if	not ask "Proceed with PC-Less B9S Installation?\nYou should have the proper files in\nSDMC/annson24 folder before proceeding."
+if	not ask "Proceed with PC-Less B9S Installation?\nYou should have the PC-Less b9s pack in you SDMC."
 	goto Hax_Options_Install_Boot9Strap
 end
 	
-if	not find 0:/annson24/boot9strap/boot9stra*.firm B9S
+if	not find $[GM9IN]/boot9strap/boot9stra*.firm B9S
 	echo "Boot9Strap file not found! Aborting."
 	goto Hax_Options_Install_Boot9Strap
 end
 
-if	not find 0:/annson24/Luma3DS LUMA
+if	not find $[GM9IN]/Luma3DS LUMA
 	echo "Luma3DS not found! Aborting."
 	goto Hax_Options_Install_Boot9Strap
 end
 
-if	not find 0:/annson24/sdcompiled SDCOMP
+if	not find $[GM9IN]/sdcompiled SDCOMP
 	echo "SD compiled files not found! Aborting."
 	goto Hax_Options_Install_Boot9Strap
 end
@@ -356,12 +360,12 @@ end
 
 if	chk $[ONTYPE] "N3DS"
 	if	not sha S:/sector0x96.bin 82F2730D2C2DA3F30165F987FDCCAC5CBAB24B4E5F65C981CD7BE6F438E6D9D3
-		if	not ask	"Sector 0x96 is not genuine.\nAttempt to fix sector 0x96 and proceed\nwith B9S Installation?\nYou must have the secret_sector.bin file\nin SDMC/annson24/boot9strap folder."
+		if	not ask	"Sector 0x96 is not genuine.\nAttempt to fix sector 0x96 and proceed\nwith B9S Installation?\nYou must have the secret_sector.bin file\nin SDMC/gm9/in/boot9strap folder."
 			echo "Aborting."
 			goto Hax_Options_Install_Boot9Strap
 		end
 		
-		if	not find 0:/annson24/boot9strap/secret_sector.bin SECRET
+		if	not find $[GM9IN]/boot9strap/secret_sector.bin SECRET
 			echo "secret_sector.bin not found. Aborting."
 			goto Hax_Options_Install_Boot9Strap
 		end
@@ -390,7 +394,7 @@ cp -w -o -s -n S:/firm0.bin 9:/sdcompiled/gm9/out/$[SERIAL]_firm0.bin
 cp -w -o -s -n S:/firm1.bin 9:/sdcompiled/gm9/out/$[SERIAL]_firm1.bin
 
 if	ask "(Optional)Inject FBI to H&S?"
-	if	find 0:/annson24/FBI FBISRC
+	if	find $[GM9IN]/FBI FBISRC
 		if	find 1:/title/00040010/20021300/content/00000002.app FBIPATH	#New US
 			mv -w -n $[FBIPATH] $[FBIPATH].bak
 			cp -w -n $[FBISRC]/NewUS.app $[FBIPATH]
@@ -470,12 +474,12 @@ else
 end
 
 if	not sha S:/sector0x96.bin 82F2730D2C2DA3F30165F987FDCCAC5CBAB24B4E5F65C981CD7BE6F438E6D9D3
-	if	not ask	"Sector 0x96 is not genuine.\nAttempt to fix sector 0x96 and proceed\nwith B9S Installation?\nYou must have the secret_sector.bin file\nin SDMC/boot9strap folder."
+	if	not ask	"Sector 0x96 is not genuine.\nAttempt to fix sector 0x96 and proceed\nwith B9S Installation?\nYou must have the secret_sector.bin file\nin SDMC/gm9/in/boot9strap folder."
 		echo "Aborting."
 		goto MainMenu_Hax_Options
 	end
 	
-	if	not find 0:/annson24/boot9strap/secret_sector.bin SECRET
+	if	not find $[GM9IN]/boot9strap/secret_sector.bin SECRET
 		echo "secret_sector.bin not found. Aborting."
 		goto MainMenu_Hax_Options
 	end
@@ -1448,7 +1452,7 @@ goto Miscellaneous_Title_Options
 @Miscellaneous_.3ds_to_.cia_Converter
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \n.3ds to .cia Converter"
 
-if	not filesel "Select the .3ds file to convert." $[GM9OUT]/*.3ds 3DSCIA
+if	not filesel "Select the .3ds file to convert." $[GM9IN]/*.3ds 3DSCIA
 	echo "Cancelled."
 	goto MainMenu_Miscellaneous
 end
@@ -1547,21 +1551,26 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nNintendo3DS Fo
 if	not ask "Swap your current Nintendo 3DS folder with another?"
 	goto MainMenu_Miscellaneous
 end
-
-if	not dirsel "Swap with which folder?\nYour current folder will be renamed as\nthe folder you swapped with." 0: DESIREDPATH
+if	not dirsel "Swap with which folder?\nYour current folder will be renamed as\nthe folder you swapped with." $[GM9IN] DESIREDPATH
 	echo "Operation Cancelled."
 	goto MainMenu_Miscellaneous
 end
-
-if	ask "Use $[DESIREDPATH]?"
-	set ORIGINALPATH "0:/Nintendo 3DS"
-	mv -n -w $[ORIGINALPATH] "0:/Nintendo 3DSTEMP"
-	mv -n -w $[DESIREDPATH] $[ORIGINALPATH]
-	mv -n -w "0:/Nintendo 3DSTEMP" $[DESIREDPATH]
-	echo "Folders successfully swapped."
-else
+if	not ask "Use $[DESIREDPATH]?"
 	goto Miscellaneous_Nintendo3DS_Folder_Swap
 end
+set ORIGINALPATH "0:/Nintendo 3DS"
+mv -n -w $[ORIGINALPATH] "0:/Nintendo 3DSTEMP"
+mv -n -w $[DESIREDPATH] $[ORIGINALPATH]
+if	not ask "Rename the previous Nintendo3DS folder?"
+else
+	strsplit USERINPUT $[DESIREDPATH] "/"
+	if	not input "Rename the folder." USERINPUT
+	else
+		set DESIREDPATH "$[GM9IN]/$[USERINPUT]"
+	end
+end
+mv -n -w "0:/Nintendo 3DSTEMP" $[DESIREDPATH]
+echo "Folders successfully swapped."
 goto MainMenu_Miscellaneous
 
 
