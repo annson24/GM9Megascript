@@ -34,11 +34,11 @@ If the check fails, the script will prompt the user if they want to attempt to f
 Here's the branches of the folder that it checks.
 
 SDMC
-	* gm9
-		* in
-			* boot9strap
-			* Luma3DS
-			* sdcompiled
+* gm9
+* * in
+* * * boot9strap
+* * * Luma3DS
+* * * sdcompiled
 
 3. If everything is in check, it'll then backup your boot9.bin and boot11.bin.
 
