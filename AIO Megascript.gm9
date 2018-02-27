@@ -226,7 +226,7 @@ elif find 1:/rw/sys/SecureInfo_B SECNFO
 else
 	cp -n 1:/rw/sys/SecureInfo_C 1:/rw/sys/SecureInfo_A
 end
-cp -n -o -s $[SECNFO] 1:/rw/sys/SecureInfo_C
+cp -n -w -o -s $[SECNFO] 1:/rw/sys/SecureInfo_C
 
 imgmount $[CTRNAND]
 
@@ -393,34 +393,6 @@ end
 cp -w -o -s -n S:/firm0.bin 9:/sdcompiled/gm9/out/$[SERIAL]_firm0.bin
 cp -w -o -s -n S:/firm1.bin 9:/sdcompiled/gm9/out/$[SERIAL]_firm1.bin
 
-if	ask "(Optional)Inject FBI to H&S?"
-	if	find $[GM9IN]/FBI FBISRC
-		if	find 1:/title/00040010/20021300/content/00000002.app FBIPATH	#New US
-			mv -w -n $[FBIPATH] $[FBIPATH].bak
-			cp -w -n $[FBISRC]/NewUS.app $[FBIPATH]
-			echo "FBI injected to H&S successfully."
-		elif find 1:/title/00040010/00021300/content/00000005.app FBIPATH	#Old US
-			mv -w -n $[FBIPATH] $[FBIPATH].bak
-			cp -w -n $[FBISRC]/OldUS.app $[FBIPATH]
-			echo "FBI injected to H&S successfully."
-		elif find 1:/title/00040010/20022300/content/00000002.app FBIPATH	#New EU
-			mv -w -n $[FBIPATH] $[FBIPATH].bak
-			cp -w -n $[FBISRC]/NewEU.app $[FBIPATH]
-			echo "FBI injected to H&S successfully."
-		elif find 1:/title/00040010/00022300/content/00000008.app FBIPATH	#Old EU
-			mv -w -n $[FBIPATH] $[FBIPATH].bak
-			cp -w -n $[FBISRC]/OldEU.app $[FBIPATH]
-			echo "FBI injected to H&S successfully."
-		else
-			echo "Sorry, $[REGION] $[ONTYPE] not yet supported.\nInject FBI manually.\nPlease contact the script author for support."
-		end
-	else
-		echo "FBI not found.\nProceeding with B9S installation\nwithout FBI injection."
-	end
-else
-	echo "FBI inject declined.\nProceeding with B9S installation."
-end
-
 cp -w -n $[B9S] S:/firm0.bin
 cp -w -n $[B9S] S:/firm1.bin
 
@@ -440,14 +412,14 @@ if	switchsd "Swap SD card now."
 		if	ask "Seems like SD cards are not swapped, continue anyway?"
 			echo "Moving compiled files from RAM to target SD."
 			mv -w -n 9:/sdcompiled 0:/
-			echo "Boot9Strap Successfully installed."
+			echo "Boot9strap successfully installed."
 		else
 			goto SwapSD
 		end
 	else
 		echo "Moving compiled files from RAM to target SD."
 		mv -w -n 9:/sdcompiled 0:/
-		echo "Boot9Strap Successfully installed."
+		echo "Boot9strap successfully installed."
 	end
 else
 	echo "SD read error!\nPlease try again."
@@ -543,6 +515,144 @@ else
 	echo "Permissions denied. Aborting."
 end
 goto MainMenu_Hax_Options
+
+
+
+################FBI to H&S Options################
+
+@MainMenu_FBI_to_H&S_Options
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nFBI to H&S Options"
+
+labelsel -o -s "Choose an Option." FBI_*
+goto Start
+
+#################Inject FBI to H&S################
+
+@FBI_Inject_FBI_to_H&S
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nFBI to H&S Options\n>Inject FBI to H&S"
+
+if	not ask "Inject FBI to H&S?"
+	goto MainMenu_FBI_to_H&S_Options
+end
+if	not find $[GM9IN]/FBI FBISRC
+	echo "$[GM9IN]/FBI/FBI.cia not found. Aborting."
+	goto MainMenu_FBI_to_H&S_Options
+end
+
+if	chk $[REGION] "USA"
+	if	chk $[ONTYPE] "n3ds"
+		set H&SPATH "1:/title/00040010/20021300/content/00000002"
+	else
+		set H&SPATH "1:/title/00040010/00021300/content/00000005"
+	end
+elif chk $[REGION] "EUR"
+	if	chk $[ONTYPE] "n3ds"
+		set H&SPATH "1:/title/00040010/20022300/content/00000002"
+	else
+		set H&SPATH "1:/title/00040010/00022300/content/00000008"
+	end
+elif chk $[REGION] "JPN"
+	if	chk $[ONTYPE] "n3ds"
+		set H&SPATH "1:/title/00040010/20020300/content/00000005"
+	else
+		set H&SPATH "1:/title/00040010/00020300/content/00000002"
+	end
+elif chk $[REGION] "KOR"
+	set H&SPATH "1:/title/00040010/20027300/content/00000003"
+else
+	echo "Unknown or unsupported region. Aborting."
+	rm -o -s $[GM9TEMP]
+	goto MainMenu_FBI_to_H&S_Options
+end
+
+if	find $[H&SPATH].bak NULL
+	if	not ask "H&S seems to be injected already.\nOriginal H&S might not be restorable anymore\nif chosen to continue. Continue anyway?"
+		goto MainMenu_FBI_to_H&S_Options
+	end
+end
+if	not allow -a 1:/
+	echo "Permissions denied. Aborting"
+end
+
+if	not find 0:/gm9/temp NULL
+	mkdir 0:/gm9/temp
+end
+set GM9TEMP "0:/gm9/temp"
+
+imgmount 0:/gm9/in/FBI/FBI.cia
+find G:/*.app FBIAPP
+strsplit FBINC $[FBIAPP] "/"
+strsplit -b FBINC $[FBINC] "."
+cp -n -w $[FBIAPP] $[GM9TEMP]/00000002.app
+cp -n -w G:/$[FBINC]/ncch.bin $[GM9TEMP]/FBIncch.bin
+imgumount
+
+imgmount $[H&SPATH].app
+cp -n -w G:/ncch.bin $[GM9TEMP]/H&Sncch.bin
+imgumount
+
+set FBI "$[GM9TEMP]/FBIncch.bin"
+set H&S "$[GM9TEMP]/H&Sncch.bin"
+
+inject $[FBI]@104:2 $[H&S]@104
+inject $[FBI]@111:1 $[H&S]@111
+inject $[FBI]@130:D0 $[H&S]@130
+
+inject $[H&S]@000:200 $[GM9TEMP]/00000002.app@000
+encrypt $[GM9TEMP]/00000002.app
+
+mv $[H&SPATH].app $[H&SPATH].bak
+mv $[GM9TEMP]/00000002.app $[H&SPATH].app
+
+rm -o -s $[GM9TEMP]
+echo "FBI successfully injected to H&S."
+goto MainMenu_FBI_to_H&S_Options
+
+
+
+################Restore H&S################
+
+@FBI_Restore_H&S
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nFBI to H&S Options\n>Restore H&S"
+
+if	not ask "Restore H&S?"
+	goto MainMenu_FBI_to_H&S_Options
+end
+if	chk $[REGION] "USA"
+	if	chk $[ONTYPE] "n3ds"
+		set H&SPATH "1:/title/00040010/20021300/content/00000002"
+	else
+		set H&SPATH "1:/title/00040010/00021300/content/00000005"
+	end
+elif chk $[REGION] "EUR"
+	if	chk $[ONTYPE] "n3ds"
+		set H&SPATH "1:/title/00040010/20022300/content/00000002"
+	else
+		set H&SPATH "1:/title/00040010/00022300/content/00000008"
+	end
+elif chk $[REGION] "JPN"
+	if	chk $[ONTYPE] "n3ds"
+		set H&SPATH "1:/title/00040010/20020300/content/00000005"
+	else
+		set H&SPATH "1:/title/00040010/00020300/content/00000002"
+	end
+elif chk $[REGION] "KOR"
+	set H&SPATH "1:/title/00040010/20027300/content/00000003"
+else
+	echo "Unknown or unsupported region. Aborting."
+	goto MainMenu_FBI_to_H&S_Options
+end
+if	not find $[H&SPATH].bak NULL
+	echo "No H&S backup found. Aborting."
+	goto MainMenu_FBI_to_H&S_Options
+end
+if	not allow -a 1:/
+	echo "Permissions denied. Aborting"
+end
+rm $[H&SPATH].app
+mv -n -w $[H&SPATH].bak $[H&SPATH].app
+echo "H&S restored."
+goto MainMenu_FBI_to_H&S_Options
 
 
 
@@ -1907,11 +2017,6 @@ goto Miscellaneous_Lazarus3DS
 
 
 
-######################Exit######################
+######################Wakas#####################
 
 @MainMenu_Exit
-
-goto WAKAS
-
-
-@WAKAS
