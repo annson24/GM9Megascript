@@ -15,10 +15,10 @@ For use with PCLess b9s install:
 1. Download the "AIO Megascript.gm9"
 2. Move or copy it to sdmc\gm9\scripts
 3. Download the "PCLessB9SPack.7z" and open it.
-4. Inside the archive, find and extract the "annson24" folder to the root of your sdmc.
+4. Inside the archive, find and extract the "gm9" folder to the root of your sdmc.
 5. Use NTRBoot to run godmode9.
 6. Press the home button, select "scripts," and select AIO Megascript.
-7. Choose "InstallBoot9Strap" option and select "PCLessInstall"
+7. Choose "Hax Options > Install Boot9strap > PC-Less Boot9strap."
 
 
 What is PC-Less Boot9strap?
@@ -27,19 +27,18 @@ Here's a brief explanation on what it does.
 
 1. First, it checks the system if sector0x96 is genuine (usually the check will fail if a9lh is installed in the system).
 
-If the check fails, the script will prompt the user if they want to attempt to fix it. Fixing it, the user should have the secret_sector.bin file inside sdmc/annson24/boot9strap folder.
+If the check fails, the script will prompt the user if they want to attempt to fix it. Fixing it, the user should have the secret_sector.bin file inside sdmc/gm9/in/boot9strap folder.
 
-2. Once confirmed that sector0x96 is genuine, it'll then check if the required files are present in the sdmc/annson24 folder.
+2. Once confirmed that sector0x96 is genuine, it'll then check if the required files are present in the sdmc/gm9/in folder.
 
 Here's the branches of the folder that it checks.
 
 SDMC
- annson24
-  boot9strap
-   boot9strap.firm
-   boot9strap.firm.sha
-  Luma3DS
-  sdcompiled
+	* gm9
+		* in
+			* boot9strap
+			* Luma3DS
+			* sdcompiled
 
 3. If everything is in check, it'll then backup your boot9.bin and boot11.bin.
 
@@ -49,21 +48,21 @@ SDMC
 
 6. Now that boot9strap is installed, it'll set up Luma3DS to your CTRNAND.
 
-7. now within the annson24 folder, there is another folder named 'sdcompiled' inside this are all the necessary files we need to have on our sd card after we install boot9strap. Think of this as the finalization proccess on plailect's guide. But since this is a 'PCless' installation, this is done purely on the 3ds.
+7. Now  there is a folder named 'sdcompiled,' inside this are all the necessary files we need to have on our sd card after we install boot9strap. Think of this as the finalization proccess on plailect's guide. But since this is a 'PC-Less' installation, this is done purely on the 3ds.
 
 8. the script will copy all the files from 'sdcompiled' folder to the RAM of the 3DS, then it'll prompt the user to swap the sd card to whichever sd card the user wants to use. Once sd cards are swapped, the script will then move the files from the RAM to the newly inserted sdcard.
 
 
 Credits:
-d0k3
-8bitwonder
-emillois
-TurdPooCharger
-Plailect
-AnalogMan
-windows_server_2003
-SvenDaHacker64
-MyLegGuy
-Some1CP
-figgyc
-ihaveamac
+* d0k3 - basically the god of godmode9
+* 8bitwonder - got most of the script from his megathread
+* emillois - helping me test and provide info for Old 3/2ds model
+* TurdPooCharger - he's the one who figured out how to inject apps to system apps. Inject FBI to H&S is all him.
+* Plailect
+* AnalogMan
+* windows_server_2003
+* SvenDaHacker64
+* MyLegGuy
+* Some1CP
+* figgyc
+* ihaveamac
