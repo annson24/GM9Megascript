@@ -403,6 +403,7 @@ mv -w -n 1:/luma 1:rw/luma
 
 cp -w -n $[SDCOMP] 9:/sdcompiled
 cp -w -n $[LUMA] 9:/sdcompiled
+cp -w -n -o -s $[GM9IN]/FBI 9:/sdcompiled
 
 
 
@@ -534,9 +535,14 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nFBI to H&S Opt
 if	not ask "Inject FBI to H&S?"
 	goto MainMenu_FBI_to_H&S_Options
 end
-if	not find $[GM9IN]/FBI FBISRC
-	echo "$[GM9IN]/FBI/FBI.cia not found. Aborting."
-	goto MainMenu_FBI_to_H&S_Options
+if	not find $[GM9IN]/FBI/FBI.cia FBISRC
+	if	ask "$[GM9IN]/FBI/FBI.cia not found. Browse for it?\nNOTE: Don't select any cia file other than FBI."
+		if	not filesel "Select the FBI cia." 0:/*.cia FBISRC
+			goto MainMenu_FBI_to_H&S_Options
+		end
+	else
+		goto MainMenu_FBI_to_H&S_Options
+	end
 end
 
 if	chk $[REGION] "USA"
@@ -579,7 +585,7 @@ if	not find 0:/gm9/temp NULL
 end
 set GM9TEMP "0:/gm9/temp"
 
-imgmount 0:/gm9/in/FBI/FBI.cia
+imgmount "$[FBISRC]
 find G:/*.app FBIAPP
 strsplit FBINC $[FBIAPP] "/"
 strsplit -b FBINC $[FBINC] "."
