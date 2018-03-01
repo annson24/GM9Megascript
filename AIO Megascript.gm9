@@ -548,26 +548,42 @@ end
 
 if	chk $[REGION] "USA"
 	if	chk $[ONTYPE] "n3ds"
-		set H&SPATH "1:/title/00040010/20021300/content/00000002"
+		find -f 1:/title/00040010/20021300/content/*.app H&SPATH
 	else
-		set H&SPATH "1:/title/00040010/00021300/content/00000005"
+		find -f 1:/title/00040010/00021300/content/*.app H&SPATH
 	end
 elif chk $[REGION] "EUR"
 	if	chk $[ONTYPE] "n3ds"
-		set H&SPATH "1:/title/00040010/20022300/content/00000002"
+		find -f 1:/title/00040010/20022300/content/*.app H&SPATH
 	else
-		set H&SPATH "1:/title/00040010/00022300/content/00000008"
+		find -f 1:/title/00040010/00022300/content/*.app H&SPATH
 	end
 elif chk $[REGION] "JPN"
 	if	chk $[ONTYPE] "n3ds"
-		set H&SPATH "1:/title/00040010/20020300/content/00000005"
+		find -f 1:/title/00040010/20020300/content/*.app H&SPATH
 	else
-		set H&SPATH "1:/title/00040010/00020300/content/00000002"
+		find -f 1:/title/00040010/00020300/content/*.app H&SPATH
 	end
 elif chk $[REGION] "KOR"
-	set H&SPATH "1:/title/00040010/20027300/content/00000003"
+	if	chk $[ONTYPE] "n3ds"
+		find -f 1:/title/00040010/20027300/content/*.app H&SPATH
+	else
+		find -f 1:/title/00040010/00027300/content/*.app H&SPATH
+	end
+elif chk $[REGION] "CHN"
+	if	chk $[ONTYPE] "n3ds"
+		find -f 1:/title/00040010/20026300/content/*.app H&SPATH
+	else
+		find -f 1:/title/00040010/00026300/content/*.app H&SPATH
+	end
+elif chk $[REGION] "TWN"
+	if	chk $[ONTYPE] "n3ds"
+		find -f 1:/title/00040010/20028300/content/*.app H&SPATH
+	else
+		find -f 1:/title/00040010/00028300/content/*.app H&SPATH
+	end
 else
-	echo "Unknown or unsupported region. Aborting."
+	echo "Unknown region. Aborting."
 	rm -o -s $[GM9TEMP]
 	goto MainMenu_FBI_to_H&S_Options
 end
