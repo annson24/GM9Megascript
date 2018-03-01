@@ -536,12 +536,13 @@ if	not ask "Inject FBI to H&S?"
 	goto MainMenu_FBI_to_H&S_Options
 end
 if	not find $[GM9IN]/FBI/FBI.cia FBISRC
-	if	ask "$[GM9IN]/FBI/FBI.cia not found. Browse for it?\nNOTE: Don't select any cia file other than FBI."
+	if	not find $[GM9IN]/FBI.cia FBISRC
 		if	not filesel "Select the FBI cia." 0:/*.cia FBISRC
 			goto MainMenu_FBI_to_H&S_Options
 		end
-	else
-		goto MainMenu_FBI_to_H&S_Options
+		if	not ask "Is this correct?\n \n$[FBISRC]"
+			goto MainMenu_FBI_to_H&S_Options
+		end
 	end
 end
 
