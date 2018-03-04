@@ -537,7 +537,8 @@ if	not ask "Inject FBI to H&S?"
 end
 if	not find $[GM9IN]/FBI/FBI.cia FBISRC
 	if	not find $[GM9IN]/FBI.cia FBISRC
-		if	not filesel "Select the FBI cia." 0:/*.cia FBISRC
+		echo "FBI.cia not found in $[GM9IN],\nPlease select FBI.cia manually."
+		if	not filesel -d "Select the FBI.cia." 0:/*.cia FBISRC
 			goto MainMenu_FBI_to_H&S_Options
 		end
 		if	not ask "Is this correct?\n \n$[FBISRC]"
@@ -602,7 +603,7 @@ if	not find 0:/gm9/temp NULL
 end
 set GM9TEMP "0:/gm9/temp"
 
-imgmount "$[FBISRC]
+imgmount "$[FBISRC]"
 find G:/*.app FBIAPP
 strsplit FBINC $[FBIAPP] "/"
 strsplit -b FBINC $[FBINC] "."
@@ -610,7 +611,7 @@ cp -n -w $[FBIAPP] $[GM9TEMP]/00000002.app
 cp -n -w G:/$[FBINC]/ncch.bin $[GM9TEMP]/FBIncch.bin
 imgumount
 
-imgmount $[H&SPATH].app
+imgmount $[H&SPATH]
 cp -n -w G:/ncch.bin $[GM9TEMP]/H&Sncch.bin
 imgumount
 
@@ -624,8 +625,9 @@ inject $[FBI]@130:D0 $[H&S]@130
 inject $[H&S]@000:200 $[GM9TEMP]/00000002.app@000
 encrypt $[GM9TEMP]/00000002.app
 
-mv $[H&SPATH].app $[H&SPATH].bak
-mv $[GM9TEMP]/00000002.app $[H&SPATH].app
+strsplit -b H&SBAK $[H&SPATH] "."
+mv $[H&SPATH] $[H&SBAK].bak
+mv $[GM9TEMP]/00000002.app $[H&SPATH]
 
 rm -o -s $[GM9TEMP]
 echo "FBI successfully injected to H&S."
@@ -641,39 +643,59 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nFBI to H&S Opt
 if	not ask "Restore H&S?"
 	goto MainMenu_FBI_to_H&S_Options
 end
+
 if	chk $[REGION] "USA"
 	if	chk $[ONTYPE] "n3ds"
-		set H&SPATH "1:/title/00040010/20021300/content/00000002"
+		find -f 1:/title/00040010/20021300/content/*.app H&SPATH
 	else
-		set H&SPATH "1:/title/00040010/00021300/content/00000005"
+		find -f 1:/title/00040010/00021300/content/*.app H&SPATH
 	end
 elif chk $[REGION] "EUR"
 	if	chk $[ONTYPE] "n3ds"
-		set H&SPATH "1:/title/00040010/20022300/content/00000002"
+		find -f 1:/title/00040010/20022300/content/*.app H&SPATH
 	else
-		set H&SPATH "1:/title/00040010/00022300/content/00000008"
+		find -f 1:/title/00040010/00022300/content/*.app H&SPATH
 	end
 elif chk $[REGION] "JPN"
 	if	chk $[ONTYPE] "n3ds"
-		set H&SPATH "1:/title/00040010/20020300/content/00000005"
+		find -f 1:/title/00040010/20020300/content/*.app H&SPATH
 	else
-		set H&SPATH "1:/title/00040010/00020300/content/00000002"
+		find -f 1:/title/00040010/00020300/content/*.app H&SPATH
 	end
 elif chk $[REGION] "KOR"
-	set H&SPATH "1:/title/00040010/20027300/content/00000003"
+	if	chk $[ONTYPE] "n3ds"
+		find -f 1:/title/00040010/20027300/content/*.app H&SPATH
+	else
+		find -f 1:/title/00040010/00027300/content/*.app H&SPATH
+	end
+elif chk $[REGION] "CHN"
+	if	chk $[ONTYPE] "n3ds"
+		find -f 1:/title/00040010/20026300/content/*.app H&SPATH
+	else
+		find -f 1:/title/00040010/00026300/content/*.app H&SPATH
+	end
+elif chk $[REGION] "TWN"
+	if	chk $[ONTYPE] "n3ds"
+		find -f 1:/title/00040010/20028300/content/*.app H&SPATH
+	else
+		find -f 1:/title/00040010/00028300/content/*.app H&SPATH
+	end
 else
-	echo "Unknown or unsupported region. Aborting."
+	echo "Unknown region. Aborting."
+	rm -o -s $[GM9TEMP]
 	goto MainMenu_FBI_to_H&S_Options
 end
-if	not find $[H&SPATH].bak NULL
+
+strsplit -b H&SBAK $[H&SPATH] "."
+if	not find $[H&SBAK].bak NULL
 	echo "No H&S backup found. Aborting."
 	goto MainMenu_FBI_to_H&S_Options
 end
 if	not allow -a 1:/
 	echo "Permissions denied. Aborting"
 end
-rm $[H&SPATH].app
-mv -n -w $[H&SPATH].bak $[H&SPATH].app
+rm $[H&SPATH]
+mv -n -w $[H&SBAK].bak $[H&SPATH]
 echo "H&S restored."
 goto MainMenu_FBI_to_H&S_Options
 
