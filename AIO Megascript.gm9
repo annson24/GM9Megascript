@@ -409,7 +409,7 @@ cp -w -n -o -s $[GM9IN]/FBI 9:/sdcompiled
 
 @SwapSD
 if	switchsd "Swap SD card now."
-	if	find 0:/gm9/scripts/*Megascript.gm9 NULL
+	if	find $[GM9IN] NULL
 		if	ask "Seems like SD cards are not swapped, continue anyway?"
 			echo "Moving compiled files from RAM to target SD."
 			mv -w -n 9:/sdcompiled 0:/
@@ -536,9 +536,8 @@ if	not ask "Inject FBI to H&S?"
 	goto MainMenu_FBI_to_H&S_Options
 end
 if	not find $[GM9IN]/FBI/FBI.cia FBISRC
-	if	not find $[GM9IN]/FBI.cia FBISRC
-		echo "FBI.cia not found in $[GM9IN],\nPlease select FBI.cia manually."
-		if	not filesel -d "Select the FBI.cia." 0:/*.cia FBISRC
+	if	not find 0:/1cia/hb/FBI.cia FBISRC
+		if	not filesel -d "FBI.cia not found. Select manually." 0:/*.cia FBISRC
 			goto MainMenu_FBI_to_H&S_Options
 		end
 		if	not ask "Is this correct?\n \n$[FBISRC]"
