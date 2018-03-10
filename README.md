@@ -12,13 +12,10 @@ For normal gm9 usage:
 
 For use with PCLess b9s install:
 
-1. Download the "AIO Megascript.gm9"
-2. Move or copy it to sdmc\gm9\scripts
-3. Download the "PCLessB9SPack.7z" and open it.
-4. Inside the archive, find and extract the "gm9" folder to the root of your sdmc.
-5. Use NTRBoot to run godmode9.
-6. Press the home button, select "scripts," and select AIO Megascript.
-7. Choose "Hax Options > Install Boot9strap > PC-Less Boot9strap."
+1. Download the "AIOMegascript-Standalone.7z"
+2. Open it and extract boot.firm and the "gm9" folder to the root of SD card.
+3. Use NTRBoot to run the AIOMegascript-Standalone.
+4. Choose "Hax Options > Install Boot9strap > PC-Less Boot9strap."
 
 
 What is PC-Less Boot9strap?
