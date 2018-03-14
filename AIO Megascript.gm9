@@ -1,8 +1,7 @@
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCredits:\nd0k3\n8bitwonder\nwindows_server_2003\nSvenDaHacker64\nMyLegGuy\nemillois\nAnalogMan151\nTurdPooCharger\netc."
-if	not find 0:/gm9/in NULL
+if	not find 0:/gm9/in GM9IN
 	mkdir 0:/gm9/in
 end
-set GM9IN "0:/gm9/in"
 
 #####################Main Menu####################
 
