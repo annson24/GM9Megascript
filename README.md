@@ -5,16 +5,18 @@ How to use:
 
 For normal gm9 usage:
 
-1. Download the "AIO Megascript.gm9"
+1. Download the "GM9Megascript.gm9"
 2. Move or copy it to sdmc\gm9\scripts
 3. Run godmode9 on your 3ds and press the home button.
 4. Select "scripts," and select the AIO Megascript.
 
 For use with PCLess b9s install:
 
-1. Download the "AIOMegascript-Standalone.7z"
-2. Open it and extract boot.firm and the "gm9" folder to the root of SD card.
-3. Use NTRBoot to run the AIOMegascript-Standalone.
+1. Download the "in-files.7z"
+2. Open it and extract the "gm9" folder to the root of SD card.
+3. Run godmode9 in any possible way you can and execute the GM9Megascript.
+Or
+Download and run the GM9Megascript-standalone.firm in any possible way you can.
 4. Choose "Hax Options > Install Boot9strap > PC-Less Boot9strap."
 
 
@@ -51,6 +53,7 @@ SDMC
 
 
 Credits:
+* mvmiranda - learned the basics from him, he was my mentor.
 * d0k3 - basically the god of godmode9
 * 8bitwonder - got most of the script from his megathread
 * emillois - helping me test and provide info for Old 3/2ds model
