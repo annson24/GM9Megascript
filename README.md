@@ -1,7 +1,8 @@
 # GM9Megascript
 An all-in-one script consisting of almost all available gm9 scripts I can find.
 
-How to use:
+
+# How to use:
 
 For normal gm9 usage:
 
@@ -20,7 +21,7 @@ Download and run the GM9Megascript-standalone.firm in any possible way you can.
 4. Choose "Hax Options > Install Boot9strap > PC-Less Boot9strap."
 
 
-What is PC-Less Boot9strap?
+# What is PC-Less Boot9strap?
 
 Here's a brief explanation on what it does.
 
@@ -52,7 +53,7 @@ SDMC
 8. the script will copy all the files from 'sdcompiled' folder to the RAM of the 3DS, then it'll prompt the user to swap the sd card to whichever sd card the user wants to use. Once sd cards are swapped, the script will then move the files from the RAM to the newly inserted sdcard.
 
 
-Credits:
+# Credits:
 * mvmiranda - learned the basics from him, he was my mentor.
 * d0k3 - basically the god of godmode9
 * 8bitwonder - got most of the script from his megathread
