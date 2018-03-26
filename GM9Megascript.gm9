@@ -274,13 +274,15 @@ goto MainMenu_Hax_Options
 @Install_Boot9Strap_Normal_Install
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nHax Options\n>Boot9strap Install Options\n>>Normal Boot9strap Install"
 
-if	not ask "Install Boot9Strap Normally?\nYou should have the Boot9Strap files in the\nSDMC/gm9/in/boot9strap folder before proceeding."
+if	not ask "Install Boot9Strap Normally?\nYou should have the Boot9Strap files in the\nSDMC/boot9strap folder before proceeding."
 	goto Hax_Options_Install_Boot9Strap
 end
 
 if	not find $[GM9IN]/boot9strap/boot9stra*.firm B9S
-	echo "Boot9Strap file not found! Aborting."
-	goto Hax_Options_Install_Boot9Strap
+	if	not find 0:/boot9strap/boot9stra*.firm B9S
+		echo "Boot9Strap file not found! Aborting."
+		goto Hax_Options_Install_Boot9Strap
+	end
 end
 
 if	not sha $[B9S] $[B9S].sha
@@ -290,14 +292,16 @@ end
 
 if	chk $[ONTYPE] "N3DS"
 	if	not sha S:/sector0x96.bin 82F2730D2C2DA3F30165F987FDCCAC5CBAB24B4E5F65C981CD7BE6F438E6D9D3
-		if	not ask	"Sector 0x96 is not genuine.\nAttempt to fix sector 0x96 and proceed\nwith B9S Installation?\nYou must have the secret_sector.bin file\nin SDMC/gm9/in/boot9strap folder."
+		if	not ask	"Sector 0x96 is not genuine.\nAttempt to fix sector 0x96 and proceed\nwith B9S Installation?\nYou must have the secret_sector.bin file\nin SDMC/boot9strap folder."
 			echo "Aborting."
 			goto Hax_Options_Install_Boot9Strap
 		end
 		
 		if	not find $[GM9IN]/boot9strap/secret_sector.bin SECRET
-			echo "secret_sector.bin not found. Aborting."
-			goto Hax_Options_Install_Boot9Strap
+			if	not find 0:/boot9strap/secret_sector.bin SECRET
+				echo "secret_sector.bin not found. Aborting."
+				goto Hax_Options_Install_Boot9Strap
+			end
 		end
 		
 		if	not allow -a S:
@@ -329,13 +333,15 @@ goto Hax_Options_Install_Boot9Strap
 @Install_Boot9Strap_PC-Less_Install
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nHax Options\n>Boot9strap Install Options\n>>PC-Less Boot9strap Install"
 
-if	not ask "Proceed with PC-Less B9S Installation?\nYou should have the PC-Less b9s pack in you SDMC."
+if	not ask "Proceed with PC-Less B9S Installation?\nYou should have the in-files in you SDMC.\nSee GM9Megascript Repo for more details."
 	goto Hax_Options_Install_Boot9Strap
 end
 	
 if	not find $[GM9IN]/boot9strap/boot9stra*.firm B9S
-	echo "Boot9Strap file not found! Aborting."
-	goto Hax_Options_Install_Boot9Strap
+	if	not find 0:/boot9strap/boot9stra*.firm B9S
+		echo "Boot9Strap file not found! Aborting."
+		goto Hax_Options_Install_Boot9Strap
+	end
 end
 
 if	not find $[GM9IN]/Luma3DS LUMA
@@ -366,8 +372,10 @@ if	chk $[ONTYPE] "N3DS"
 		end
 		
 		if	not find $[GM9IN]/boot9strap/secret_sector.bin SECRET
-			echo "secret_sector.bin not found. Aborting."
-			goto Hax_Options_Install_Boot9Strap
+			if	not find 0:/boot9strap/secret_sector.bin SECRET
+				echo "secret_sector.bin not found. Aborting."
+				goto Hax_Options_Install_Boot9Strap
+			end
 		end
 		
 		if	not allow -a S:
@@ -447,14 +455,16 @@ else
 end
 
 if	not sha S:/sector0x96.bin 82F2730D2C2DA3F30165F987FDCCAC5CBAB24B4E5F65C981CD7BE6F438E6D9D3
-	if	not ask	"Sector 0x96 is not genuine.\nAttempt to fix sector 0x96 and proceed\nwith B9S Installation?\nYou must have the secret_sector.bin file\nin SDMC/gm9/in/boot9strap folder."
+	if	not ask	"Sector 0x96 is not genuine.\nAttempt to fix sector 0x96 and proceed\nwith B9S Installation?\nYou must have the secret_sector.bin file\nin SDMC/boot9strap folder."
 		echo "Aborting."
 		goto MainMenu_Hax_Options
 	end
 	
 	if	not find $[GM9IN]/boot9strap/secret_sector.bin SECRET
-		echo "secret_sector.bin not found. Aborting."
-		goto MainMenu_Hax_Options
+		if	not find 0:/boot9strap/secret_sector.bin SECRET
+			echo "secret_sector.bin not found. Aborting."
+			goto MainMenu_Hax_Options
+		end
 	end
 	
 	if	not allow -a S:
