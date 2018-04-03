@@ -1,8 +1,8 @@
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCredits:\nd0k3\n8bitwonder\nwindows_server_2003\nSvenDaHacker64\nMyLegGuy\nemillois\nAnalogMan151\nTurdPooCharger\netc."
-if	not find 0:/gm9/in GM9IN
-	mkdir 0:/gm9/in
-end
 set GM9IN "0:/gm9/in"
+if	not find $[GM9IN] NULL
+	mkdir $[GM9IN]
+end
 
 #####################Main Menu####################
 
@@ -79,7 +79,7 @@ goto Start
 @Restore_Options_SysNAND_Restore_(full)
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nRestore Options\n>SysNAND Restore (full)"
 
-if	not ask "WARNING:\nSystem exploit will not be protected!\nOnly do a full restore\nif you know what you're doing!\n \nContinue anyway?"
+if	not ask "!!WARNING!!\nSystem exploit will not be protected!\nProceed only if you know what you're doing!\n \nContinue?"
 	goto MainMenu_Restore_Options
 end
 
@@ -88,7 +88,7 @@ if	not filesel "Select NAND Backup." $[GM9OUT]/*nand_??.bin NANDBAK
 	goto MainMenu_Restore_Options
 end
 
-if	not ask "Full Restore $[NANDBAK]?"
+if	not ask "Full Restore?\n$[NANDBAK]"
 	echo "Operation cancelled."
 	goto MainMenu_Restore_Options
 end
@@ -120,12 +120,10 @@ goto MainMenu_Restore_Options
 @Restore_Options_SysNAND_Restore_(safe)
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nRestore Options\n>SysNAND Restore (safe)"
 
-if	not chk -u $[HAX] ""
+if	chk $[HAX] ""
 	echo "No qualifying exploit was found.\nAborting to avoid bricking the unit."
 	goto MainMenu_Restore_Options
-end
-
-if	not chk -u $[HAX] "ntrboot"
+elif chk $[HAX] "ntrboot"
 	echo "Safe restore is not available on\nntrboot. Aborting to avoid a brick."
 	goto MainMenu_Restore_Options
 end
@@ -144,11 +142,6 @@ imgmount $[NANDBAK]
 find I:/ctrnand_full.bin NULL
 find I:/twln.bin NULL
 find I:/twlp.bin NULL
-
-if	not verify I:/nand_minsize.bin
-	echo "Not a valid NAND backup. Aborting."
-	goto MainMenu_Restore_Options
-end
 
 cp -w -n I:/ctrnand_full.bin S:/ctrnand_full.bin
 cp -w -n I:/twln.bin S:/twln.bin
@@ -183,11 +176,6 @@ if	not allow -a E:
 	goto MainMenu_Restore_Options
 end
 
-if	not verify I:/nand_minsize.bin
-	echo "Not a valid NAND backup. Aborting."
-	goto MainMenu_Restore_Options
-end
-
 inject -n I:/nand_minsize.bin E:/nand.bin@0
 imgumount
 echo "$[NANDBAK] successfully restored to EmuNAND."
@@ -200,17 +188,12 @@ goto MainMenu_Restore_Options
 @MainMenu_CTRNAND_Transfer
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCTRNAND Transfer"
 
-if	not filesel "Select a CTRNAND transfer file." $[GM9IN]/*ctrtransfer*.bin CTRNAND
+if	not filesel "Select a CTRNAND transfer file.\nCTRNAND transfer file should be located in\n$[GM9IN] folder." $[GM9IN]/*ctrtransfer*.bin CTRNAND
 	goto Start
 end
 if	not ask "CTRTransfer\n$[CTRNAND]\nto sysNAND?"
 	goto Start
 end
-if	not allow -a 1:
-	echo "Permissions denied. Aborting."
-	goto Start
-end
-
 strsplit ACTYPE $[CTRNAND] "_"
 strsplit -b -f ACTYPE $[ACTYPE] "."
 if	chk $[ACTYPE] $[ONTYPE]
@@ -219,6 +202,11 @@ else
 	else
 		goto Start
 	end
+end
+
+if	not allow -a 1:
+	echo "Permissions denied. Aborting."
+	goto Start
 end
 
 if	find 1:/rw/sys/SecureInfo_A SECNFO
@@ -274,15 +262,13 @@ goto MainMenu_Hax_Options
 @Install_Boot9Strap_Normal_Install
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nHax Options\n>Boot9strap Install Options\n>>Normal Boot9strap Install"
 
-if	not ask "Install Boot9Strap Normally?\nYou should have the Boot9Strap files in the\nSDMC/boot9strap folder before proceeding."
+if	not ask "Install Boot9Strap Normally?\nYou should have the boot9strap files in\n0:/boot9strap/ before proceeding."
 	goto Hax_Options_Install_Boot9Strap
 end
 
-if	not find $[GM9IN]/boot9strap/boot9stra*.firm B9S
-	if	not find 0:/boot9strap/boot9stra*.firm B9S
-		echo "Boot9Strap file not found! Aborting."
-		goto Hax_Options_Install_Boot9Strap
-	end
+if	not find 0:/boot9strap/boot9stra*.firm B9S
+	echo "Boot9Strap file not found! Aborting."
+	goto Hax_Options_Install_Boot9Strap
 end
 
 if	not sha $[B9S] $[B9S].sha
@@ -292,16 +278,9 @@ end
 
 if	chk $[ONTYPE] "N3DS"
 	if	not sha S:/sector0x96.bin 82F2730D2C2DA3F30165F987FDCCAC5CBAB24B4E5F65C981CD7BE6F438E6D9D3
-		if	not ask	"Sector 0x96 is not genuine.\nAttempt to fix sector 0x96 and proceed\nwith B9S Installation?\nYou must have the secret_sector.bin file\nin SDMC/boot9strap folder."
-			echo "Aborting."
+		if	not find 0:/boot9strap/secret_sector.bin SECRET
+			echo "Sector 0x96 is not genuine.\nYou must have the secret_sector.bin file in the\nboot9strap folder first then try again.\n \nAborting."
 			goto Hax_Options_Install_Boot9Strap
-		end
-		
-		if	not find $[GM9IN]/boot9strap/secret_sector.bin SECRET
-			if	not find 0:/boot9strap/secret_sector.bin SECRET
-				echo "secret_sector.bin not found. Aborting."
-				goto Hax_Options_Install_Boot9Strap
-			end
 		end
 		
 		if	not allow -a S:
@@ -318,6 +297,8 @@ end
 if	allow -a S:
 	allow -a 0:
 	
+	cp -w -o -s -n S:/firm0.bin $[GM9OUT]/$[SERIAL]_firm0.bin
+	cp -w -o -s -n S:/firm1.bin $[GM9OUT]/$[SERIAL]_firm1.bin
 	cp -w -n $[B9S] S:/firm0.bin
 	cp -w -n $[B9S] S:/firm1.bin
 	echo "Boot9Strap successfully installed."
@@ -338,10 +319,8 @@ if	not ask "Proceed with PC-Less B9S Installation?\nYou should have the in-files
 end
 	
 if	not find $[GM9IN]/boot9strap/boot9stra*.firm B9S
-	if	not find 0:/boot9strap/boot9stra*.firm B9S
-		echo "Boot9Strap file not found! Aborting."
-		goto Hax_Options_Install_Boot9Strap
-	end
+	echo "Boot9Strap file not found! Aborting."
+	goto Hax_Options_Install_Boot9Strap
 end
 
 if	not find $[GM9IN]/Luma3DS LUMA
@@ -366,16 +345,9 @@ end
 
 if	chk $[ONTYPE] "N3DS"
 	if	not sha S:/sector0x96.bin 82F2730D2C2DA3F30165F987FDCCAC5CBAB24B4E5F65C981CD7BE6F438E6D9D3
-		if	not ask	"Sector 0x96 is not genuine.\nAttempt to fix sector 0x96 and proceed\nwith B9S Installation?\nYou must have the secret_sector.bin file\nin SDMC/gm9/in/boot9strap folder."
-			echo "Aborting."
-			goto Hax_Options_Install_Boot9Strap
-		end
-		
 		if	not find $[GM9IN]/boot9strap/secret_sector.bin SECRET
-			if	not find 0:/boot9strap/secret_sector.bin SECRET
-				echo "secret_sector.bin not found. Aborting."
-				goto Hax_Options_Install_Boot9Strap
-			end
+			echo "Sector 0x96 is not genuine.\nYou must have the secret_sector.bin file in the\nboot9strap folder first then try again.\n \nAborting."
+			goto Hax_Options_Install_Boot9Strap
 		end
 		
 		if	not allow -a S:
@@ -411,24 +383,22 @@ mv -w -n 1:/luma 1:rw/luma
 
 cp -w -n $[SDCOMP] 9:/sdcompiled
 cp -w -n $[LUMA] 9:/sdcompiled
-cp -w -n -o -s $[GM9IN]/FBI 9:/sdcompiled
-
-
+cp -w -n -o -s $[GM9IN]/FBI 9:/sdcompiled/1cia/hb
 
 @SwapSD
 if	switchsd "Swap SD card now."
 	if	find $[GM9IN] NULL
-		if	ask "Seems like SD cards are not swapped, continue anyway?"
-			echo "Moving compiled files from RAM to target SD."
-			mv -w -n 9:/sdcompiled 0:/
-			echo "Boot9strap successfully installed."
-		else
+		if	not ask "Seems like SD cards are not swapped, continue anyway?"
 			goto SwapSD
 		end
-	else
-		echo "Moving compiled files from RAM to target SD."
-		mv -w -n 9:/sdcompiled 0:/
-		echo "Boot9strap successfully installed."
+	end
+	
+	echo "Moving compiled files from RAM to target SD."
+	mv -w -n 9:/sdcompiled 0:/
+	echo "Boot9strap successfully installed."
+	
+	if	ask "Do you want to inject FBI to H&S?"
+		goto FBI_Inject_FBI_to_H&S
 	end
 else
 	echo "SD read error!\nPlease try again."
@@ -443,30 +413,28 @@ goto Hax_Options_Install_Boot9Strap
 @Hax_Options_Un-install_Hax
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nHax Options\n>Hax Un-install"
 
-if	not ask "!!WARNING!!\nThis will remove CFW and\nrevert your system to stock.\n \nProceed?"
+if	not ask "!!WARNING!!\nThis will completely remove CFW and\nrevert your system to stock.\n \nProceed anyway?"
 	goto MainMenu_Hax_Options
 end
 	
-if	chk $[ONTYPE] "N3DS"
-	echo "N3DS/N2DS detected."
-else
-	echo "O3DS/O2DS detected."
+if	not chk -u $[HAX] "ntrboot"
+	if	not ask "!!WARNING!!\nntrboot not detected!\nYou should at least have ntrboot or a hardmod\nwith you before proceeding in case of brick.\n \nProceed anyway?"
+		goto MainMenu_Restore_Options
+	end
+end
+
+if	chk -u $[ONTYPE] "N3DS"
 	goto Unhax_Old
 end
 
 if	not sha S:/sector0x96.bin 82F2730D2C2DA3F30165F987FDCCAC5CBAB24B4E5F65C981CD7BE6F438E6D9D3
-	if	not ask	"Sector 0x96 is not genuine.\nAttempt to fix sector 0x96 and proceed\nwith B9S Installation?\nYou must have the secret_sector.bin file\nin SDMC/boot9strap folder."
-		echo "Aborting."
-		goto MainMenu_Hax_Options
-	end
-	
-	if	not find $[GM9IN]/boot9strap/secret_sector.bin SECRET
-		if	not find 0:/boot9strap/secret_sector.bin SECRET
-			echo "secret_sector.bin not found. Aborting."
-			goto MainMenu_Hax_Options
+	if	not find 0:/boot9strap/secret_sector.bin SECRET
+		if	not find $[GM9IN]/boot9strap/secret_sector.bin SECRET
+			echo "Sector 0x96 is not genuine.\nYou must have the secret_sector.bin file in the\nboot9strap folder first then try again.\n \nAborting."
+			goto Hax_Options_Install_Boot9Strap
 		end
 	end
-	
+		
 	if	not allow -a S:
 		echo "Permissions denied. Aborting."
 		goto MainMenu_Hax_Options
@@ -474,7 +442,6 @@ if	not sha S:/sector0x96.bin 82F2730D2C2DA3F30165F987FDCCAC5CBAB24B4E5F65C981CD7
 	
 	cp -n -w S:/sector0x96.bin $[SECRET].bak
 	cp -n -w $[SECRET] S:/sector0x96.bin
-	echo "sector 0x96 successfully fixed.\nProceeding with B9S Un-install."
 end
 
 if	not find 1:/title/00040138/20000002/content/????????.app NATIVE_NCCH
@@ -505,7 +472,7 @@ goto MainMenu_Hax_Options
 @Unhax_Old
 
 if	not find 1:/title/00040138/00000002/content/????????.app NATIVE_NCCH
-	echo "NATIVE_FIRM not found.\nIs this a O3DS?"
+	echo "NATIVE_FIRM not found.\nIs this an O3DS?"
 	goto MainMenu_Hax_Options
 end
 
@@ -598,20 +565,22 @@ else
 	goto MainMenu_FBI_to_H&S_Options
 end
 
-if	find $[H&SPATH].bak NULL
-	if	not ask "H&S seems to be injected already.\nOriginal H&S might not be restorable anymore\nif chosen to continue. Continue anyway?"
-		goto MainMenu_FBI_to_H&S_Options
-	end
-end
 if	not allow -a 1:/
 	echo "Permissions denied. Aborting"
+	rm -o -s $[GM9TEMP]
 	goto MainMenu_FBI_to_H&S_Options
 end
 
-if	not find 0:/gm9/temp NULL
-	mkdir 0:/gm9/temp
+strsplit -b H&SBAK $[H&SPATH] "."
+set H&SBAK "$[H&SBAK].bak"
+if	find $[H&SBAK] NULL
+	mv -w -k -n $[H&SBAK] $[H&SPATH]
 end
+
 set GM9TEMP "0:/gm9/temp"
+if	not find $[GM9TEMP] NULL
+	mkdir $[GM9TEMP]
+end
 
 imgmount "$[FBISRC]"
 find G:/*.app FBIAPP
@@ -627,20 +596,30 @@ imgumount
 
 set FBI "$[GM9TEMP]/FBIncch.bin"
 set H&S "$[GM9TEMP]/H&Sncch.bin"
-set EXTHEADER "$[GM9TEMP]/00000002.app.sha"
 
-inject $[FBI]@104:2 $[H&S]@104
-inject $[FBI]@111:1 $[H&S]@111
-inject $[FBI]@130:D0 $[H&S]@130
+inject -n $[FBI]@104:2 $[H&S]@104
+inject -n $[FBI]@111:1 $[H&S]@111
+inject -n $[FBI]@130:D0 $[H&S]@130
 
-inject $[H&S]@000:200 $[GM9TEMP]/00000002.app@000
-shaget $[GM9TEMP]/00000002.app@200:400 $[EXTHEADER]
-inject $[EXTHEADER]@000:020 $[GM9TEMP]/00000002.app@160
-encrypt $[GM9TEMP]/00000002.app
+inject -n $[H&S]@000:200 $[GM9TEMP]/00000002.app@000
+inject -n $[H&S]@108:008 $[GM9TEMP]/00000002.app@3C8
+inject -n $[H&S]@108:008 $[GM9TEMP]/00000002.app@400
+inject -n $[H&S]@108:008 $[GM9TEMP]/00000002.app@800
 
-strsplit -b H&SBAK $[H&SPATH] "."
-mv $[H&SPATH] $[H&SBAK].bak
-mv $[GM9TEMP]/00000002.app $[H&SPATH]
+@hashext
+if	not shaget $[GM9TEMP]/00000002.app@200:400 $[GM9TEMP]/00000002.app.sha
+	goto hashext
+end
+
+inject -n $[GM9TEMP]/00000002.app.sha@000:020 $[GM9TEMP]/00000002.app@160
+
+@ench&s
+if	not encrypt $[GM9TEMP]/00000002.app
+	goto ench&s
+end
+
+mv $[H&SPATH] $[H&SBAK]
+mv -w $[GM9TEMP]/00000002.app $[H&SPATH]
 
 rm -o -s $[GM9TEMP]
 echo "FBI successfully injected to H&S."
@@ -839,8 +818,6 @@ if	find 1:/rw/sys/SecureInfo_A NULL
 		cp -n 1:/rw/sys/SecureInfo_A $[OUTPATH]
 		echo "Dump created successfully:\n$[OUTPATH]"
 	end
-else
-	echo "No SecureInfo_A found.\nLooking for SecureInfo_B/C"
 end
 if	find 1:/rw/sys/SecureInfo_B NULL
 	if	ask "SecureInfo_B found.\nDump SecureInfo_B in $[GM9OUT]?"
@@ -950,7 +927,7 @@ goto MainMenu_Dump_Options
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Dump boot9.bin & boot11.bin"
 
 if	not find M:/boot*.bin NULL
-	echo "Boot9.bin and Boot11.bin not present.\nAborting."
+	echo "Boot9.bin and/or Boot11.bin not present.\nAborting!"
 	goto MainMenu_Dump_Options
 end
 
@@ -958,17 +935,12 @@ if	not ask "Create boot9 & boot11 dumps in $[GM9OUT]?"
 	goto MainMenu_Dump_Options
 end
 
-if	find $[GM9OUT]/boot9.bin OLDBOOT9
-	mv -w -n $[OLDBOOT9] $[OLDBOOT9].old
-end
+findnot $[GM9OUT]/$[SERIAL]_boot9_??.bin OUTPATH9
+findnot $[GM9OUT]/$[SERIAL]_boot11_??.bin OUTPATH11
 
-if	find $[GM9OUT]/boot11.bin OLDBOOT11
-	mv -w -n $[OLDBOOT11] $[OLDBOOT11].old
-end
-
-cp -w -n M:/boot9.bin $[GM9OUT]/boot9.bin
-cp -w -n M:/boot11.bin $[GM9OUT]/boot11.bin
-echo "Boot9 & Boot11 successfully dumped in\n$[GM9OUT]"
+cp -w -n M:/boot9.bin $[OUTPATH9]
+cp -w -n M:/boot11.bin $[OUTPATH11]
+echo "Boot9 & Boot11 successfully dumped:\n$[OUTPATH9]\n$[OUTPATH11]"
 goto MainMenu_Dump_Options
 
 
@@ -982,7 +954,7 @@ if	not ask "Dump otp.bin in $[GM9OUT]? \n(This will overwrite any existing otp.b
 	goto MainMenu_Dump_Options
 end
 
-set OUTPATH $[GM9OUT]/$[SERIAL]_otp.bin
+findnot $[GM9OUT]/$[SERIAL]_otp_??.bin OUTPATH
 cp -w -n M:/otp.mem $[OUTPATH]
 echo "Dump created successfully:\n$[OUTPATH]"
 goto MainMenu_Dump_Options
@@ -994,11 +966,11 @@ goto MainMenu_Dump_Options
 @Dump_Options_Dump_CITRA_Files
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Dump CITRA Files"
 
-if	not ask "Create dump of Citra files in $[GM9OUT]/Citra? \n(This will overwrite any existing Citra files!)\n(May fail if you use a custom font!)\n(This will dump System Archives)\n(This will dump Shared Fonts)\n(This will dump config)"
+if	not ask "Create dump of Citra files in $[GM9OUT]/Citra?\n(This will overwrite any existing Citra files!)\n(May fail if you use a custom font!)\n(This will dump System Archives)\n(This will dump Shared Fonts)\n(This will dump config)"
 	goto MainMenu_Dump_Options
 end
 	
-set CITRA 0:/gm9/out/Citra/user/nand
+set CITRA $[GM9OUT]/Citra/user/nand
 
 mkdir $[CITRA]/data/00000000000000000000000000000000/sysdata/00010017/00000000
 mkdir $[CITRA]/00000000000000000000000000000000/title/000400db/00010302/content
@@ -1748,14 +1720,14 @@ goto MainMenu_Miscellaneous
 @Miscellaneous_Lazarus3DS_Options
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nLazarus3DS Options"
 
-labelsel -o -s "Choose an Option." Lazarus3DS_*
+labelsel -o -s "Choose an Option.\n \nThese scripts are as is. Nothing has been modified.\nFor full details on how to use these, visit the\nlazarus script repo." Lazarus3DS_*
 goto MainMenu_Miscellaneous
 
 
 
 ###############Lazarus3DS Donor Prep##############
 
-@Lazarus3DS_Options_Donor_Prep
+@Lazarus3DS_Donor_Prep
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nLazarus3DS Options\n>Donor Prep"
 
 if	not ask "This script prepares a 3DS for\nuse with the Lazarus3DS scripts.\n \nContinue?"
@@ -1876,7 +1848,7 @@ goto Miscellaneous_Lazarus3DS
 
 ####################Lazarus3DS####################
 
-@Lazarus3DS_Options_Lazarus3DS
+@Lazarus3DS_Lazarus3DS
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nLazarus3DS Options\n>Lazarus3DS"
 
 if	not ask "This script revives bricked consoles and\nattempts to recover what data it can.\n \nOnly use this script on consoles\nthat will not boot.\n \nContinue?"
@@ -1993,9 +1965,9 @@ find -o -s 1:/data/$[SYSID0]/sysdata/000202?e ARGAMES
 set ARGAMES $[ARGAMES]/00000000
 cp -w -o -s -n $[ARGAMES] 0:/pit/argames.bin
 
-cp -w -o -s -n 1:/data/$[SYSID0]/extdata/00048000/f0000001 0:/pit/01 # Photos
-cp -w -o -s -n 1:/data/$[SYSID0]/extdata/00048000/f0000002 0:/pit/02 # Sounds
-cp -w -o -s -n 1:/data/$[SYSID0]/extdata/00048000/f000000b 0:/pit/0b # MiiMaker, Game Coins, etc.
+cp -w -o -s -n 1:/data/$[SYSID0]/extdata/00048000/f0000001 0:/pit/01
+cp -w -o -s -n 1:/data/$[SYSID0]/extdata/00048000/f0000002 0:/pit/02
+cp -w -o -s -n 1:/data/$[SYSID0]/extdata/00048000/f000000b 0:/pit/0b
 
 cp -w -o -s -n 1:/ro/sys/HWCAL0.dat 0:/pit/HWCAL0.dat
 cp -w -o -s -n 1:/ro/sys/HWCAL1.dat 0:/pit/HWCAL1.dat
@@ -2039,9 +2011,9 @@ cp -w -o -s -n 0:/pit/argames.bin 1:/data/$[SYSID0]/sysdata/0002020e/00000000
 cp -w -o -s -n 0:/pit/argames.bin 1:/data/$[SYSID0]/sysdata/0002021e/00000000
 cp -w -o -s -n 0:/pit/argames.bin 1:/data/$[SYSID0]/sysdata/0002022e/00000000
 
-cp -w -o -s -n 0:/pit/01 1:/data/$[SYSID0]/extdata/00048000/f0000001 # Photos
-cp -w -o -s -n 0:/pit/02 1:/data/$[SYSID0]/extdata/00048000/f0000002 # Sounds
-cp -w -o -s -n 0:/pit/0b 1:/data/$[SYSID0]/extdata/00048000/f000000b # MiiMaker, Game Coins, etc.
+cp -w -o -s -n 0:/pit/01 1:/data/$[SYSID0]/extdata/00048000/f0000001
+cp -w -o -s -n 0:/pit/02 1:/data/$[SYSID0]/extdata/00048000/f0000002
+cp -w -o -s -n 0:/pit/0b 1:/data/$[SYSID0]/extdata/00048000/f000000b
 
 cp -w -o -s -n 0:/pit/HWCAL0.dat 1:/ro/sys/HWCAL0.dat
 cp -w -o -s -n 0:/pit/HWCAL1.dat 1:/ro/sys/HWCAL1.dat
@@ -2075,6 +2047,16 @@ goto Miscellaneous_Lazarus3DS
 
 
 
-######################Wakas#####################
+#####################Credits######################
+
+@Miscellaneous_Credits
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCredits"
+
+echo "d0k3\nmvmiranda\n8bitwonder\nemillois\nTurdPooCharger\nPlailect\nAnalogMan\n8bitwonder\nwindows_server_2003\nSvenDaHacker64\nMyLegGuy\nSome1CP\nfiggyc\nihaveamac"
+goto MainMenu_Miscellaneous
+
+
+
+#######################Wakas######################
 
 @MainMenu_Exit
