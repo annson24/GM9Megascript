@@ -12,8 +12,6 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCredits:\nd0k3
 labelsel -o -s "Choose an Option." MainMenu_*
 goto Start
 
-
-
 ##################Backup Options##################
 
 @MainMenu_Backup_Options
@@ -21,8 +19,6 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nBackup Options
 
 labelsel -o -s "Choose an Option." Backup_Options_*
 goto Start
-
-
 
 ##################SysNAND Backup##################
 
@@ -42,8 +38,6 @@ else
 end
 goto MainMenu_Backup_Options
 
-
-
 ##################EmuNAND Backup##################
 
 @Backup_Options_EmuNAND_Backup
@@ -62,8 +56,6 @@ else
 end
 goto MainMenu_Backup_Options
 
-
-
 ##################Restore Options#################
 
 @MainMenu_Restore_Options
@@ -71,8 +63,6 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nRestore Option
 
 labelsel -o -s "Choose an Option." Restore_Options_*
 goto Start
-
-
 
 ##############SysNAND Restore (full)##############
 
@@ -113,8 +103,6 @@ else
 end
 goto MainMenu_Restore_Options
 
-
-
 ##############SysNAND Restore (safe)##############
 
 @Restore_Options_SysNAND_Restore_(safe)
@@ -150,8 +138,6 @@ imgumount
 echo "$[NANDBAK]\nsuccessfully restored to SysNAND."
 goto MainMenu_Restore_Options
 
-
-
 ##################EmuNAND Restore#################
 
 @Restore_Options_EmuNAND_Restore
@@ -176,12 +162,11 @@ if	not allow -a E:
 	goto MainMenu_Restore_Options
 end
 
+imgmount $[NANDBAK]
 inject -n I:/nand_minsize.bin E:/nand.bin@0
 imgumount
 echo "$[NANDBAK] successfully restored to EmuNAND."
 goto MainMenu_Restore_Options
-
-
 
 #################CTRNAND Transfer#################
 
@@ -237,8 +222,6 @@ imgumount
 echo "CTRNAND transfer successful."
 goto Start
 
-
-
 ####################Hax Options###################
 
 @MainMenu_Hax_Options
@@ -254,8 +237,6 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nHax Options\n>
 
 labelsel -o -s "Choose an Option." Install_Boot9Strap_*
 goto MainMenu_Hax_Options
-
-
 
 #############Normal Boot9Strap Install############
 
@@ -306,8 +287,6 @@ else
 	echo "Permissions denied. Aborting."
 end
 goto Hax_Options_Install_Boot9Strap
-
-
 
 ############PC-Less Boot9Strap Install############
 
@@ -406,8 +385,6 @@ else
 end
 goto Hax_Options_Install_Boot9Strap
 
-
-
 ###################Hax Uninstall##################
 
 @Hax_Options_Un-install_Hax
@@ -467,8 +444,6 @@ else
 end
 goto MainMenu_Hax_Options
 
-
-
 @Unhax_Old
 
 if	not find 1:/title/00040138/00000002/content/????????.app NATIVE_NCCH
@@ -493,8 +468,6 @@ else
 	echo "Permissions denied. Aborting."
 end
 goto MainMenu_Hax_Options
-
-
 
 ################FBI to H&S Options################
 
@@ -625,8 +598,6 @@ rm -o -s $[GM9TEMP]
 echo "FBI successfully injected to H&S."
 goto MainMenu_FBI_to_H&S_Options
 
-
-
 ################Restore H&S################
 
 @FBI_Restore_H&S
@@ -691,8 +662,6 @@ mv -n -w $[H&SBAK].bak $[H&SPATH]
 echo "H&S restored."
 goto MainMenu_FBI_to_H&S_Options
 
-
-
 ###################Dump Options###################
 
 @MainMenu_Dump_Options
@@ -701,8 +670,6 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options"
 labelsel -o -s "Choose an Option." Dump_Options_*
 goto Start
 
-
-
 ###################System Save Dump Options###################
 
 @Dump_Options_System_Save_Dump_Options
@@ -710,8 +677,6 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n
 
 labelsel -o -s "Choose an Option." SysSave_Options_*
 goto MainMenu_Dump_Options
-
-
 
 #################Dump nnidsave.bin################
 
@@ -725,8 +690,6 @@ if	ask "Dump nnidsave.bin in $[GM9OUT]?"
 end
 goto Dump_Options_System_Save_Dump_Options
 
-
-
 ################Dump friendsave.bin###############
 
 @SysSave_Options_Dump_friendsave.bin
@@ -738,8 +701,6 @@ if	ask "Dump friendsave.bin in $[GM9OUT]?"
 	echo "Dump created successfully:\n$[OUTPATH]"
 end
 goto Dump_Options_System_Save_Dump_Options
-
-
 
 #################Dump seedsave.bin################
 
@@ -753,8 +714,6 @@ if	ask "Dump seedsave.bin in $[GM9OUT]?"
 end
 goto Dump_Options_System_Save_Dump_Options
 
-
-
 #################Dump nagsave.bin#################
 
 @SysSave_Options_Dump_nagsave.bin
@@ -766,8 +725,6 @@ if	ask "Dump nagsave.bin in $[GM9OUT]?"
 	echo "Dump created successfully:\n$[OUTPATH]"
 end
 goto Dump_Options_System_Save_Dump_Options
-
-
 
 ################Dump configsave.bin###############
 
@@ -781,8 +738,6 @@ if	ask "Dump configsave.bin in $[GM9OUT]?"
 end
 goto Dump_Options_System_Save_Dump_Options
 
-
-
 #############System File Dump Options#############
 
 @Dump_Options_System_File_Dump_Options
@@ -790,8 +745,6 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n
 
 labelsel -o -s "Choose an Option." SysFile_Options_*
 goto MainMenu_Dump_Options
-
-
 
 ############Dump LocalFriendCodeSeed_B############
 
@@ -804,8 +757,6 @@ if	ask "Dump LocalFriendCodeSeed_B in $[GM9OUT]?"
 	echo "Dump created successfully:\n$[OUTPATH]"
 end
 goto Dump_Options_System_File_Dump_Options
-
-
 
 #################Dump SecureInfo_A################
 
@@ -835,8 +786,6 @@ if	find 1:/rw/sys/SecureInfo_C NULL
 end
 goto Dump_Options_System_File_Dump_Options
 
-
-
 #################Dump movable.sed#################
 
 @SysFile_Options_Dump_movable.sed
@@ -848,8 +797,6 @@ if	ask "Dump movable.sed in $[GM9OUT]?"
 	echo "Dump created successfully:\n$[OUTPATH]"
 end
 goto Dump_Options_System_File_Dump_Options
-
-
 
 ##################Dump ticket.db##################
 
@@ -863,8 +810,6 @@ if	ask "Dump ticket.db in $[GM9OUT]?"
 end
 goto Dump_Options_System_File_Dump_Options
 
-
-
 ###################Dump title.db##################
 
 @SysFile_Options_Dump_title.db
@@ -876,8 +821,6 @@ if	ask "Dump title.db in $[GM9OUT]?"
 	echo "Dump created successfully:\n$[OUTPATH]"
 end
 goto Dump_Options_System_File_Dump_Options
-
-
 
 ##################Dump import.db##################
 
@@ -891,8 +834,6 @@ if	ask "Dump import.db in $[GM9OUT]?"
 end
 goto Dump_Options_System_File_Dump_Options
 
-
-
 ###################Dump certs.db##################
 
 @SysFile_Options_Dump_certs.db
@@ -905,8 +846,6 @@ if	ask "Dump certs.db in $[GM9OUT]?"
 end
 goto Dump_Options_System_File_Dump_Options
 
-
-
 ##################Dump GBAVC.sav##################
 
 @Dump_Options_Dump_GBAVC.sav
@@ -918,8 +857,6 @@ if	ask "Dump gbavc.sav in $[GM9OUT]?\nFor GodMode9 v.1.4.1 and below only."
 	echo "Dump created successfully:\n$[OUTPATH]"
 end
 goto MainMenu_Dump_Options
-
-
 
 ###########Dump Boot9.bin and Boot11.bin##########
 
@@ -943,8 +880,6 @@ cp -w -n M:/boot11.bin $[OUTPATH11]
 echo "Boot9 & Boot11 successfully dumped:\n$[OUTPATH9]\n$[OUTPATH11]"
 goto MainMenu_Dump_Options
 
-
-
 ###################Dump OTP.bin###################
 
 @Dump_Options_Dump_OTP.bin
@@ -958,8 +893,6 @@ findnot $[GM9OUT]/$[SERIAL]_otp_??.bin OUTPATH
 cp -w -n M:/otp.mem $[OUTPATH]
 echo "Dump created successfully:\n$[OUTPATH]"
 goto MainMenu_Dump_Options
-
-
 
 #################Dump CITRA Files#################
 
@@ -1018,8 +951,6 @@ imgumount
 echo "Dump created succesfully:\n$[GM9OUT]/Citra"
 goto MainMenu_Dump_Options
 
-
-
 ##################Inject Options##################
 
 @MainMenu_Inject_Options
@@ -1027,8 +958,6 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nInject Options
 
 labelsel -o -s "Choose an Option." Inject_Options_*
 goto Start
-
-
 
 ################Inject Friend Save################
 
@@ -1048,8 +977,6 @@ else
 end
 goto MainMenu_Inject_Options
 
-
-
 ###########Inject LocalFriendCodeSeed_B###########
 
 @Inject_Options_Inject_LocalFriendCodeSeedB
@@ -1067,8 +994,6 @@ else
 	echo "Operation cancelled."
 end
 goto MainMenu_Inject_Options
-
-
 
 ################Inject SecureInfo_A###############
 
@@ -1088,8 +1013,6 @@ else
 end
 goto MainMenu_Inject_Options
 
-
-
 ################Inject movable.sed################
 
 @Inject_Options_Inject_movable.sed
@@ -1107,8 +1030,6 @@ else
 	echo "Operation cancelled."
 end
 goto MainMenu_Inject_Options
-
-
 
 #################Inject ticket.db#################
 
@@ -1128,8 +1049,6 @@ else
 end
 goto MainMenu_Inject_Options
 
-
-
 ##################Inject title.db#################
 
 @Inject_Options_Inject_title.db
@@ -1148,8 +1067,6 @@ else
 end
 goto MainMenu_Inject_Options
 
-
-
 #################Inject GBAVC.sav#################
 
 @Inject_Options_Inject_GBAVC.sav
@@ -1167,8 +1084,6 @@ else
 end
 goto MainMenu_Inject_Options
 
-
-
 ###########Scripts from Plailect's Guide##########
 
 @MainMenu_Scripts_from_Plailect's_Guide
@@ -1176,8 +1091,6 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nScripts from P
 
 labelsel -o -s "Choose an Option." Plailect_*
 goto Start
-
-
 
 #############Setup Luma3DS to CTRNAND#############
 
@@ -1195,8 +1108,6 @@ else
 	echo "Permissions denied. Aborting."
 end
 goto MainMenu_Scripts_from_Plailect's_Guide
-
-
 
 ##################Cleanup SD Card#################
 
@@ -1252,8 +1163,6 @@ rm -o -s 0:/files9/aeskeydb.bin
 echo "SD card now squeaky clean from setup files."
 goto MainMenu_Scripts_from_Plailect's_Guide
 
-
-
 ##############CTRTransfer Ticket Copy#############
 
 @Plailect_CTRTransfer_Ticket_Copy
@@ -1282,8 +1191,6 @@ cp -o -s T:/unknown $[GM9OUT]/ctrtransfer_tickets/unknown
 echo "CTRTransfer Ticket Copy Successful.\nPlease proceed to the next step."
 goto MainMenu_Scripts_from_Plailect's_Guide
 
-
-
 ####################Remove NNID###################
 
 @Plailect_Remove_NNID
@@ -1300,8 +1207,6 @@ mv -w -n 1:/data/$[SYSID0]/sysdata/00010038/00000000 1:/data/$[SYSID0]/sysdata/0
 
 echo "NNID successfully removed."
 goto MainMenu_Scripts_from_Plailect's_Guide
-
-
 
 ##################Remove extdata##################
 
@@ -1325,8 +1230,6 @@ rm -o -s A:/extdata/00000000/000000B1
 echo "HOME Menu successfully removed."
 goto MainMenu_Scripts_from_Plailect's_Guide
 
-
-
 ###################Miscellaneous##################
 
 @MainMenu_Miscellaneous
@@ -1335,8 +1238,6 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCredits:\nd0k3
 labelsel -o -s "Choose an Option." Miscellaneous_*
 goto Start
 
-
-
 #################Cartridge Options################
 
 @Miscellaneous_Cartridge_Options
@@ -1344,8 +1245,6 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCartridge Opti
 
 labelsel -o -s "Choose an Option." Cartridge_Options_*
 goto MainMenu_Miscellaneous
-
-
 
 ################Dump Private Header###############
 
@@ -1364,8 +1263,6 @@ else
 	echo "CTR Cart not detected. Aborting."
 end
 goto Miscellaneous_Cartridge_Options
-
-
 
 #################Dump Cart to .3ds################
 
@@ -1394,8 +1291,6 @@ else
 end
 goto Miscellaneous_Cartridge_Options
 
-
-
 #################Dump Cart to .cia################
 
 @Cartridge_Options_Dump_Cart_to_.cia
@@ -1416,8 +1311,6 @@ else
 	echo "Operation failed."
 end
 goto Miscellaneous_Cartridge_Options
-
-
 
 #################Dump Cart to .nds################
 
@@ -1442,17 +1335,13 @@ else
 end
 goto Miscellaneous_Cartridge_Options
 
-
-
 ###################Title Options##################
 
 @Miscellaneous_Title_Options
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nTitle Options"
 
 labelsel -o -s "Choose an Option." Title_Options_*
-goto Start
-
-
+goto MainMenu_Miscellaneous
 
 ################Dump CTRNAND Titles###############
 
@@ -1475,8 +1364,6 @@ else
 end
 goto Miscellaneous_Title_Options
 
-
-
 #################Dump User Titles#################
 
 @Title_Options_Dump_User_Installed_Titles
@@ -1497,8 +1384,6 @@ else
 	echo "Operation failed."
 end
 goto Miscellaneous_Title_Options
-
-
 
 ################Dump TWLNAND Titles###############
 
@@ -1522,8 +1407,6 @@ else
 	
 end
 goto Miscellaneous_Title_Options
-
-
 
 ##############Dump Home Menu to .cia##############
 
@@ -1585,8 +1468,6 @@ else
 end
 goto Miscellaneous_Title_Options
 
-
-
 ##############.3ds to .cia Converter##############
 
 @Miscellaneous_.3ds_to_.cia_Converter
@@ -1609,8 +1490,6 @@ else
 end
 goto MainMenu_Miscellaneous
 
-
-
 ##################Incognito Mode##################
 
 @Miscellaneous_Incognito_Mode
@@ -1618,8 +1497,6 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nIncognito Mode
 
 labelsel -o -s "Choose an Option." Incognito_Mode_*
 goto MainMenu_Miscellaneous
-
-
 
 #################Incognito Mode On################
 
@@ -1656,8 +1533,6 @@ mv -w -k -n 1:/data/$[SYSID0]/sysdata/00010022/00000000 1:/data/$[SYSID0]/sysdat
 echo "You have now gone incognito."
 goto Miscellaneous_Incognito_Mode
 
-
-
 ################Incognito Mode Off################
 
 @Incognito_Mode_Incognito_Mode_OFF
@@ -1680,8 +1555,6 @@ end
 mv -w -k -n 1:/data/$[SYSID0]/sysdata/00010022/00000001 1:/data/$[SYSID0]/sysdata/00010022/00000000
 echo "You have now left incognito mode."
 goto Miscellaneous_Incognito_Mode
-
-
 
 ##############Nintendo3DS Folder Swap#############
 
@@ -1713,8 +1586,6 @@ mv -n -w "0:/Nintendo 3DSTEMP" $[DESIREDPATH]
 echo "Folders successfully swapped."
 goto MainMenu_Miscellaneous
 
-
-
 ################Lazarus3DS Options################
 
 @Miscellaneous_Lazarus3DS_Options
@@ -1722,8 +1593,6 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nLazarus3DS Opt
 
 labelsel -o -s "Choose an Option.\n \nThese scripts are as is. Nothing has been modified.\nFor full details on how to use these, visit the\nlazarus script repo." Lazarus3DS_*
 goto MainMenu_Miscellaneous
-
-
 
 ###############Lazarus3DS Donor Prep##############
 
@@ -1843,8 +1712,6 @@ rm -o -s 0:/donor/serial.bin
 rm -o -s 0:/donor/movable.sed
 echo "All done! Files located in 0:/donor/"
 goto Miscellaneous_Lazarus3DS
-
-
 
 ####################Lazarus3DS####################
 
@@ -2045,8 +1912,6 @@ if	ask "Revive complete. Remove Lazarus3DS files?"
 end
 goto Miscellaneous_Lazarus3DS
 
-
-
 #####################Credits######################
 
 @Miscellaneous_Credits
@@ -2054,8 +1919,6 @@ set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCredits"
 
 echo "d0k3\nmvmiranda\n8bitwonder\nemillois\nTurdPooCharger\nPlailect\nAnalogMan\n8bitwonder\nwindows_server_2003\nSvenDaHacker64\nMyLegGuy\nSome1CP\nfiggyc\nihaveamac"
 goto MainMenu_Miscellaneous
-
-
 
 #######################Wakas######################
 
