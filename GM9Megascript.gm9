@@ -880,6 +880,27 @@ cp -w -n M:/boot11.bin $[OUTPATH11]
 echo "Boot9 & Boot11 successfully dumped:\n$[OUTPATH9]\n$[OUTPATH11]"
 goto MainMenu_Dump_Options
 
+###########Dump Essential.exefs##########
+
+@Dump_Options_Dump_Essential.exefs
+set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nDump Options\n>Dump essential.exefs"
+
+if	not find S:/essential.exefs NULL
+	echo "Essential.exefs not present.\nAborting!"
+	goto MainMenu_Dump_Options
+end
+
+if	not ask "Create essential.exefs dump in $[GM9OUT]?"
+	goto MainMenu_Dump_Options
+end
+
+findnot $[GM9OUT]/essential_??.exefs OUTPATHESS
+
+cp -w -n S:/essential.exefs $[OUTPATHESS]
+
+echo "Essential.exefs dumped:\n$[OUTPATHESS]"
+goto MainMenu_Dump_Options
+
 ###################Dump OTP.bin###################
 
 @Dump_Options_Dump_OTP.bin
@@ -1952,7 +1973,7 @@ goto Miscellaneous_Lazarus3DS
 @Miscellaneous_Credits
 set PREVIEW_MODE "GODMODE9 ALL-IN-ONE MEGASCRIPT\nby annson24\n \nCredits"
 
-echo "d0k3\nmvmiranda\n8bitwonder\nemillois\nTurdPooCharger\nPlailect\nAnalogMan\n8bitwonder\nwindows_server_2003\nSvenDaHacker64\nMyLegGuy\nSome1CP\nfiggyc\nihaveamac"
+echo "d0k3\nmvmiranda\n8bitwonder\nemillois\nTurdPooCharger\nPlailect\nAnalogMan\n8bitwonder\nwindows_server_2003\nSvenDaHacker64\nMyLegGuy\nSome1CP\nfiggyc\nihaveamac\nGlaZed_Belmont\nWin9x"
 goto MainMenu_Miscellaneous
 
 #######################Wakas######################
